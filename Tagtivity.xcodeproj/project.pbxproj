@@ -7,35 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		896018B61726DC9100E26BA9 /* Tagtivity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 896018B41726DC9100E26BA9 /* Tagtivity.xcdatamodeld */; };
+		896018BC1726DDD900E26BA9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 896018BA1726DDD900E26BA9 /* Icon.png */; };
+		896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 896018BB1726DDD900E26BA9 /* Icon@2x.png */; };
 		89C857B21726DB7000C02BB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B11726DB7000C02BB6 /* UIKit.framework */; };
 		89C857B41726DB7000C02BB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B31726DB7000C02BB6 /* Foundation.framework */; };
 		89C857B61726DB7000C02BB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B51726DB7000C02BB6 /* CoreGraphics.framework */; };
 		89C857B81726DB7000C02BB6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B71726DB7000C02BB6 /* CoreData.framework */; };
-		89C857BE1726DB7000C02BB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89C857BC1726DB7000C02BB6 /* InfoPlist.strings */; };
 		89C857C01726DB7000C02BB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C857BF1726DB7000C02BB6 /* main.m */; };
 		89C857C41726DB7000C02BB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C857C31726DB7000C02BB6 /* AppDelegate.m */; };
 		89C857C61726DB7000C02BB6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C51726DB7000C02BB6 /* Default.png */; };
 		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
-		89C857CD1726DB7000C02BB6 /* Tagtivity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 89C857CB1726DB7000C02BB6 /* Tagtivity.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		896018B51726DC9100E26BA9 /* Tagtivity.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tagtivity.xcdatamodel; sourceTree = "<group>"; };
+		896018BA1726DDD900E26BA9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Tagtivity/Graphics/Icons/Icon.png; sourceTree = "<group>"; };
+		896018BB1726DDD900E26BA9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Tagtivity/Graphics/Icons/Icon@2x.png"; sourceTree = "<group>"; };
 		89C857AE1726DB7000C02BB6 /* Tagtivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tagtivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89C857B11726DB7000C02BB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		89C857B31726DB7000C02BB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		89C857B51726DB7000C02BB6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		89C857B71726DB7000C02BB6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		89C857BB1726DB7000C02BB6 /* Tagtivity-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tagtivity-Info.plist"; sourceTree = "<group>"; };
-		89C857BD1726DB7000C02BB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		89C857BF1726DB7000C02BB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		89C857C11726DB7000C02BB6 /* Tagtivity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tagtivity-Prefix.pch"; sourceTree = "<group>"; };
-		89C857C21726DB7000C02BB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		89C857C31726DB7000C02BB6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		89C857C51726DB7000C02BB6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		89C857C71726DB7000C02BB6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		89C857CC1726DB7000C02BB6 /* Tagtivity.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tagtivity.xcdatamodel; sourceTree = "<group>"; };
+		89C857BB1726DB7000C02BB6 /* Tagtivity-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Tagtivity-Info.plist"; path = "Supporting Files/Tagtivity-Info.plist"; sourceTree = "<group>"; };
+		89C857BF1726DB7000C02BB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
+		89C857C11726DB7000C02BB6 /* Tagtivity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Tagtivity-Prefix.pch"; path = "Source/Tagtivity-Prefix.pch"; sourceTree = "<group>"; };
+		89C857C21726DB7000C02BB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Source/AppDelegate.h; sourceTree = "<group>"; };
+		89C857C31726DB7000C02BB6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Source/AppDelegate.m; sourceTree = "<group>"; };
+		89C857C51726DB7000C02BB6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Tagtivity/Graphics/Defaults/Default.png; sourceTree = "<group>"; };
+		89C857C71726DB7000C02BB6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Tagtivity/Graphics/Defaults/Default@2x.png"; sourceTree = "<group>"; };
+		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +58,10 @@
 		89C857A51726DB7000C02BB6 = {
 			isa = PBXGroup;
 			children = (
-				89C857B91726DB7000C02BB6 /* Tagtivity */,
+				89C857B91726DB7000C02BB6 /* Source */,
+				89C857D31726DBC800C02BB6 /* Graphics */,
+				89C857D41726DBD000C02BB6 /* Resources */,
+				89C857BA1726DB7000C02BB6 /* Supporting Files */,
 				89C857B01726DB7000C02BB6 /* Frameworks */,
 				89C857AF1726DB7000C02BB6 /* Products */,
 			);
@@ -81,14 +86,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		89C857B91726DB7000C02BB6 /* Tagtivity */ = {
+		89C857B91726DB7000C02BB6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				89C857C11726DB7000C02BB6 /* Tagtivity-Prefix.pch */,
+				89C857BF1726DB7000C02BB6 /* main.m */,
 				89C857C21726DB7000C02BB6 /* AppDelegate.h */,
 				89C857C31726DB7000C02BB6 /* AppDelegate.m */,
-				89C857CB1726DB7000C02BB6 /* Tagtivity.xcdatamodeld */,
-				89C857BA1726DB7000C02BB6 /* Supporting Files */,
 			);
+			name = Source;
 			path = Tagtivity;
 			sourceTree = "<group>";
 		};
@@ -96,14 +102,45 @@
 			isa = PBXGroup;
 			children = (
 				89C857BB1726DB7000C02BB6 /* Tagtivity-Info.plist */,
-				89C857BC1726DB7000C02BB6 /* InfoPlist.strings */,
-				89C857BF1726DB7000C02BB6 /* main.m */,
-				89C857C11726DB7000C02BB6 /* Tagtivity-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			path = Tagtivity;
+			sourceTree = "<group>";
+		};
+		89C857D31726DBC800C02BB6 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				89C857D61726DBEA00C02BB6 /* Icons */,
+				89C857D51726DBDA00C02BB6 /* Defaults */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		89C857D41726DBD000C02BB6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				896018B41726DC9100E26BA9 /* Tagtivity.xcdatamodeld */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		89C857D51726DBDA00C02BB6 /* Defaults */ = {
+			isa = PBXGroup;
+			children = (
 				89C857C51726DB7000C02BB6 /* Default.png */,
 				89C857C71726DB7000C02BB6 /* Default@2x.png */,
 				89C857C91726DB7000C02BB6 /* Default-568h@2x.png */,
 			);
-			name = "Supporting Files";
+			name = Defaults;
+			sourceTree = "<group>";
+		};
+		89C857D61726DBEA00C02BB6 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				896018BA1726DDD900E26BA9 /* Icon.png */,
+				896018BB1726DDD900E26BA9 /* Icon@2x.png */,
+			);
+			name = Icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -116,6 +153,7 @@
 				89C857AA1726DB7000C02BB6 /* Sources */,
 				89C857AB1726DB7000C02BB6 /* Frameworks */,
 				89C857AC1726DB7000C02BB6 /* Resources */,
+				896018B91726DD4800E26BA9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -157,14 +195,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89C857BE1726DB7000C02BB6 /* InfoPlist.strings in Resources */,
 				89C857C61726DB7000C02BB6 /* Default.png in Resources */,
 				89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */,
 				89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */,
+				896018BC1726DDD900E26BA9 /* Icon.png in Resources */,
+				896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		896018B91726DD4800E26BA9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nbN=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbN=$(($bN))\nbN=$(($bN + 1))\nbN=$(printf \"%d\" $bN)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $bN\" \"$INFOPLIST_FILE\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		89C857AA1726DB7000C02BB6 /* Sources */ = {
@@ -173,22 +228,11 @@
 			files = (
 				89C857C01726DB7000C02BB6 /* main.m in Sources */,
 				89C857C41726DB7000C02BB6 /* AppDelegate.m in Sources */,
-				89C857CD1726DB7000C02BB6 /* Tagtivity.xcdatamodeld in Sources */,
+				896018B61726DC9100E26BA9 /* Tagtivity.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		89C857BC1726DB7000C02BB6 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				89C857BD1726DB7000C02BB6 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		89C857CE1726DB7000C02BB6 /* Debug */ = {
@@ -216,7 +260,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -240,7 +284,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -251,8 +295,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tagtivity/Tagtivity-Prefix.pch";
-				INFOPLIST_FILE = "Tagtivity/Tagtivity-Info.plist";
+				GCC_PREFIX_HEADER = "Tagtivity/Source/Tagtivity-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Tagtivity/Supporting Files/Tagtivity-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -262,8 +306,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tagtivity/Tagtivity-Prefix.pch";
-				INFOPLIST_FILE = "Tagtivity/Tagtivity-Info.plist";
+				GCC_PREFIX_HEADER = "Tagtivity/Source/Tagtivity-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Tagtivity/Supporting Files/Tagtivity-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -288,17 +332,19 @@
 				89C857D21726DB7000C02BB6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		89C857CB1726DB7000C02BB6 /* Tagtivity.xcdatamodeld */ = {
+		896018B41726DC9100E26BA9 /* Tagtivity.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				89C857CC1726DB7000C02BB6 /* Tagtivity.xcdatamodel */,
+				896018B51726DC9100E26BA9 /* Tagtivity.xcdatamodel */,
 			);
-			currentVersion = 89C857CC1726DB7000C02BB6 /* Tagtivity.xcdatamodel */;
-			path = Tagtivity.xcdatamodeld;
+			currentVersion = 896018B51726DC9100E26BA9 /* Tagtivity.xcdatamodel */;
+			name = Tagtivity.xcdatamodeld;
+			path = Tagtivity/Resources/Tagtivity.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
