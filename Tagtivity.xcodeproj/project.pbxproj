@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		896018B61726DC9100E26BA9 /* Tagtivity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 896018B41726DC9100E26BA9 /* Tagtivity.xcdatamodeld */; };
+		896018B61726DC9100E26BA9 /* Activities.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 896018B41726DC9100E26BA9 /* Activities.xcdatamodeld */; };
 		896018BC1726DDD900E26BA9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 896018BA1726DDD900E26BA9 /* Icon.png */; };
 		896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 896018BB1726DDD900E26BA9 /* Icon@2x.png */; };
 		89C857B21726DB7000C02BB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B11726DB7000C02BB6 /* UIKit.framework */; };
@@ -19,10 +19,14 @@
 		89C857C61726DB7000C02BB6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C51726DB7000C02BB6 /* Default.png */; };
 		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
+		B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04734172D2C8E008D74C1 /* ActivityManager.m */; };
+		B5E04740172D3115008D74C1 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E0473F172D3115008D74C1 /* Utils.m */; };
+		B5E04749172DCE07008D74C1 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04748172DCE07008D74C1 /* Activity.m */; };
+		B5E0474C172DCE08008D74C1 /* ActivityInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E0474B172DCE08008D74C1 /* ActivityInstance.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		896018B51726DC9100E26BA9 /* Tagtivity.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tagtivity.xcdatamodel; sourceTree = "<group>"; };
+		896018B51726DC9100E26BA9 /* Activities.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Activities.xcdatamodel; sourceTree = "<group>"; };
 		896018BA1726DDD900E26BA9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Tagtivity/Graphics/Icons/Icon.png; sourceTree = "<group>"; };
 		896018BB1726DDD900E26BA9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Tagtivity/Graphics/Icons/Icon@2x.png"; sourceTree = "<group>"; };
 		89C857AE1726DB7000C02BB6 /* Tagtivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tagtivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,6 +42,14 @@
 		89C857C51726DB7000C02BB6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Tagtivity/Graphics/Defaults/Default.png; sourceTree = "<group>"; };
 		89C857C71726DB7000C02BB6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Tagtivity/Graphics/Defaults/Default@2x.png"; sourceTree = "<group>"; };
 		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
+		B5E04733172D2C8E008D74C1 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityManager.h; path = Source/Managers/ActivityManager.h; sourceTree = "<group>"; };
+		B5E04734172D2C8E008D74C1 /* ActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityManager.m; path = Source/Managers/ActivityManager.m; sourceTree = "<group>"; };
+		B5E0473E172D3115008D74C1 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils/Utils.h; sourceTree = "<group>"; };
+		B5E0473F172D3115008D74C1 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = Source/Utils/Utils.m; sourceTree = "<group>"; };
+		B5E04747172DCE07008D74C1 /* Activity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Activity.h; path = Source/Models/Activity.h; sourceTree = "<group>"; };
+		B5E04748172DCE07008D74C1 /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Activity.m; path = Source/Models/Activity.m; sourceTree = "<group>"; };
+		B5E0474A172DCE08008D74C1 /* ActivityInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityInstance.h; path = Source/Models/ActivityInstance.h; sourceTree = "<group>"; };
+		B5E0474B172DCE08008D74C1 /* ActivityInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityInstance.m; path = Source/Models/ActivityInstance.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +105,9 @@
 				89C857BF1726DB7000C02BB6 /* main.m */,
 				89C857C21726DB7000C02BB6 /* AppDelegate.h */,
 				89C857C31726DB7000C02BB6 /* AppDelegate.m */,
+				B5E04736172D2E72008D74C1 /* Models */,
+				B5E04732172D2C63008D74C1 /* Managers */,
+				B5E0473D172D30FA008D74C1 /* Utils */,
 			);
 			name = Source;
 			path = Tagtivity;
@@ -119,7 +134,7 @@
 		89C857D41726DBD000C02BB6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				896018B41726DC9100E26BA9 /* Tagtivity.xcdatamodeld */,
+				896018B41726DC9100E26BA9 /* Activities.xcdatamodeld */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -141,6 +156,35 @@
 				896018BB1726DDD900E26BA9 /* Icon@2x.png */,
 			);
 			name = Icons;
+			sourceTree = "<group>";
+		};
+		B5E04732172D2C63008D74C1 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				B5E04733172D2C8E008D74C1 /* ActivityManager.h */,
+				B5E04734172D2C8E008D74C1 /* ActivityManager.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		B5E04736172D2E72008D74C1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B5E04747172DCE07008D74C1 /* Activity.h */,
+				B5E04748172DCE07008D74C1 /* Activity.m */,
+				B5E0474A172DCE08008D74C1 /* ActivityInstance.h */,
+				B5E0474B172DCE08008D74C1 /* ActivityInstance.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		B5E0473D172D30FA008D74C1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B5E0473E172D3115008D74C1 /* Utils.h */,
+				B5E0473F172D3115008D74C1 /* Utils.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,7 +272,11 @@
 			files = (
 				89C857C01726DB7000C02BB6 /* main.m in Sources */,
 				89C857C41726DB7000C02BB6 /* AppDelegate.m in Sources */,
-				896018B61726DC9100E26BA9 /* Tagtivity.xcdatamodeld in Sources */,
+				896018B61726DC9100E26BA9 /* Activities.xcdatamodeld in Sources */,
+				B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */,
+				B5E04740172D3115008D74C1 /* Utils.m in Sources */,
+				B5E04749172DCE07008D74C1 /* Activity.m in Sources */,
+				B5E0474C172DCE08008D74C1 /* ActivityInstance.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,14 +385,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		896018B41726DC9100E26BA9 /* Tagtivity.xcdatamodeld */ = {
+		896018B41726DC9100E26BA9 /* Activities.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				896018B51726DC9100E26BA9 /* Tagtivity.xcdatamodel */,
+				896018B51726DC9100E26BA9 /* Activities.xcdatamodel */,
 			);
-			currentVersion = 896018B51726DC9100E26BA9 /* Tagtivity.xcdatamodel */;
-			name = Tagtivity.xcdatamodeld;
-			path = Tagtivity/Resources/Tagtivity.xcdatamodeld;
+			currentVersion = 896018B51726DC9100E26BA9 /* Activities.xcdatamodel */;
+			name = Activities.xcdatamodeld;
+			path = Tagtivity/Resources/Activities.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
