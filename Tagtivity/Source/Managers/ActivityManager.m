@@ -98,7 +98,7 @@
 }
 
 
-#pragma mark - Control
+#pragma mark - Control Activity
 - (Activity *)createNewActivityWithName:(NSString *)activityName_
 {
     Activity *activity = [NSEntityDescription insertNewObjectForEntityForName:@"Activity"
@@ -154,12 +154,42 @@
     
     if(activeActivity != nil)
         [self stopActivity:activeActivity];
+    
+    activity_.isActive = @YES;
+    ActivityInstance *activityInstance = [self createNewActivityInstance];
+    [activity_ addInstancesObject:activityInstance];
 }
 
 
 - (void)stopActivity:(Activity *)activity_
 {
+    for(ActivityInstance *activityInstance in activity_.instances)
+        if(activityInstance.duration.integerValue == -1) {
+            NSInteger activityDuration = [[NSDate date] timeIntervalSinceDate:activityInstance.startDate];
+            activityDuration /= 1000; //timeIntervalSinceDate returns time in milliseconds, we're interested in seconds
+            activityInstance.duration = [NSNumber numberWithInteger:activityDuration];
+            activity_.totalDuration = [NSNumber numberWithInteger:activityDuration + activity_.totalDuration.integerValue];
+            break;
+        }
     
+    activity_.isActive = @NO;
+}
+
+
+#pragma mark - Control Activity Instance
+- (ActivityInstance *)createNewActivityInstance
+{
+    ActivityInstance *activityInstance = [NSEntityDescription insertNewObjectForEntityForName:@"ActivityInstance" inManagedObjectContext:_activitiesContext];
+    activityInstance.startDate = [NSDate date];
+    activityInstance.duration = @(-1);
+    
+    return activityInstance;
+}
+
+
+- (void)deleteActivityInstance:(ActivityInstance *)activityInstance_
+{
+    [_activitiesContext deleteObject:activityInstance_];
 }
 
 @end
