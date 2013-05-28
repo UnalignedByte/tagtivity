@@ -1,0 +1,6 @@
+- "Undefined" activity needs to be created if it doesn't exist and returned if currentActivity is nil
+- Add skeleton for animations of currentActivity and activityElements
+- Add class handling "first touch"
+- Add timer for currentActivity
+- Draw current activity
+- Draw activity elements
