@@ -20,6 +20,7 @@
 @interface ActivityManager()
 
 @property (nonatomic, strong) NSManagedObjectModel *activitiesModel;
+@property (nonatomic, strong) NSPersistentStoreCoordinator *activitiesStoreCoordinator;
 
 @end
 
@@ -45,9 +46,10 @@
     if((self = [super init]) == nil)
         return nil;
     
-    [self setupCoreDataObservers];
     [self setupActivitiesModel];
     [self setupActivitiesStoreCoordinator];
+    [self setupActivitiesContext];
+    [self setupCoreDataObservers];
     
     return self;
 }
@@ -55,7 +57,10 @@
 
 - (void)setupCoreDataObservers
 {
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(activitiesContextChanged:)
+                                                 name:NSManagedObjectContextObjectsDidChangeNotification
+                                               object:_activitiesContext];
 }
 
 
@@ -75,14 +80,21 @@
     storeUrl = [storeUrl URLByAppendingPathComponent:@"activities.sqlite"];
     [Utils createDirectoryIfNecessary:storeUrl];
     
-    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.activitiesModel];
+    self.activitiesStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.activitiesModel];
     
-    [persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                             configuration:nil
-                                                       URL:storeUrl
-                                                   options:nil
-                                                     error:&error];
+    [self.activitiesStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                  configuration:nil
+                                                            URL:storeUrl
+                                                        options:nil
+                                                          error:&error];
     [Utils handleError:error];
+}
+
+
+- (void)setupActivitiesContext
+{
+    _activitiesContext = [[NSManagedObjectContext alloc] init];
+    [_activitiesContext setPersistentStoreCoordinator:self.activitiesStoreCoordinator];
 }
 
 
@@ -119,7 +131,7 @@
 }
 
 
-- (Activity *)activeActivity
+- (Activity *)currentActivity
 {
     NSError *error;
     
@@ -146,7 +158,7 @@
 
 - (void)startActivity:(Activity *)activity_
 {
-    Activity *activeActivity = [self activeActivity];
+    Activity *activeActivity = [self currentActivity];
     
     //no point in starting again the same activity
     if(activeActivity != nil && [activeActivity isEqual:activity_])

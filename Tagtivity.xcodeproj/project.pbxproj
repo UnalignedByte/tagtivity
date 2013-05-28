@@ -19,10 +19,14 @@
 		89C857C61726DB7000C02BB6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C51726DB7000C02BB6 /* Default.png */; };
 		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
+		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
 		B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04734172D2C8E008D74C1 /* ActivityManager.m */; };
 		B5E04740172D3115008D74C1 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E0473F172D3115008D74C1 /* Utils.m */; };
 		B5E04749172DCE07008D74C1 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04748172DCE07008D74C1 /* Activity.m */; };
 		B5E0474C172DCE08008D74C1 /* ActivityInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E0474B172DCE08008D74C1 /* ActivityInstance.m */; };
+		B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EA439D174811B900EE4D56 /* ActivityVC.m */; };
+		B5EA43A01748120000EE4D56 /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5EA439F1748120000EE4D56 /* ActivityView.xib */; };
+		B5EA43A31748121900EE4D56 /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EA43A21748121900EE4D56 /* ActivityView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +46,8 @@
 		89C857C51726DB7000C02BB6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Tagtivity/Graphics/Defaults/Default.png; sourceTree = "<group>"; };
 		89C857C71726DB7000C02BB6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Tagtivity/Graphics/Defaults/Default@2x.png"; sourceTree = "<group>"; };
 		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
+		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
+		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
 		B5E04733172D2C8E008D74C1 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityManager.h; path = Source/Managers/ActivityManager.h; sourceTree = "<group>"; };
 		B5E04734172D2C8E008D74C1 /* ActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityManager.m; path = Source/Managers/ActivityManager.m; sourceTree = "<group>"; };
 		B5E0473E172D3115008D74C1 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils/Utils.h; sourceTree = "<group>"; };
@@ -50,6 +56,11 @@
 		B5E04748172DCE07008D74C1 /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Activity.m; path = Source/Models/Activity.m; sourceTree = "<group>"; };
 		B5E0474A172DCE08008D74C1 /* ActivityInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityInstance.h; path = Source/Models/ActivityInstance.h; sourceTree = "<group>"; };
 		B5E0474B172DCE08008D74C1 /* ActivityInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityInstance.m; path = Source/Models/ActivityInstance.m; sourceTree = "<group>"; };
+		B5EA439C174811B900EE4D56 /* ActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityVC.h; path = Source/Views/Activity/ActivityVC.h; sourceTree = "<group>"; };
+		B5EA439D174811B900EE4D56 /* ActivityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityVC.m; path = Source/Views/Activity/ActivityVC.m; sourceTree = "<group>"; };
+		B5EA439F1748120000EE4D56 /* ActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityView.xib; path = Source/Views/Activity/ActivityView.xib; sourceTree = "<group>"; };
+		B5EA43A11748121900EE4D56 /* ActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityView.h; path = Source/Views/Activity/ActivityView.h; sourceTree = "<group>"; };
+		B5EA43A21748121900EE4D56 /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityView.m; path = Source/Views/Activity/ActivityView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +116,7 @@
 				89C857BF1726DB7000C02BB6 /* main.m */,
 				89C857C21726DB7000C02BB6 /* AppDelegate.h */,
 				89C857C31726DB7000C02BB6 /* AppDelegate.m */,
+				B5EA439B1748111800EE4D56 /* Views */,
 				B5E04736172D2E72008D74C1 /* Models */,
 				B5E04732172D2C63008D74C1 /* Managers */,
 				B5E0473D172D30FA008D74C1 /* Utils */,
@@ -158,6 +170,20 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		B544575D174FA783004F224A /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				B5EA439C174811B900EE4D56 /* ActivityVC.h */,
+				B5EA439D174811B900EE4D56 /* ActivityVC.m */,
+				B5EA439F1748120000EE4D56 /* ActivityView.xib */,
+				B5EA43A11748121900EE4D56 /* ActivityView.h */,
+				B5EA43A21748121900EE4D56 /* ActivityView.m */,
+				B544575E174FA7AA004F224A /* ActivityElement.h */,
+				B544575F174FA7AA004F224A /* ActivityElement.m */,
+			);
+			name = Activity;
+			sourceTree = "<group>";
+		};
 		B5E04732172D2C63008D74C1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +211,14 @@
 				B5E0473F172D3115008D74C1 /* Utils.m */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		B5EA439B1748111800EE4D56 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B544575D174FA783004F224A /* Activity */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +278,7 @@
 				89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */,
 				896018BC1726DDD900E26BA9 /* Icon.png in Resources */,
 				896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */,
+				B5EA43A01748120000EE4D56 /* ActivityView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +312,9 @@
 				B5E04740172D3115008D74C1 /* Utils.m in Sources */,
 				B5E04749172DCE07008D74C1 /* Activity.m in Sources */,
 				B5E0474C172DCE08008D74C1 /* ActivityInstance.m in Sources */,
+				B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */,
+				B5EA43A31748121900EE4D56 /* ActivityView.m in Sources */,
+				B5445760174FA7AA004F224A /* ActivityElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
