@@ -15,4 +15,7 @@
 + (void)handleError:(NSError *)error_;
 + (void)createDirectoryIfNecessary:(NSURL *)url_;
 
+//Utils
++ (CGFloat)distanceBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_;
+
 @end

@@ -6,9 +6,24 @@
 //  Copyright (c) 2013 UnalignedByte. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+
+@class Activity;
 
 
 @interface ActivityElement : NSObject
+
+//Initialization
+- (id)initWithActivity:(Activity *)activity_ angle:(CGFloat)angle_;
+
+//Drawing
+- (void)drawInContext:(CGContextRef)ctx_;
+
+//Input
+- (BOOL)isTouching:(CGPoint)touchLocation_;
+
+//Meta
+- (Activity *)associatedActivity;
 
 @end

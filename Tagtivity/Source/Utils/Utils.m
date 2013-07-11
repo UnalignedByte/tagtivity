@@ -39,4 +39,11 @@
     }
 }
 
+
+//Utils
++ (CGFloat)distanceBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_
+{
+    return hypot(pointB_.x - pointA_.x, pointB_.y - pointA_.y);
+}
+
 @end

@@ -14,6 +14,9 @@
 
 @interface ActivityView : UIView
 
+@property (nonatomic, assign) CGPoint chooseNewActivityCircleCenter;
+@property (nonatomic, assign) CGFloat chooseNewActivityCircleDiameter;
+
 //Control
 - (void)showCurrentActivity:(Activity *)activity_ finished:(void (^)())block_;
 - (void)hideCurrentActivity:(void (^)())block_;

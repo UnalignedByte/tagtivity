@@ -23,7 +23,9 @@
 //Control
 - (Activity *)createNewActivityWithName:(NSString *)activityName_;
 - (void)deleteActivity:(Activity *)activity_;
+- (Activity *)undefinedActivity;
 - (Activity *)currentActivity;
+- (NSArray *)activities;
 - (void)startActivity:(Activity *)activity_;
 - (void)stopActivity:(Activity *)activity_;
 

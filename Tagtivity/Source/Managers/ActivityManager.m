@@ -131,14 +131,37 @@
 }
 
 
+- (Activity *)undefinedActivity
+{
+    NSError *error;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest new];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
+                                      inManagedObjectContext:_activitiesContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name = %@", @"Undefined"];
+    
+    NSArray *undefinedActivities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
+    [Utils handleError:error];
+    
+    Activity *undefinedActivity;
+    if(undefinedActivities.count > 0) {
+        undefinedActivity = undefinedActivities[0];
+    } else {
+        undefinedActivity = [self createNewActivityWithName:@"Undefined"];
+    }
+    
+    return undefinedActivity;
+}
+
+
 - (Activity *)currentActivity
 {
     NSError *error;
     
     NSFetchRequest *fetchRequest = [NSFetchRequest new];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Activity"
-                                                         inManagedObjectContext:_activitiesContext];
-    [fetchRequest setEntity:entityDescription];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
+                                      inManagedObjectContext:_activitiesContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"isActive == %@", @YES]];
     
     NSArray *activeActivities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
     [Utils handleError:error];
@@ -152,7 +175,27 @@
             [self stopActivity:activity];
     }
     
-    return nil;
+    Activity *undefinedActivity = [self undefinedActivity];
+    
+    return undefinedActivity;
+}
+
+
+- (NSArray *)activities
+{
+    NSError *error;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest new];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
+                                      inManagedObjectContext:_activitiesContext];
+    
+    NSArray *activities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
+    [Utils handleError:error];
+    
+    if(activities.count > 0)
+        return activities;
+    
+    return @[[self undefinedActivity]];
 }
 
 
