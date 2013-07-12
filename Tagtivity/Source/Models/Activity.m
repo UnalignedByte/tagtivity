@@ -17,5 +17,6 @@
 @dynamic name;
 @dynamic totalDuration;
 @dynamic instances;
+@dynamic index;
 
 @end

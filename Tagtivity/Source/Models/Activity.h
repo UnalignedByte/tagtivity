@@ -18,6 +18,8 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * totalDuration;
 @property (nonatomic, retain) NSSet *instances;
+@property (nonatomic, retain) NSNumber * index;
+
 @end
 
 @interface Activity (CoreDataGeneratedAccessors)

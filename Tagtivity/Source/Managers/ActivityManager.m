@@ -121,6 +121,7 @@
     activity.isActive = @NO;
     activity.imageFilename = DEFAULT_ACTIVITY_IMAGE_FILENAME;
     activity.instances = nil;
+    activity.index = @([self maxIndex]+1);
     
     return activity;
 }
@@ -182,13 +183,14 @@
 }
 
 
-- (NSArray *)activities
+- (NSArray *)allActivities
 {
     NSError *error;
     
     NSFetchRequest *fetchRequest = [NSFetchRequest new];
     fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
                                       inManagedObjectContext:_activitiesContext];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
     
     NSArray *activities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
     [Utils handleError:error];
@@ -229,6 +231,29 @@
         }
     
     activity_.isActive = @NO;
+}
+
+
+- (NSInteger)maxIndex
+{
+    NSInteger maxIndex = -1;
+    
+    NSArray *activities = [self allActivities];
+    for(Activity *activity in activities) {
+        if(activity.index.integerValue > maxIndex)
+            maxIndex = activity.index.integerValue;
+    }
+    
+    return maxIndex;
+}
+
+
+- (void)normalizeIndexes
+{
+    NSArray *activities = [self allActivities];
+    for(NSInteger i=0; i<activities.count; i++) {
+        ((Activity *)activities[0]).index = @(i);
+    }
 }
 
 

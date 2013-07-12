@@ -25,7 +25,7 @@
 - (void)deleteActivity:(Activity *)activity_;
 - (Activity *)undefinedActivity;
 - (Activity *)currentActivity;
-- (NSArray *)activities;
+- (NSArray *)allActivities;
 - (void)startActivity:(Activity *)activity_;
 - (void)stopActivity:(Activity *)activity_;
 

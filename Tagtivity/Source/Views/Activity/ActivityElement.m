@@ -57,6 +57,10 @@
     CGContextSetStrokeColorWithColor(ctx_, [UIColor blueColor].CGColor);
     CGContextSetLineWidth(ctx_, 1.0);
     CGContextStrokeEllipseInRect(ctx_, circleRect);
+    
+    CGRect nameRect = CGRectMake(self.circleCenter.x - CIRCLE_DIAMETER/2.0, self.circleCenter.y,
+                                 CIRCLE_DIAMETER, 12.0);
+    [self.activity.name drawInRect:nameRect withFont:[UIFont systemFontOfSize:12.0] lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 }
 
 

@@ -83,7 +83,7 @@ typedef enum {
 {
     NSMutableArray *inactiveAcitivities = [NSMutableArray array];
     
-    NSArray *activities = [[ActivityManager sharedInstance] activities];
+    NSArray *activities = [[ActivityManager sharedInstance] allActivities];
     Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
     
     for(Activity *activity in activities) {
