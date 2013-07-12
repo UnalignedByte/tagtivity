@@ -50,6 +50,7 @@
     [self setupActivitiesStoreCoordinator];
     [self setupActivitiesContext];
     [self setupCoreDataObservers];
+    [self undefinedActivity];
     
     return self;
 }

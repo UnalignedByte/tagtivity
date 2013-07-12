@@ -14,8 +14,9 @@
 
 @interface ActivityView ()
 
-@property (nonatomic, assign) bool isShowingCurrentActivity;
-@property (nonatomic, assign) bool isShowingActivityElements;
+@property (nonatomic, assign) BOOL isShowingCurrentActivity;
+@property (nonatomic, assign) BOOL isShowingActivityElements;
+@property (nonatomic, assign) BOOL isShowingSettings;
 
 @property (nonatomic, strong) Activity *currentActivity;
 @property (nonatomic, strong) NSArray *activityElements;
@@ -37,6 +38,9 @@
     
     if(self.isShowingCurrentActivity)
         [self drawCurrentActivity:self.currentActivity context:ctx];
+    
+    if(self.isShowingSettings)
+        [self drawSettingsInContext:ctx];
     
     if(self.isShowingActivityElements)
         [self drawActivityElements:self.activityElements context:ctx];
@@ -60,6 +64,18 @@
 }
 
 
+- (void)drawSettingsInContext:(CGContextRef)ctx_
+{
+    CGRect circleRect = CGRectMake(self.chooseNewActivityCircleCenter.x - self.chooseNewActivityCircleDiameter/4.0,
+                                   self.chooseNewActivityCircleCenter.y - self.chooseNewActivityCircleDiameter/4.0,
+                                   self.chooseNewActivityCircleDiameter/2.0,
+                                   self.chooseNewActivityCircleDiameter/2.0);
+    CGContextSetStrokeColorWithColor(ctx_, [UIColor yellowColor].CGColor);
+    CGContextSetLineWidth(ctx_, 2.0);
+    CGContextStrokeEllipseInRect(ctx_, circleRect);
+}
+
+
 - (void)drawActivityElements:(NSArray *)activityElements_ context:(CGContextRef)ctx_
 {
     for(ActivityElement *activityElement in activityElements_)
@@ -73,16 +89,11 @@
     self.currentActivity = activity_;
     self.isShowingCurrentActivity = YES;
     self.isShowingActivityElements = NO;
+    self.isShowingSettings = NO;
     
     [self setNeedsDisplay];
     
     block_();
-}
-
-
-- (void)hideCurrentActivity:(void (^)())block_
-{
-    
 }
 
 
@@ -98,9 +109,15 @@
 }
 
 
-- (void)hideActivityElements:(void (^)())block_
+- (void)showSettings:(void (^)())block_
 {
+    self.isShowingCurrentActivity = NO;
+    self.isShowingSettings = YES;
+    self.isShowingActivityElements = YES;
     
+    [self setNeedsDisplay];
+    
+    block_();
 }
 
 @end

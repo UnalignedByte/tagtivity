@@ -19,12 +19,14 @@
 
 
 #define INITIAL_DISTANCE_DEGREES 45.0
+#define SETTINGS_DELAY 0.5
 
 
 typedef enum {
     ACTIVITY_STATE_ANIMATION,
     ACTIVITY_STATE_SHOW_CURRENT,
-    ACTIVITY_STATE_CHOOSE_NEW
+    ACTIVITY_STATE_CHOOSE_NEW,
+    ACTIVITY_STATE_SETTINGS
 } ActivityState;
 
 
@@ -36,6 +38,8 @@ typedef enum {
 
 @property (nonatomic, assign) CGPoint chooseNewActivityCircleCenter;
 @property (nonatomic, assign) CGFloat chooseNewActivityCircleDiameter;
+
+@property (nonatomic, strong) NSTimer *settingsTimer;
 
 @end
 
@@ -49,7 +53,7 @@ typedef enum {
     if((self = [super initWithNibName:@"ActivityView" bundle:nil]) == nil)
         return nil;
     
-    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Dźwiedź"];
+    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Mucho"];
 
     return self;
 }
@@ -64,7 +68,7 @@ typedef enum {
     self.chooseNewActivityCircleDiameter = 80.0;
     
     Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
-    self.activityElements = [self setupActivityElements];
+    [self setupActivityElements];
     self.activityView.chooseNewActivityCircleCenter = self.chooseNewActivityCircleCenter;
     self.activityView.chooseNewActivityCircleDiameter = self.chooseNewActivityCircleDiameter;
     
@@ -75,58 +79,90 @@ typedef enum {
 }
 
 
-- (NSArray *)setupActivityElements
+- (void)setupActivityElements
 {
-    NSMutableArray *activityElements = [NSMutableArray array];
+    NSMutableArray *inactiveAcitivities = [NSMutableArray array];
+    
     NSArray *activities = [[ActivityManager sharedInstance] activities];
+    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
+    
+    for(Activity *activity in activities) {
+        if(![currentActivity.name isEqualToString:activity.name])
+            [inactiveAcitivities addObject:activity];
+   }
+    
+    NSMutableArray *activityElements = [NSMutableArray array];
+
+    if(inactiveAcitivities.count <= 0) {
+        self.activityElements = [NSArray array];
+        return;
+    }
     
     CGFloat startAngle;
     CGFloat angleDistance;
     
-    if((activities.count-1) * INITIAL_DISTANCE_DEGREES <= 360.0) {
+    if(inactiveAcitivities.count * INITIAL_DISTANCE_DEGREES <= 360.0) {
         angleDistance = INITIAL_DISTANCE_DEGREES;
-        if(activities.count%2 == 0)
-            startAngle = -((activities.count - 2)*INITIAL_DISTANCE_DEGREES)/2.0 - 0.5*INITIAL_DISTANCE_DEGREES;
+    
+        if(inactiveAcitivities.count%2 == 0)
+            startAngle = -((inactiveAcitivities.count - 2)*angleDistance)/2.0 - 0.5*angleDistance;
         else
-            startAngle = -((activities.count - 1)*INITIAL_DISTANCE_DEGREES)/2.0;
+            startAngle = -((inactiveAcitivities.count - 1)*angleDistance)/2.0;
     } else {
-        startAngle = -180.0;
-        angleDistance = 360.0/activities.count;
+        angleDistance = 360.0/inactiveAcitivities.count;
+        
+        if(inactiveAcitivities.count%2 == 0)
+            startAngle = -180.0;
+        else
+            startAngle = -180.0 + angleDistance/2.0;
     }
     
-    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
     
-    for(int i=0; i<activities.count; i++) {
-        if([currentActivity.name isEqualToString:((Activity *)activities[i]).name])
-            continue;
-        
-        CGFloat angle = startAngle+i*angleDistance;
-        ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:activities[i] angle:angle];
+    
+    for(int i=0; i<inactiveAcitivities.count; i++) {
+        CGFloat angle = startAngle + i*angleDistance;
+        ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:inactiveAcitivities[i] angle:angle];
         [activityElements addObject:activityElement];
     }
     
     
-    return [activityElements copy];
+    self.activityElements =  [activityElements copy];
 }
 
 
 #pragma mark - Touch Events
 - (void)touchesBegan:(NSSet *)touches_ withEvent:(UIEvent *)event_
 {
-    UITouch *touch = [touches_ anyObject];
+    CGPoint touchLocation = [[touches_ anyObject] locationInView:self.view];
     
     switch(self.state) {
         case ACTIVITY_STATE_SHOW_CURRENT:
         {
-            if([self isTouchingNewActivityCircle:touch]) {
+            if([self isTouchingNewActivityCircle:touchLocation]) {
                 self.state = ACTIVITY_STATE_ANIMATION;
                 [self.activityView showActivityElements:self.activityElements finished:^{
                     self.state = ACTIVITY_STATE_CHOOSE_NEW;
+                    
+                    //If we keep finger on circle for SETTINGS_DELAY amount of time, we enter settings mode
+                    self.settingsTimer = [NSTimer timerWithTimeInterval:SETTINGS_DELAY
+                                                                 target:self
+                                                               selector:@selector(settingsTimerFired:)
+                                                               userInfo:nil
+                                                                repeats:NO];
+                    [[NSRunLoop mainRunLoop] addTimer:self.settingsTimer forMode:NSDefaultRunLoopMode];
                 }];
             }
         }
             break;
         case ACTIVITY_STATE_CHOOSE_NEW:
+            break;
+        case ACTIVITY_STATE_SETTINGS:
+            if([self isTouchingNewActivityCircle:touchLocation]) {
+                self.state = ACTIVITY_STATE_ANIMATION;
+                [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity] finished:^{
+                    self.state = ACTIVITY_STATE_SHOW_CURRENT;
+                }];
+            }
             break;
         default:
             break;
@@ -136,6 +172,24 @@ typedef enum {
 
 - (void)touchesMoved:(NSSet *)touches_ withEvent:(UIEvent *)event_
 {
+    CGPoint touchLocation = [[touches_ anyObject] locationInView:self.view];
+    
+    switch(self.state) {
+        case ACTIVITY_STATE_SHOW_CURRENT:
+            break;
+        case ACTIVITY_STATE_CHOOSE_NEW:
+        {
+            if(self.settingsTimer != nil && ![self isTouchingNewActivityCircle:touchLocation]) {
+                [self.settingsTimer invalidate];
+                self.settingsTimer = nil;
+            }
+        }
+            break;
+        case ACTIVITY_STATE_SETTINGS:
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -148,8 +202,11 @@ typedef enum {
             break;
         case ACTIVITY_STATE_CHOOSE_NEW:
         {
-            self.state = ACTIVITY_STATE_ANIMATION;
-            
+            if(self.settingsTimer != nil) {
+                [self.settingsTimer invalidate];
+                self.settingsTimer = nil;
+            }
+
             for(ActivityElement *activityElement in self.activityElements) {
                 if([activityElement isTouching:touchLocation]) {
                     [[ActivityManager sharedInstance] startActivity:[activityElement associatedActivity]];
@@ -157,6 +214,7 @@ typedef enum {
                 }
             }
 
+            self.state = ACTIVITY_STATE_ANIMATION;
             [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity] finished:^{
                 self.state = ACTIVITY_STATE_SHOW_CURRENT;
             }];
@@ -174,12 +232,22 @@ typedef enum {
 {
     [self touchesEnded:touches_ withEvent:event_];
 }
+
+
+#pragma mark - Handle Timers
+- (void)settingsTimerFired:(NSTimer *)timer_
+{
+    self.state = ACTIVITY_STATE_ANIMATION;
+    [self.activityView showSettings:^{
+        self.state = ACTIVITY_STATE_SETTINGS;
+    }];
+}
                 
                 
 #pragma mark - Utils
-- (BOOL)isTouchingNewActivityCircle:(UITouch *)touch_
+- (BOOL)isTouchingNewActivityCircle:(CGPoint)touchLocation_
 {
-    CGFloat distance = [Utils distanceBetweenPointA:[touch_ locationInView:self.view] pointB:self.chooseNewActivityCircleCenter];
+    CGFloat distance = [Utils distanceBetweenPointA:touchLocation_ pointB:self.chooseNewActivityCircleCenter];
     if(distance <= self.chooseNewActivityCircleDiameter/2.0)
         return YES;
     

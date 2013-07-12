@@ -19,8 +19,7 @@
 
 //Control
 - (void)showCurrentActivity:(Activity *)activity_ finished:(void (^)())block_;
-- (void)hideCurrentActivity:(void (^)())block_;
 - (void)showActivityElements:(NSArray *)activityElements_ finished:(void (^)())block_;
-- (void)hideActivityElements:(void (^)())block_;
+- (void)showSettings:(void (^)())block_;
 
 @end
