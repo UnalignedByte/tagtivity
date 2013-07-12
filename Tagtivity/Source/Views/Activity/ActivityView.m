@@ -9,17 +9,27 @@
 #import "ActivityView.h"
 
 #import "Activity.h"
+
 #import "ActivityElement.h"
+#import "ChooseActivityElement.h"
+#import "SettingsElement.h"
+#import "AddNewActivityElement.h"
+
+#import "Utils.h"
 
 
 @interface ActivityView ()
 
-@property (nonatomic, assign) BOOL isShowingCurrentActivity;
-@property (nonatomic, assign) BOOL isShowingActivityElements;
-@property (nonatomic, assign) BOOL isShowingSettings;
-
 @property (nonatomic, strong) Activity *currentActivity;
+@property (nonatomic, strong) ChooseActivityElement *chooseActivityElement;
 @property (nonatomic, strong) NSArray *activityElements;
+@property (nonatomic, strong) SettingsElement *settingsElement;
+@property (nonatomic, strong) AddNewActivityElement *addNewActivityElement;
+
+@property (nonatomic, assign) BOOL isShowingCurrentActivity;
+@property (nonatomic, assign) BOOL isShowingChooseActivity;
+@property (nonatomic, assign) BOOL isShowingSettings;
+@property (nonatomic, assign) BOOL isShowingActivityElements;
 
 @end
 
@@ -37,59 +47,57 @@
     //CGContextTranslateCTM(ctx, 0.0, -self.frame.size.height);
     
     if(self.isShowingCurrentActivity)
-        [self drawCurrentActivity:self.currentActivity context:ctx];
+        [self drawCurrentActivityInContext:ctx];
+    
+    if(self.isShowingChooseActivity)
+        [self drawChooseActivityInContext:ctx];
+    
+    if(self.isShowingActivityElements)
+        [self drawActivityElementsIncontext:ctx];
     
     if(self.isShowingSettings)
         [self drawSettingsInContext:ctx];
-    
-    if(self.isShowingActivityElements)
-        [self drawActivityElements:self.activityElements context:ctx];
 }
 
 
-- (void)drawCurrentActivity:(Activity *)activity_ context:(CGContextRef)ctx_
+- (void)drawCurrentActivityInContext:(CGContextRef)ctx_
 {
-    //CGContextSelectFont(ctx_, "Arial", 24, kCGEncodingMacRoman);
-    //CGContextShowTextAtPoint(ctx_, 10.0, 0.0, "hello", 5);
-    CGRect nameRect = CGRectMake(0.0, 0.0, [[UIScreen mainScreen] bounds].size.width, 40.0);
-    [activity_.name drawInRect:nameRect withFont:[UIFont systemFontOfSize:12.0] lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
-    
-    CGRect circleRect = CGRectMake(self.chooseNewActivityCircleCenter.x - self.chooseNewActivityCircleDiameter/2.0,
-                                   self.chooseNewActivityCircleCenter.y - self.chooseNewActivityCircleDiameter/2.0,
-                                   self.chooseNewActivityCircleDiameter,
-                                   self.chooseNewActivityCircleDiameter);
-    CGContextSetStrokeColorWithColor(ctx_, [UIColor redColor].CGColor);
-    CGContextSetLineWidth(ctx_, 4.0);
-    CGContextStrokeEllipseInRect(ctx_, circleRect);
+    CGRect nameRect = CGRectMake(0.0, 0.0, [Utils viewSize].width, 40.0);
+    [self.currentActivity.name drawInRect:nameRect withFont:[UIFont systemFontOfSize:12.0] lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
+}
+
+
+- (void)drawChooseActivityInContext:(CGContextRef)ctx_
+{
+    [self.chooseActivityElement drawInContext:ctx_];
+}
+
+
+- (void)drawActivityElementsIncontext:(CGContextRef)ctx_
+{
+    for(ActivityElement *activityElement in self.activityElements)
+        [activityElement drawInContext:ctx_];
 }
 
 
 - (void)drawSettingsInContext:(CGContextRef)ctx_
 {
-    CGRect circleRect = CGRectMake(self.chooseNewActivityCircleCenter.x - self.chooseNewActivityCircleDiameter/4.0,
-                                   self.chooseNewActivityCircleCenter.y - self.chooseNewActivityCircleDiameter/4.0,
-                                   self.chooseNewActivityCircleDiameter/2.0,
-                                   self.chooseNewActivityCircleDiameter/2.0);
-    CGContextSetStrokeColorWithColor(ctx_, [UIColor yellowColor].CGColor);
-    CGContextSetLineWidth(ctx_, 2.0);
-    CGContextStrokeEllipseInRect(ctx_, circleRect);
-}
-
-
-- (void)drawActivityElements:(NSArray *)activityElements_ context:(CGContextRef)ctx_
-{
-    for(ActivityElement *activityElement in activityElements_)
-        [activityElement drawInContext:ctx_];
+    [self.settingsElement drawInContext:ctx_];
+    [self.addNewActivityElement drawInContext:ctx_];
 }
 
 
 #pragma mark - Control
-- (void)showCurrentActivity:(Activity *)activity_ finished:(void (^)())block_
+- (void)showCurrentActivity:(Activity *)activity_ chooseActivityElement:(ChooseActivityElement *)chooseActivityElement_
+                   finished:(void (^)())block_
 {
     self.currentActivity = activity_;
+    self.chooseActivityElement = chooseActivityElement_;
+    
     self.isShowingCurrentActivity = YES;
-    self.isShowingActivityElements = NO;
+    self.isShowingChooseActivity = YES;
     self.isShowingSettings = NO;
+    self.isShowingActivityElements = NO;
     
     [self setNeedsDisplay];
     
@@ -100,7 +108,10 @@
 - (void)showActivityElements:(NSArray *)activityElements_ finished:(void (^)())block_
 {
     self.activityElements = activityElements_;
+    
     self.isShowingCurrentActivity = NO;
+    self.isShowingChooseActivity = NO;
+    self.isShowingSettings = NO;
     self.isShowingActivityElements = YES;
     
     [self setNeedsDisplay];
@@ -109,9 +120,14 @@
 }
 
 
-- (void)showSettings:(void (^)())block_
+- (void)showSettings:(SettingsElement *)settingsElement_ addNewActivityElement:(AddNewActivityElement *)addNewActivityElement_
+            finished:(void (^)())block_;
 {
+    self.settingsElement = settingsElement_;
+    self.addNewActivityElement = addNewActivityElement_;
+    
     self.isShowingCurrentActivity = NO;
+    self.isShowingChooseActivity = NO;
     self.isShowingSettings = YES;
     self.isShowingActivityElements = YES;
     

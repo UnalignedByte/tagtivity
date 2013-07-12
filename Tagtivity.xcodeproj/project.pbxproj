@@ -20,6 +20,9 @@
 		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
 		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
+		B5790BE4179033AD00F9D02B /* AddNewActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE3179033AD00F9D02B /* AddNewActivityElement.m */; };
+		B5790BE7179033F700F9D02B /* ChooseActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE6179033F700F9D02B /* ChooseActivityElement.m */; };
+		B5790BEA1790496E00F9D02B /* SettingsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE91790496E00F9D02B /* SettingsElement.m */; };
 		B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04734172D2C8E008D74C1 /* ActivityManager.m */; };
 		B5E04740172D3115008D74C1 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E0473F172D3115008D74C1 /* Utils.m */; };
 		B5E04749172DCE07008D74C1 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04748172DCE07008D74C1 /* Activity.m */; };
@@ -48,6 +51,12 @@
 		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
 		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
 		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
+		B5790BE2179033AD00F9D02B /* AddNewActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddNewActivityElement.h; path = Source/Views/Activity/AddNewActivityElement.h; sourceTree = "<group>"; };
+		B5790BE3179033AD00F9D02B /* AddNewActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddNewActivityElement.m; path = Source/Views/Activity/AddNewActivityElement.m; sourceTree = "<group>"; };
+		B5790BE5179033F700F9D02B /* ChooseActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseActivityElement.h; path = Source/Views/Activity/ChooseActivityElement.h; sourceTree = "<group>"; };
+		B5790BE6179033F700F9D02B /* ChooseActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChooseActivityElement.m; path = Source/Views/Activity/ChooseActivityElement.m; sourceTree = "<group>"; };
+		B5790BE81790496E00F9D02B /* SettingsElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsElement.h; path = Source/Views/Activity/SettingsElement.h; sourceTree = "<group>"; };
+		B5790BE91790496E00F9D02B /* SettingsElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsElement.m; path = Source/Views/Activity/SettingsElement.m; sourceTree = "<group>"; };
 		B5E04733172D2C8E008D74C1 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityManager.h; path = Source/Managers/ActivityManager.h; sourceTree = "<group>"; };
 		B5E04734172D2C8E008D74C1 /* ActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityManager.m; path = Source/Managers/ActivityManager.m; sourceTree = "<group>"; };
 		B5E0473E172D3115008D74C1 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils/Utils.h; sourceTree = "<group>"; };
@@ -68,8 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89C857B21726DB7000C02BB6 /* UIKit.framework in Frameworks */,
 				89C857B41726DB7000C02BB6 /* Foundation.framework in Frameworks */,
+				89C857B21726DB7000C02BB6 /* UIKit.framework in Frameworks */,
 				89C857B61726DB7000C02BB6 /* CoreGraphics.framework in Frameworks */,
 				89C857B81726DB7000C02BB6 /* CoreData.framework in Frameworks */,
 			);
@@ -101,8 +110,8 @@
 		89C857B01726DB7000C02BB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				89C857B11726DB7000C02BB6 /* UIKit.framework */,
 				89C857B31726DB7000C02BB6 /* Foundation.framework */,
+				89C857B11726DB7000C02BB6 /* UIKit.framework */,
 				89C857B51726DB7000C02BB6 /* CoreGraphics.framework */,
 				89C857B71726DB7000C02BB6 /* CoreData.framework */,
 			);
@@ -178,8 +187,14 @@
 				B5EA439F1748120000EE4D56 /* ActivityView.xib */,
 				B5EA43A11748121900EE4D56 /* ActivityView.h */,
 				B5EA43A21748121900EE4D56 /* ActivityView.m */,
+				B5790BE5179033F700F9D02B /* ChooseActivityElement.h */,
+				B5790BE6179033F700F9D02B /* ChooseActivityElement.m */,
 				B544575E174FA7AA004F224A /* ActivityElement.h */,
 				B544575F174FA7AA004F224A /* ActivityElement.m */,
+				B5790BE81790496E00F9D02B /* SettingsElement.h */,
+				B5790BE91790496E00F9D02B /* SettingsElement.m */,
+				B5790BE2179033AD00F9D02B /* AddNewActivityElement.h */,
+				B5790BE3179033AD00F9D02B /* AddNewActivityElement.m */,
 			);
 			name = Activity;
 			sourceTree = "<group>";
@@ -315,6 +330,9 @@
 				B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */,
 				B5EA43A31748121900EE4D56 /* ActivityView.m in Sources */,
 				B5445760174FA7AA004F224A /* ActivityElement.m in Sources */,
+				B5790BE4179033AD00F9D02B /* AddNewActivityElement.m in Sources */,
+				B5790BE7179033F700F9D02B /* ChooseActivityElement.m in Sources */,
+				B5790BEA1790496E00F9D02B /* SettingsElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

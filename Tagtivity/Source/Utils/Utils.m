@@ -40,10 +40,21 @@
 }
 
 
-//Utils
 + (CGFloat)distanceBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_
 {
     return hypot(pointB_.x - pointA_.x, pointB_.y - pointA_.y);
+}
+
+
++ (CGSize)viewSize
+{
+    CGFloat viewWidth = [UIScreen mainScreen].bounds.size.width;
+    CGFloat viewHeight = [UIScreen mainScreen].bounds.size.height;
+    
+    if(![UIApplication sharedApplication].isStatusBarHidden)
+        viewHeight -= [UIApplication sharedApplication].statusBarFrame.size.height;
+
+    return CGSizeMake(viewWidth, viewHeight);
 }
 
 @end

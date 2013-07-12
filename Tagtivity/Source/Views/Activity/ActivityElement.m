@@ -37,11 +37,10 @@
     self.activity = activity_;
     self.angle = angle_;
     
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    CGFloat distance = screenSize.width/2.0 - CIRCLE_DIAMETER/2.0;
+    CGFloat distance = [Utils viewSize].width/2.0 - CIRCLE_DIAMETER/2.0;
     
-    CGFloat xPos = screenSize.width/2.0 + sin(RAD(self.angle))*distance;
-    CGFloat yPos = screenSize.height/2.0 - cos(RAD(self.angle))*distance;
+    CGFloat xPos = [Utils viewSize].width/2.0 + sin(RAD(self.angle))*distance;
+    CGFloat yPos = [Utils viewSize].height/2.0 - cos(RAD(self.angle))*distance;
     
     self.circleCenter = CGPointMake(xPos, yPos);
     

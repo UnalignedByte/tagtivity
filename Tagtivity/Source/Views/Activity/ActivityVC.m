@@ -9,7 +9,10 @@
 #import "ActivityVC.h"
 
 #import "ActivityView.h"
+#import "ChooseActivityElement.h"
 #import "ActivityElement.h"
+#import "SettingsElement.h"
+#import "AddNewActivityElement.h"
 
 #import "ActivityManager.h"
 
@@ -32,12 +35,14 @@ typedef enum {
 
 @interface ActivityVC ()
 
-@property (nonatomic, assign) ActivityState state;
 @property (nonatomic, weak) IBOutlet ActivityView *activityView;
-@property (nonatomic, strong) NSArray *activityElements;
 
-@property (nonatomic, assign) CGPoint chooseNewActivityCircleCenter;
-@property (nonatomic, assign) CGFloat chooseNewActivityCircleDiameter;
+@property (nonatomic, assign) ActivityState state;
+
+@property (nonatomic, strong) ChooseActivityElement *chooseActivityElement;
+@property (nonatomic, strong) NSArray *activityElements;
+@property (nonatomic, strong) SettingsElement *settingsElement;
+@property (nonatomic, strong) AddNewActivityElement *addNewActivityElement;
 
 @property (nonatomic, strong) NSTimer *settingsTimer;
 
@@ -52,8 +57,6 @@ typedef enum {
 {
     if((self = [super initWithNibName:@"ActivityView" bundle:nil]) == nil)
         return nil;
-    
-    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Mucho"];
 
     return self;
 }
@@ -62,18 +65,21 @@ typedef enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Coś"];
+    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Nic"];
+    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Jedzenie"];
+    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Jajo"];
  
-    self.chooseNewActivityCircleCenter = CGPointMake(self.view.frame.size.width/2.0,
-                                                     self.view.frame.size.height/2.0);
-    self.chooseNewActivityCircleDiameter = 80.0;
-    
-    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
+    self.chooseActivityElement = [[ChooseActivityElement alloc] init];
     [self setupActivityElements];
-    self.activityView.chooseNewActivityCircleCenter = self.chooseNewActivityCircleCenter;
-    self.activityView.chooseNewActivityCircleDiameter = self.chooseNewActivityCircleDiameter;
-    
+    self.settingsElement = [[SettingsElement alloc] init];
+    self.addNewActivityElement = [[AddNewActivityElement alloc] init];
+
+    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
+
     self.state = ACTIVITY_STATE_ANIMATION;
-    [self.activityView showCurrentActivity:currentActivity finished:^{
+    [self.activityView showCurrentActivity:currentActivity chooseActivityElement:self.chooseActivityElement finished:^{
         self.state = ACTIVITY_STATE_SHOW_CURRENT;
     }];
 }
@@ -138,7 +144,7 @@ typedef enum {
     switch(self.state) {
         case ACTIVITY_STATE_SHOW_CURRENT:
         {
-            if([self isTouchingNewActivityCircle:touchLocation]) {
+            if([self.chooseActivityElement isTouching:touchLocation]) {
                 self.state = ACTIVITY_STATE_ANIMATION;
                 [self.activityView showActivityElements:self.activityElements finished:^{
                     self.state = ACTIVITY_STATE_CHOOSE_NEW;
@@ -155,14 +161,20 @@ typedef enum {
         }
             break;
         case ACTIVITY_STATE_CHOOSE_NEW:
+        {
+        }
             break;
         case ACTIVITY_STATE_SETTINGS:
-            if([self isTouchingNewActivityCircle:touchLocation]) {
+        {
+            if([self.chooseActivityElement isTouching:touchLocation]) {
                 self.state = ACTIVITY_STATE_ANIMATION;
-                [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity] finished:^{
+                [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity]
+                                 chooseActivityElement:self.chooseActivityElement
+                                              finished:^{
                     self.state = ACTIVITY_STATE_SHOW_CURRENT;
                 }];
             }
+        }
             break;
         default:
             break;
@@ -176,20 +188,32 @@ typedef enum {
     
     switch(self.state) {
         case ACTIVITY_STATE_SHOW_CURRENT:
+        {
+            
+        }
             break;
         case ACTIVITY_STATE_CHOOSE_NEW:
         {
-            if(self.settingsTimer != nil && ![self isTouchingNewActivityCircle:touchLocation]) {
+            if(self.settingsTimer != nil && ![self.chooseActivityElement isTouching:touchLocation]) {
                 [self.settingsTimer invalidate];
                 self.settingsTimer = nil;
             }
         }
             break;
         case ACTIVITY_STATE_SETTINGS:
+        {
+            
+        }
             break;
         default:
             break;
     }
+}
+
+
+- (void)touchesCancelled:(NSSet *)touches_ withEvent:(UIEvent *)event_
+{
+    [self touchesEnded:touches_ withEvent:event_];
 }
 
 
@@ -199,6 +223,9 @@ typedef enum {
 
     switch(self.state) {
         case ACTIVITY_STATE_SHOW_CURRENT:
+        {
+            
+        }
             break;
         case ACTIVITY_STATE_CHOOSE_NEW:
         {
@@ -215,11 +242,18 @@ typedef enum {
             }
 
             self.state = ACTIVITY_STATE_ANIMATION;
-            [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity] finished:^{
+            [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity]
+                             chooseActivityElement:self.chooseActivityElement
+                                          finished:^{
                 self.state = ACTIVITY_STATE_SHOW_CURRENT;
             }];
             
             [self setupActivityElements];
+        }
+            break;
+        case ACTIVITY_STATE_SETTINGS:
+        {
+            
         }
             break;
         default:
@@ -228,30 +262,14 @@ typedef enum {
 }
 
 
-- (void)touchesCancelled:(NSSet *)touches_ withEvent:(UIEvent *)event_
-{
-    [self touchesEnded:touches_ withEvent:event_];
-}
-
-
 #pragma mark - Handle Timers
 - (void)settingsTimerFired:(NSTimer *)timer_
 {
     self.state = ACTIVITY_STATE_ANIMATION;
-    [self.activityView showSettings:^{
-        self.state = ACTIVITY_STATE_SETTINGS;
-    }];
-}
-                
-                
-#pragma mark - Utils
-- (BOOL)isTouchingNewActivityCircle:(CGPoint)touchLocation_
-{
-    CGFloat distance = [Utils distanceBetweenPointA:touchLocation_ pointB:self.chooseNewActivityCircleCenter];
-    if(distance <= self.chooseNewActivityCircleDiameter/2.0)
-        return YES;
-    
-    return NO;
+    [self.activityView showSettings:self.settingsElement addNewActivityElement:self.addNewActivityElement
+                           finished:^{
+                               self.state = ACTIVITY_STATE_SETTINGS;
+                           }];
 }
 
 @end

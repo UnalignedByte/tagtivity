@@ -10,6 +10,9 @@
 
 
 @class Activity;
+@class ChooseActivityElement;
+@class SettingsElement;
+@class AddNewActivityElement;
 
 
 @interface ActivityView : UIView
@@ -18,8 +21,10 @@
 @property (nonatomic, assign) CGFloat chooseNewActivityCircleDiameter;
 
 //Control
-- (void)showCurrentActivity:(Activity *)activity_ finished:(void (^)())block_;
+- (void)showCurrentActivity:(Activity *)activity_ chooseActivityElement:(ChooseActivityElement *)chooseActivityElement_
+                   finished:(void (^)())block_;
 - (void)showActivityElements:(NSArray *)activityElements_ finished:(void (^)())block_;
-- (void)showSettings:(void (^)())block_;
+- (void)showSettings:(SettingsElement *)settingsElement_ addNewActivityElement:(AddNewActivityElement *)addNewActivityElement_
+            finished:(void (^)())block_;
 
 @end
