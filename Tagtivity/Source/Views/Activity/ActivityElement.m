@@ -13,14 +13,12 @@
 #import "Utils.h"
 
 
-#define RAD(deg) M_PI*deg/180.0
 #define CIRCLE_DIAMETER 80.0
 
 
 @interface ActivityElement ()
 
 @property (nonatomic, strong) Activity *activity;
-@property (nonatomic, assign) CGFloat angle;
 @property (nonatomic, assign) CGPoint circleCenter;
 
 @end
@@ -36,15 +34,17 @@
     
     self.activity = activity_;
     self.angle = angle_;
-    
-    CGFloat distance = [Utils viewSize].width/2.0 - CIRCLE_DIAMETER/2.0;
-    
-    CGFloat xPos = [Utils viewSize].width/2.0 + sin(RAD(self.angle))*distance;
-    CGFloat yPos = [Utils viewSize].height/2.0 - cos(RAD(self.angle))*distance;
-    
-    self.circleCenter = CGPointMake(xPos, yPos);
+    self.circleCenter = [self getCircleCenterFromAngle:self.angle diameter:CIRCLE_DIAMETER];
     
     return self;
+}
+
+
+#pragma mark - Properties
+- (void)setAngle:(CGFloat)angle_
+{
+    _angle = angle_;
+    self.circleCenter = [self getCircleCenterFromAngle:angle_ diameter:CIRCLE_DIAMETER];
 }
 
 
@@ -78,6 +78,50 @@
 - (Activity *)associatedActivity
 {
     return self.activity;
+}
+
+
+- (BOOL)isEqual:(id)object_
+{
+    if([object_ class] != [ActivityElement class])
+        return NO;
+    
+    ActivityElement *activityElement = object_;
+    
+    if([activityElement.associatedActivity.name isEqualToString:self.activity.name])
+        return YES;
+    
+    return NO;
+}
+
+
+#pragma mark - Utils
+- (CGPoint)getCircleCenterFromAngle:(CGFloat)angle_ diameter:(CGFloat)diameter_
+{
+    CGFloat distance = [Utils viewSize].width/2.0 - diameter_/2.0;
+    
+    CGFloat xPos = [Utils viewSize].width/2.0 + sin(RAD(angle_))*distance;
+    CGFloat yPos = [Utils viewSize].height/2.0 - cos(RAD(angle_))*distance;
+    
+    return CGPointMake(xPos, yPos);
+}
+
+
+- (NSComparisonResult)compareByIndex:(ActivityElement *)otherElement_
+{
+    return [self.activity.index compare:[otherElement_ associatedActivity].index];
+}
+
+
+- (NSComparisonResult)compareByAngle:(ActivityElement *)otherElement_
+{
+    if(self.angle < otherElement_.angle)
+        return NSOrderedAscending;
+    
+    if(self.angle > otherElement_.angle)
+        return NSOrderedDescending;
+    
+    return NSOrderedSame;
 }
 
 @end

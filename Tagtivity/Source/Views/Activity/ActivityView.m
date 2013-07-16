@@ -53,7 +53,7 @@
         [self drawChooseActivityInContext:ctx];
     
     if(self.isShowingActivityElements)
-        [self drawActivityElementsIncontext:ctx];
+        [self drawActivityElementsInContext:ctx];
     
     if(self.isShowingSettings)
         [self drawSettingsInContext:ctx];
@@ -73,10 +73,11 @@
 }
 
 
-- (void)drawActivityElementsIncontext:(CGContextRef)ctx_
+- (void)drawActivityElementsInContext:(CGContextRef)ctx_
 {
-    for(ActivityElement *activityElement in self.activityElements)
+    for(ActivityElement *activityElement in self.activityElements) {
         [activityElement drawInContext:ctx_];
+    }
 }
 
 
@@ -88,6 +89,12 @@
 
 
 #pragma mark - Control
+- (void)redraw
+{
+    [self setNeedsDisplay];
+}
+
+
 - (void)showCurrentActivity:(Activity *)activity_ chooseActivityElement:(ChooseActivityElement *)chooseActivityElement_
                    finished:(void (^)())block_
 {
@@ -134,6 +141,15 @@
     [self setNeedsDisplay];
     
     block_();
+}
+
+
+- (void)moveActivityElementsToNewAngle:(NSArray *)activityElements_
+{
+    for(ActivityElement *activityElement in activityElements_)
+        activityElement.angle = activityElement.newAngle;
+    
+    [self setNeedsDisplay];
 }
 
 @end

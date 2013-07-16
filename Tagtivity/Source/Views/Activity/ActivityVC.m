@@ -44,7 +44,11 @@ typedef enum {
 @property (nonatomic, strong) SettingsElement *settingsElement;
 @property (nonatomic, strong) AddNewActivityElement *addNewActivityElement;
 
+//SETTINGS STATE
 @property (nonatomic, strong) NSTimer *settingsTimer;
+@property (nonatomic, strong) ActivityElement *selectedActivityElement;
+@property (nonatomic, assign) BOOL isEditingActivityElement;
+@property (nonatomic, assign) BOOL isMovingActivityElement;
 
 @end
 
@@ -66,10 +70,10 @@ typedef enum {
 {
     [super viewDidLoad];
     
-    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Coś"];
-    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Nic"];
-    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Jedzenie"];
-    //[[ActivityManager sharedInstance] createNewActivityWithName:@"Jajo"];
+    /*[[ActivityManager sharedInstance] createNewActivityWithName:@"Coś"];
+    [[ActivityManager sharedInstance] createNewActivityWithName:@"Nic"];
+    [[ActivityManager sharedInstance] createNewActivityWithName:@"Jedzenie"];
+    [[ActivityManager sharedInstance] createNewActivityWithName:@"Jajo"];*/
  
     self.chooseActivityElement = [[ChooseActivityElement alloc] init];
     [self setupActivityElements];
@@ -166,13 +170,20 @@ typedef enum {
             break;
         case ACTIVITY_STATE_SETTINGS:
         {
-            if([self.chooseActivityElement isTouching:touchLocation]) {
+            if([self.chooseActivityElement isTouching:touchLocation] && !self.isEditingActivityElement && !self.isMovingActivityElement) {
                 self.state = ACTIVITY_STATE_ANIMATION;
                 [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity]
                                  chooseActivityElement:self.chooseActivityElement
                                               finished:^{
                     self.state = ACTIVITY_STATE_SHOW_CURRENT;
                 }];
+            } else {
+                for(ActivityElement *activityElement in self.activityElements) {
+                    if([activityElement isTouching:touchLocation]) {
+                        self.selectedActivityElement = activityElement;
+                        break;
+                    }
+                }
             }
         }
             break;
@@ -202,7 +213,11 @@ typedef enum {
             break;
         case ACTIVITY_STATE_SETTINGS:
         {
-            
+            if(self.selectedActivityElement != nil && !self.isEditingActivityElement) {
+                self.isMovingActivityElement = YES;
+                [self moveSelectedActivityToAngle:[Utils angleOfPoint:touchLocation]];
+                [self recalculateActivityElementsIgnoringSelected:YES];
+            }
         }
             break;
         default:
@@ -253,7 +268,13 @@ typedef enum {
             break;
         case ACTIVITY_STATE_SETTINGS:
         {
-            
+            if(self.selectedActivityElement != nil && !self.isMovingActivityElement) {
+                self.isEditingActivityElement = YES;
+            } else if(self.selectedActivityElement != nil && self.isMovingActivityElement) {
+                self.isMovingActivityElement = NO;
+                self.selectedActivityElement = nil;
+                [self recalculateActivityElementsIgnoringSelected:NO];
+            }
         }
             break;
         default:
@@ -270,6 +291,69 @@ typedef enum {
                            finished:^{
                                self.state = ACTIVITY_STATE_SETTINGS;
                            }];
+}
+
+
+#pragma mark - Settings
+- (void)moveSelectedActivityToAngle:(CGFloat)angle_
+{
+    self.selectedActivityElement.angle = angle_;
+    [self.activityView redraw];
+}
+
+
+- (void)recalculateActivityElementsIgnoringSelected:(BOOL)isIgnoringSelected_
+{
+    //recalculate indexes
+    NSArray *activitiesSortedByAngle = [self.activityElements sortedArrayUsingSelector:@selector(compareByAngle:)];
+    
+    NSMutableArray *activitiesToReindex = [NSMutableArray array];
+    for(ActivityElement *activityElement in activitiesSortedByAngle) {
+        [activitiesToReindex addObject:[activityElement associatedActivity]];
+    }
+    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
+    [activitiesToReindex insertObject:currentActivity atIndex:currentActivity.index.integerValue];
+    
+    for(NSInteger i=0; i<activitiesToReindex.count; i++) {
+        Activity *activity = activitiesToReindex[i];
+        activity.index = @(i);
+    }
+    
+    //calculate new angles    
+    CGFloat startAngle;
+    CGFloat angleDistance;
+    
+    if(activitiesSortedByAngle.count * INITIAL_DISTANCE_DEGREES <= 360.0) {
+        angleDistance = INITIAL_DISTANCE_DEGREES;
+        
+        if(activitiesSortedByAngle.count%2 == 0)
+            startAngle = -((activitiesSortedByAngle.count - 2)*angleDistance)/2.0 - 0.5*angleDistance;
+        else
+            startAngle = -((activitiesSortedByAngle.count - 1)*angleDistance)/2.0;
+    } else {
+        angleDistance = 360.0/activitiesSortedByAngle.count;
+        
+        if(activitiesSortedByAngle.count%2 == 0)
+            startAngle = -180.0;
+        else
+            startAngle = -180.0 + angleDistance/2.0;
+    }
+
+    for(int i=0; i<activitiesSortedByAngle.count; i++) {
+        CGFloat angle = startAngle + i*angleDistance;
+        ActivityElement *activityElement = activitiesSortedByAngle[i];
+        activityElement.newAngle = angle;
+    }
+    
+    //create array of activities to move
+    NSMutableArray *activitiesToMove = [NSMutableArray array];
+    for(ActivityElement *activityElement in self.activityElements) {
+        if(!isIgnoringSelected_ || ![activityElement isEqual:self.selectedActivityElement]) {
+            [activitiesToMove addObject:activityElement];
+        }
+    }
+    
+    [self.activityView moveActivityElementsToNewAngle:activitiesToMove];
 }
 
 @end

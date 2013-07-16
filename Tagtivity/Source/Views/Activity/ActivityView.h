@@ -10,6 +10,7 @@
 
 
 @class Activity;
+@class ActivityElement;
 @class ChooseActivityElement;
 @class SettingsElement;
 @class AddNewActivityElement;
@@ -21,10 +22,12 @@
 @property (nonatomic, assign) CGFloat chooseNewActivityCircleDiameter;
 
 //Control
+- (void)redraw;
 - (void)showCurrentActivity:(Activity *)activity_ chooseActivityElement:(ChooseActivityElement *)chooseActivityElement_
                    finished:(void (^)())block_;
 - (void)showActivityElements:(NSArray *)activityElements_ finished:(void (^)())block_;
 - (void)showSettings:(SettingsElement *)settingsElement_ addNewActivityElement:(AddNewActivityElement *)addNewActivityElement_
             finished:(void (^)())block_;
+- (void)moveActivityElementsToNewAngle:(NSArray *)activityElements_;
 
 @end
