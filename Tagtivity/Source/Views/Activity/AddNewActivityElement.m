@@ -11,6 +11,9 @@
 #import "Utils.h"
 
 
+#define ADD_DISTANCE 100.0
+
+
 @interface AddNewActivityElement ()
 
 @property (nonatomic, assign) CGPoint circleCenter;
@@ -58,6 +61,21 @@
         return YES;
     
     return NO;
+}
+
+
+- (BOOL)touchedAtLocation:(CGPoint)touchLocation_
+{
+    CGSize viewSize = [Utils viewSize];
+    CGPoint viewCenter = CGPointMake(viewSize.width/2.0, viewSize.height/2.0);
+    
+    return [Utils distanceBetweenPointA:touchLocation_ pointB:viewCenter] < ADD_DISTANCE;
+}
+
+
+- (void)cancel
+{
+    
 }
 
 @end

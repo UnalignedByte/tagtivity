@@ -11,6 +11,8 @@
 
 @interface ChooseActivityElement : NSObject
 
+@property (nonatomic, readonly) CGPoint circleCenter;
+
 //Initialization
 - (id)init;
 

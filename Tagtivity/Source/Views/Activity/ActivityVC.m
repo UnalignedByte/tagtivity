@@ -40,7 +40,7 @@ typedef enum {
 @property (nonatomic, assign) ActivityState state;
 
 @property (nonatomic, strong) ChooseActivityElement *chooseActivityElement;
-@property (nonatomic, strong) NSArray *activityElements;
+@property (nonatomic, strong) NSMutableArray *activityElements;
 @property (nonatomic, strong) SettingsElement *settingsElement;
 @property (nonatomic, strong) AddNewActivityElement *addNewActivityElement;
 
@@ -49,6 +49,7 @@ typedef enum {
 @property (nonatomic, strong) ActivityElement *selectedActivityElement;
 @property (nonatomic, assign) BOOL isEditingActivityElement;
 @property (nonatomic, assign) BOOL isMovingActivityElement;
+@property (nonatomic, assign) BOOL isAdding;
 
 @end
 
@@ -69,12 +70,7 @@ typedef enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    /*[[ActivityManager sharedInstance] createNewActivityWithName:@"Coś"];
-    [[ActivityManager sharedInstance] createNewActivityWithName:@"Nic"];
-    [[ActivityManager sharedInstance] createNewActivityWithName:@"Jedzenie"];
-    [[ActivityManager sharedInstance] createNewActivityWithName:@"Jajo"];*/
- 
+
     self.chooseActivityElement = [[ChooseActivityElement alloc] init];
     [self setupActivityElements];
     self.settingsElement = [[SettingsElement alloc] init];
@@ -91,52 +87,16 @@ typedef enum {
 
 - (void)setupActivityElements
 {
-    NSMutableArray *inactiveAcitivities = [NSMutableArray array];
-    
-    NSArray *activities = [[ActivityManager sharedInstance] allActivities];
-    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
-    
-    for(Activity *activity in activities) {
-        if(![currentActivity.name isEqualToString:activity.name])
-            [inactiveAcitivities addObject:activity];
-   }
-    
-    NSMutableArray *activityElements = [NSMutableArray array];
+    NSArray *inactiveAcitivities = [[ActivityManager sharedInstance] getInactiveActivities];
 
-    if(inactiveAcitivities.count <= 0) {
-        self.activityElements = [NSArray array];
-        return;
-    }
-    
-    CGFloat startAngle;
-    CGFloat angleDistance;
-    
-    if(inactiveAcitivities.count * INITIAL_DISTANCE_DEGREES <= 360.0) {
-        angleDistance = INITIAL_DISTANCE_DEGREES;
-    
-        if(inactiveAcitivities.count%2 == 0)
-            startAngle = -((inactiveAcitivities.count - 2)*angleDistance)/2.0 - 0.5*angleDistance;
-        else
-            startAngle = -((inactiveAcitivities.count - 1)*angleDistance)/2.0;
-    } else {
-        angleDistance = 360.0/inactiveAcitivities.count;
-        
-        if(inactiveAcitivities.count%2 == 0)
-            startAngle = -180.0;
-        else
-            startAngle = -180.0 + angleDistance/2.0;
-    }
-    
-    
+    self.activityElements = [NSMutableArray array];
     
     for(int i=0; i<inactiveAcitivities.count; i++) {
-        CGFloat angle = startAngle + i*angleDistance;
-        ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:inactiveAcitivities[i] angle:angle];
-        [activityElements addObject:activityElement];
+        ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:inactiveAcitivities[i] angle:0.0];
+        [self.activityElements addObject:activityElement];
     }
     
-    
-    self.activityElements =  [activityElements copy];
+    [self calculateAnglesForActivityElements:self.activityElements shouldAnimate:NO ignoringActivityElement:nil];
 }
 
 
@@ -170,13 +130,17 @@ typedef enum {
             break;
         case ACTIVITY_STATE_SETTINGS:
         {
-            if([self.chooseActivityElement isTouching:touchLocation] && !self.isEditingActivityElement && !self.isMovingActivityElement) {
+            if([self.chooseActivityElement isTouching:touchLocation] && !self.isEditingActivityElement && !self.isMovingActivityElement
+               && !self.isAdding) {
                 self.state = ACTIVITY_STATE_ANIMATION;
                 [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity]
                                  chooseActivityElement:self.chooseActivityElement
                                               finished:^{
                     self.state = ACTIVITY_STATE_SHOW_CURRENT;
                 }];
+            } else if([self.addNewActivityElement isTouching:touchLocation] && !self.isEditingActivityElement &&
+                      !self.isMovingActivityElement) {
+                self.isAdding = YES;
             } else {
                 for(ActivityElement *activityElement in self.activityElements) {
                     if([activityElement isTouching:touchLocation]) {
@@ -216,7 +180,18 @@ typedef enum {
             if(self.selectedActivityElement != nil && !self.isEditingActivityElement) {
                 self.isMovingActivityElement = YES;
                 [self moveSelectedActivityToAngle:[Utils angleOfPoint:touchLocation]];
-                [self recalculateActivityElementsIgnoringSelected:YES];
+                [self calculateActivityElementsIgnoringSelected:YES];
+            } else if(self.isAdding) {
+                if([self.addNewActivityElement touchedAtLocation:touchLocation]) {
+                    Activity *activity = [[ActivityManager sharedInstance] createNewActivityWithName:@"New"];
+                    ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:activity angle:[Utils angleOfPoint:touchLocation]];
+                    self.selectedActivityElement = activityElement;
+                    self.isAdding = NO;
+                    self.isMovingActivityElement = YES;
+                    self.isEditingActivityElement = NO;
+                    [self.activityElements addObject:activityElement];
+                    [self calculateActivityElementsIgnoringSelected:YES];
+                }
             }
         }
             break;
@@ -273,7 +248,10 @@ typedef enum {
             } else if(self.selectedActivityElement != nil && self.isMovingActivityElement) {
                 self.isMovingActivityElement = NO;
                 self.selectedActivityElement = nil;
-                [self recalculateActivityElementsIgnoringSelected:NO];
+                [self calculateActivityElementsIgnoringSelected:NO];
+            } else if(self.isAdding) {
+                [self.addNewActivityElement cancel];
+                self.isAdding = NO;
             }
         }
             break;
@@ -302,13 +280,13 @@ typedef enum {
 }
 
 
-- (void)recalculateActivityElementsIgnoringSelected:(BOOL)isIgnoringSelected_
+- (void)calculateActivityElementsIgnoringSelected:(BOOL)isIgnoringSelected_
 {
-    //recalculate indexes
-    NSArray *activitiesSortedByAngle = [self.activityElements sortedArrayUsingSelector:@selector(compareByAngle:)];
+    //Recalculate indexes
+    NSArray *activityElementsSortedByAngle = [self.activityElements sortedArrayUsingSelector:@selector(compareByAngle:)];
     
     NSMutableArray *activitiesToReindex = [NSMutableArray array];
-    for(ActivityElement *activityElement in activitiesSortedByAngle) {
+    for(ActivityElement *activityElement in activityElementsSortedByAngle) {
         [activitiesToReindex addObject:[activityElement associatedActivity]];
     }
     Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
@@ -319,41 +297,58 @@ typedef enum {
         activity.index = @(i);
     }
     
-    //calculate new angles    
+    //Recalculate angles    
+    [self calculateAnglesForActivityElements:activityElementsSortedByAngle shouldAnimate:NO
+                     ignoringActivityElement:isIgnoringSelected_ ? self.selectedActivityElement : nil];
+}
+
+
+#pragma mark - Utils
+- (void)calculateAnglesForActivityElements:(NSArray *)activityElements_ shouldAnimate:(BOOL)shouldAnimate_
+                   ignoringActivityElement:(ActivityElement *)ignoredActivityElement_
+{
     CGFloat startAngle;
     CGFloat angleDistance;
     
-    if(activitiesSortedByAngle.count * INITIAL_DISTANCE_DEGREES <= 360.0) {
+    if(activityElements_.count * INITIAL_DISTANCE_DEGREES <= 360.0) {
         angleDistance = INITIAL_DISTANCE_DEGREES;
         
-        if(activitiesSortedByAngle.count%2 == 0)
-            startAngle = -((activitiesSortedByAngle.count - 2)*angleDistance)/2.0 - 0.5*angleDistance;
+        if(activityElements_.count%2 == 0)
+            startAngle = -((activityElements_.count - 2)*angleDistance)/2.0 - 0.5*angleDistance;
         else
-            startAngle = -((activitiesSortedByAngle.count - 1)*angleDistance)/2.0;
+            startAngle = -((activityElements_.count - 1)*angleDistance)/2.0;
     } else {
-        angleDistance = 360.0/activitiesSortedByAngle.count;
+        angleDistance = 360.0/activityElements_.count;
         
-        if(activitiesSortedByAngle.count%2 == 0)
+        if(activityElements_.count%2 == 0)
             startAngle = -180.0;
         else
             startAngle = -180.0 + angleDistance/2.0;
     }
-
-    for(int i=0; i<activitiesSortedByAngle.count; i++) {
+    
+    for(int i=0; i<activityElements_.count; i++) {
         CGFloat angle = startAngle + i*angleDistance;
-        ActivityElement *activityElement = activitiesSortedByAngle[i];
-        activityElement.newAngle = angle;
+        ActivityElement *activityElement = activityElements_[i];
+        
+        if(ignoredActivityElement_ == nil || ![ignoredActivityElement_ isEqual:activityElement]) {
+            if(shouldAnimate_)
+                activityElement.newAngle = angle;
+            else
+                activityElement.angle = angle;
+       }
     }
     
-    //create array of activities to move
-    NSMutableArray *activitiesToMove = [NSMutableArray array];
-    for(ActivityElement *activityElement in self.activityElements) {
-        if(!isIgnoringSelected_ || ![activityElement isEqual:self.selectedActivityElement]) {
-            [activitiesToMove addObject:activityElement];
+    if(shouldAnimate_) {
+        NSMutableArray *activityElementsToAnimate = [NSMutableArray array];
+        for(ActivityElement *activityElement in activityElements_) {
+            if(ignoredActivityElement_ == nil || ![ignoredActivityElement_ isEqual:activityElement])
+                [activityElementsToAnimate addObject:activityElement];
         }
+        
+        [self.activityView moveActivityElementsToNewAngle:activityElementsToAnimate];
+    } else {
+        [self.activityView redraw];
     }
-    
-    [self.activityView moveActivityElementsToNewAngle:activitiesToMove];
 }
 
 @end

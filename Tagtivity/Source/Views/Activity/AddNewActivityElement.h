@@ -19,5 +19,7 @@
 
 //Input
 - (BOOL)isTouching:(CGPoint)touchLocation_;
+- (BOOL)touchedAtLocation:(CGPoint)touchLocation_;
+- (void)cancel;
 
 @end

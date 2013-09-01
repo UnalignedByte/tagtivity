@@ -26,6 +26,8 @@
 - (Activity *)undefinedActivity;
 - (Activity *)currentActivity;
 - (NSArray *)allActivities;
+- (NSArray *)getInactiveActivities;
+- (Activity *)getActivityWithName:(NSString *)activityName_;
 - (void)startActivity:(Activity *)activity_;
 - (void)stopActivity:(Activity *)activity_;
 

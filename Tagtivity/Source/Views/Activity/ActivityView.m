@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) Activity *currentActivity;
 @property (nonatomic, strong) ChooseActivityElement *chooseActivityElement;
-@property (nonatomic, strong) NSArray *activityElements;
+@property (nonatomic, strong) NSMutableArray *activityElements;
 @property (nonatomic, strong) SettingsElement *settingsElement;
 @property (nonatomic, strong) AddNewActivityElement *addNewActivityElement;
 
@@ -112,7 +112,7 @@
 }
 
 
-- (void)showActivityElements:(NSArray *)activityElements_ finished:(void (^)())block_
+- (void)showActivityElements:(NSMutableArray *)activityElements_ finished:(void (^)())block_
 {
     self.activityElements = activityElements_;
     

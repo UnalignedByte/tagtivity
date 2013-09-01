@@ -114,9 +114,17 @@
 #pragma mark - Control Activity
 - (Activity *)createNewActivityWithName:(NSString *)activityName_
 {
+    NSString *activityName = activityName_;
+    
+    NSInteger num=2;
+    while([self getActivityWithName:activityName] != nil) {
+        activityName = [NSString stringWithFormat:@"%@ %d", activityName_, num];
+        num++;
+    }
+    
     Activity *activity = [NSEntityDescription insertNewObjectForEntityForName:@"Activity"
                                                        inManagedObjectContext:_activitiesContext];
-    activity.name = activityName_;
+    activity.name = activityName;
     activity.totalDuration = @0;
     activity.isActive = @NO;
     activity.imageFilename = DEFAULT_ACTIVITY_IMAGE_FILENAME;
@@ -199,6 +207,40 @@
         return activities;
     
     return @[[self undefinedActivity]];
+}
+
+
+- (NSArray *)getInactiveActivities
+{
+    NSMutableArray *inactiveAcitivities = [NSMutableArray array];
+    NSArray *activities = [self allActivities];
+    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
+    
+    for(Activity *activity in activities) {
+        if(![currentActivity.name isEqualToString:activity.name])
+            [inactiveAcitivities addObject:activity];
+    }
+    
+    return inactiveAcitivities;
+}
+
+
+- (Activity *)getActivityWithName:(NSString *)activityName_
+{
+    NSError *error;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest new];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
+                                      inManagedObjectContext:_activitiesContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name=%@", activityName_];
+    
+    NSArray *activities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
+    [Utils handleError:error];
+    
+    if(activities.count > 0)
+        return activities[0];
+    
+    return nil;
 }
 
 
