@@ -50,7 +50,7 @@
     [self setupActivitiesStoreCoordinator];
     [self setupActivitiesContext];
     [self setupCoreDataObservers];
-    [self undefinedActivity];
+    [self getUndefinedActivity];
     
     return self;
 }
@@ -111,7 +111,7 @@
 }
 
 
-#pragma mark - Control Activity
+#pragma mark - Modify Data
 - (Activity *)createNewActivityWithName:(NSString *)activityName_
 {
     NSString *activityName = activityName_;
@@ -129,7 +129,7 @@
     activity.isActive = @NO;
     activity.imageFilename = DEFAULT_ACTIVITY_IMAGE_FILENAME;
     activity.instances = nil;
-    activity.index = @([self maxIndex]+1);
+    activity.index = @([self getMaxIndex]+1);
     
     return activity;
 }
@@ -141,112 +141,9 @@
 }
 
 
-- (Activity *)undefinedActivity
-{
-    NSError *error;
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest new];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
-                                      inManagedObjectContext:_activitiesContext];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name = %@", @"Undefined"];
-    
-    NSArray *undefinedActivities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
-    [Utils handleError:error];
-    
-    Activity *undefinedActivity;
-    if(undefinedActivities.count > 0) {
-        undefinedActivity = undefinedActivities[0];
-    } else {
-        undefinedActivity = [self createNewActivityWithName:@"Undefined"];
-    }
-    
-    return undefinedActivity;
-}
-
-
-- (Activity *)currentActivity
-{
-    NSError *error;
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest new];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
-                                      inManagedObjectContext:_activitiesContext];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"isActive == %@", @YES]];
-    
-    NSArray *activeActivities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
-    [Utils handleError:error];
-    
-    if(activeActivities.count == 1)
-        return activeActivities[0];
-
-    //there should be only one active activity
-    if(activeActivities.count > 0) {
-        for(Activity *activity in activeActivities)
-            [self stopActivity:activity];
-    }
-    
-    Activity *undefinedActivity = [self undefinedActivity];
-    
-    return undefinedActivity;
-}
-
-
-- (NSArray *)allActivities
-{
-    NSError *error;
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest new];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
-                                      inManagedObjectContext:_activitiesContext];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
-    
-    NSArray *activities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
-    [Utils handleError:error];
-    
-    if(activities.count > 0)
-        return activities;
-    
-    return @[[self undefinedActivity]];
-}
-
-
-- (NSArray *)getInactiveActivities
-{
-    NSMutableArray *inactiveAcitivities = [NSMutableArray array];
-    NSArray *activities = [self allActivities];
-    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
-    
-    for(Activity *activity in activities) {
-        if(![currentActivity.name isEqualToString:activity.name])
-            [inactiveAcitivities addObject:activity];
-    }
-    
-    return inactiveAcitivities;
-}
-
-
-- (Activity *)getActivityWithName:(NSString *)activityName_
-{
-    NSError *error;
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest new];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
-                                      inManagedObjectContext:_activitiesContext];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name=%@", activityName_];
-    
-    NSArray *activities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
-    [Utils handleError:error];
-    
-    if(activities.count > 0)
-        return activities[0];
-    
-    return nil;
-}
-
-
 - (void)startActivity:(Activity *)activity_
 {
-    Activity *activeActivity = [self currentActivity];
+    Activity *activeActivity = [self getCurrentActivity];
     
     //no point in starting again the same activity
     if(activeActivity != nil && [activeActivity isEqual:activity_])
@@ -276,26 +173,107 @@
 }
 
 
-- (NSInteger)maxIndex
+#pragma mark - Query Data
+- (NSArray *)getAllActivities
 {
-    NSInteger maxIndex = -1;
+    NSError *error;
     
-    NSArray *activities = [self allActivities];
-    for(Activity *activity in activities) {
-        if(activity.index.integerValue > maxIndex)
-            maxIndex = activity.index.integerValue;
-    }
+    NSFetchRequest *fetchRequest = [NSFetchRequest new];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
+                                      inManagedObjectContext:_activitiesContext];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
     
-    return maxIndex;
+    NSArray *activities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
+    [Utils handleError:error];
+    
+    if(activities.count > 0)
+        return activities;
+    
+    return @[[self getUndefinedActivity]];
 }
 
 
-- (void)normalizeIndexes
+- (Activity *)getCurrentActivity
 {
-    NSArray *activities = [self allActivities];
-    for(NSInteger i=0; i<activities.count; i++) {
-        ((Activity *)activities[0]).index = @(i);
+    NSError *error;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest new];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
+                                      inManagedObjectContext:_activitiesContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"isActive == %@", @YES]];
+    
+    NSArray *activeActivities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
+    [Utils handleError:error];
+    
+    if(activeActivities.count == 1)
+        return activeActivities[0];
+    
+    //there should be only one active activity
+    if(activeActivities.count > 0) {
+        for(Activity *activity in activeActivities)
+            [self stopActivity:activity];
     }
+    
+    Activity *undefinedActivity = [self getUndefinedActivity];
+    
+    return undefinedActivity;
+}
+
+
+- (Activity *)getUndefinedActivity
+{
+    NSError *error;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest new];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
+                                      inManagedObjectContext:_activitiesContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name = %@", @"Undefined"];
+    
+    NSArray *undefinedActivities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
+    [Utils handleError:error];
+    
+    Activity *undefinedActivity;
+    if(undefinedActivities.count > 0) {
+        undefinedActivity = undefinedActivities[0];
+    } else {
+        undefinedActivity = [self createNewActivityWithName:@"Undefined"];
+    }
+    
+    return undefinedActivity;
+}
+
+
+- (NSArray *)getInactiveActivities
+{
+    NSMutableArray *inactiveAcitivities = [NSMutableArray array];
+    NSArray *activities = [self getAllActivities];
+    Activity *currentActivity = [[ActivityManager sharedInstance] getCurrentActivity];
+    
+    for(Activity *activity in activities) {
+        if(![currentActivity.name isEqualToString:activity.name])
+            [inactiveAcitivities addObject:activity];
+    }
+    
+    return inactiveAcitivities;
+}
+
+
+- (Activity *)getActivityWithName:(NSString *)activityName_
+{
+    NSError *error;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest new];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Activity"
+                                      inManagedObjectContext:_activitiesContext];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name=%@", activityName_];
+    
+    NSArray *activities = [_activitiesContext executeFetchRequest:fetchRequest error:&error];
+    [Utils handleError:error];
+    
+    if(activities.count > 0)
+        return activities[0];
+    
+    return nil;
 }
 
 
@@ -313,6 +291,30 @@
 - (void)deleteActivityInstance:(ActivityInstance *)activityInstance_
 {
     [_activitiesContext deleteObject:activityInstance_];
+}
+
+
+#pragma mark - Utils
+- (NSInteger)getMaxIndex
+{
+    NSInteger maxIndex = -1;
+    
+    NSArray *activities = [self getAllActivities];
+    for(Activity *activity in activities) {
+        if(activity.index.integerValue > maxIndex)
+            maxIndex = activity.index.integerValue;
+    }
+    
+    return maxIndex;
+}
+
+
+- (void)normalizeIndexes
+{
+    NSArray *activities = [self getAllActivities];
+    for(NSInteger i=0; i<activities.count; i++) {
+        ((Activity *)activities[0]).index = @(i);
+    }
 }
 
 @end

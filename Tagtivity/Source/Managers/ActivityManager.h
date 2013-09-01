@@ -20,15 +20,17 @@
 //Initialization
 + (ActivityManager *)sharedInstance;
 
-//Control
+//Modify Data
 - (Activity *)createNewActivityWithName:(NSString *)activityName_;
 - (void)deleteActivity:(Activity *)activity_;
-- (Activity *)undefinedActivity;
-- (Activity *)currentActivity;
-- (NSArray *)allActivities;
-- (NSArray *)getInactiveActivities;
-- (Activity *)getActivityWithName:(NSString *)activityName_;
 - (void)startActivity:(Activity *)activity_;
 - (void)stopActivity:(Activity *)activity_;
+
+//Query Data
+- (NSArray *)getAllActivities;
+- (Activity *)getCurrentActivity;
+- (Activity *)getUndefinedActivity;
+- (NSArray *)getInactiveActivities;
+- (Activity *)getActivityWithName:(NSString *)activityName_;
 
 @end

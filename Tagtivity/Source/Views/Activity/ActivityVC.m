@@ -76,7 +76,7 @@ typedef enum {
     self.settingsElement = [[SettingsElement alloc] init];
     self.addNewActivityElement = [[AddNewActivityElement alloc] init];
 
-    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
+    Activity *currentActivity = [[ActivityManager sharedInstance] getCurrentActivity];
 
     self.state = ACTIVITY_STATE_ANIMATION;
     [self.activityView showCurrentActivity:currentActivity chooseActivityElement:self.chooseActivityElement finished:^{
@@ -133,7 +133,7 @@ typedef enum {
             if([self.chooseActivityElement isTouching:touchLocation] && !self.isEditingActivityElement && !self.isMovingActivityElement
                && !self.isAdding) {
                 self.state = ACTIVITY_STATE_ANIMATION;
-                [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity]
+                [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] getCurrentActivity]
                                  chooseActivityElement:self.chooseActivityElement
                                               finished:^{
                     self.state = ACTIVITY_STATE_SHOW_CURRENT;
@@ -232,7 +232,7 @@ typedef enum {
             }
 
             self.state = ACTIVITY_STATE_ANIMATION;
-            [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] currentActivity]
+            [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] getCurrentActivity]
                              chooseActivityElement:self.chooseActivityElement
                                           finished:^{
                 self.state = ACTIVITY_STATE_SHOW_CURRENT;
@@ -289,7 +289,7 @@ typedef enum {
     for(ActivityElement *activityElement in activityElementsSortedByAngle) {
         [activitiesToReindex addObject:[activityElement associatedActivity]];
     }
-    Activity *currentActivity = [[ActivityManager sharedInstance] currentActivity];
+    Activity *currentActivity = [[ActivityManager sharedInstance] getCurrentActivity];
     [activitiesToReindex insertObject:currentActivity atIndex:currentActivity.index.integerValue];
     
     for(NSInteger i=0; i<activitiesToReindex.count; i++) {
