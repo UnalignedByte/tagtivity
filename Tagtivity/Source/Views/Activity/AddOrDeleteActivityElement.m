@@ -1,12 +1,12 @@
 //
-//  AddNewActivityElement.m
+//  AddOrDeleteActivityElement.m
 //  Tagtivity
 //
 //  Created by Rafał Grodziński on 12.07.2013.
 //  Copyright (c) 2013 UnalignedByte. All rights reserved.
 //
 
-#import "AddNewActivityElement.h"
+#import "AddOrDeleteActivityElement.h"
 
 #import "Utils.h"
 
@@ -14,7 +14,7 @@
 #define ADD_DISTANCE 100.0
 
 
-@interface AddNewActivityElement ()
+@interface AddOrDeleteActivityElement ()
 
 @property (nonatomic, assign) CGPoint circleCenter;
 @property (nonatomic, assign) CGFloat circleDiameter;
@@ -22,7 +22,7 @@
 @end
 
 
-@implementation AddNewActivityElement
+@implementation AddOrDeleteActivityElement
 
 #pragma mark - Initialization
 - (id)init
@@ -64,12 +64,22 @@
 }
 
 
-- (BOOL)touchedAtLocation:(CGPoint)touchLocation_
+- (BOOL)isTouchingAddLocation:(CGPoint)touchLocation_
 {
     CGSize viewSize = [Utils viewSize];
     CGPoint viewCenter = CGPointMake(viewSize.width/2.0, viewSize.height/2.0);
     
     return [Utils distanceBetweenPointA:touchLocation_ pointB:viewCenter] < ADD_DISTANCE;
+}
+
+
+- (BOOL)isTouchingDeleteLocation:(CGPoint)touchLocation_
+{
+    CGFloat distance = [Utils distanceBetweenPointA:touchLocation_ pointB:self.circleCenter];
+    if(distance <= self.circleDiameter/2.0)
+        return YES;
+    
+    return NO;
 }
 
 

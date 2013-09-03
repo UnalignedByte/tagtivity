@@ -20,7 +20,7 @@
 		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
 		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
-		B5790BE4179033AD00F9D02B /* AddNewActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE3179033AD00F9D02B /* AddNewActivityElement.m */; };
+		B5790BE4179033AD00F9D02B /* AddOrDeleteActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE3179033AD00F9D02B /* AddOrDeleteActivityElement.m */; };
 		B5790BE7179033F700F9D02B /* ChooseActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE6179033F700F9D02B /* ChooseActivityElement.m */; };
 		B5790BEA1790496E00F9D02B /* SettingsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE91790496E00F9D02B /* SettingsElement.m */; };
 		B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04734172D2C8E008D74C1 /* ActivityManager.m */; };
@@ -51,8 +51,8 @@
 		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
 		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
 		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
-		B5790BE2179033AD00F9D02B /* AddNewActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddNewActivityElement.h; path = Source/Views/Activity/AddNewActivityElement.h; sourceTree = "<group>"; };
-		B5790BE3179033AD00F9D02B /* AddNewActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddNewActivityElement.m; path = Source/Views/Activity/AddNewActivityElement.m; sourceTree = "<group>"; };
+		B5790BE2179033AD00F9D02B /* AddOrDeleteActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddOrDeleteActivityElement.h; path = Source/Views/Activity/AddOrDeleteActivityElement.h; sourceTree = "<group>"; };
+		B5790BE3179033AD00F9D02B /* AddOrDeleteActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddOrDeleteActivityElement.m; path = Source/Views/Activity/AddOrDeleteActivityElement.m; sourceTree = "<group>"; };
 		B5790BE5179033F700F9D02B /* ChooseActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseActivityElement.h; path = Source/Views/Activity/ChooseActivityElement.h; sourceTree = "<group>"; };
 		B5790BE6179033F700F9D02B /* ChooseActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChooseActivityElement.m; path = Source/Views/Activity/ChooseActivityElement.m; sourceTree = "<group>"; };
 		B5790BE81790496E00F9D02B /* SettingsElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsElement.h; path = Source/Views/Activity/SettingsElement.h; sourceTree = "<group>"; };
@@ -193,8 +193,8 @@
 				B544575F174FA7AA004F224A /* ActivityElement.m */,
 				B5790BE81790496E00F9D02B /* SettingsElement.h */,
 				B5790BE91790496E00F9D02B /* SettingsElement.m */,
-				B5790BE2179033AD00F9D02B /* AddNewActivityElement.h */,
-				B5790BE3179033AD00F9D02B /* AddNewActivityElement.m */,
+				B5790BE2179033AD00F9D02B /* AddOrDeleteActivityElement.h */,
+				B5790BE3179033AD00F9D02B /* AddOrDeleteActivityElement.m */,
 			);
 			name = Activity;
 			sourceTree = "<group>";
@@ -265,6 +265,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = UnalignedByte;
+				TargetAttributes = {
+					89C857AD1726DB7000C02BB6 = {
+						DevelopmentTeam = X7G47FFC9G;
+					};
+				};
 			};
 			buildConfigurationList = 89C857A91726DB7000C02BB6 /* Build configuration list for PBXProject "Tagtivity" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -330,7 +335,7 @@
 				B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */,
 				B5EA43A31748121900EE4D56 /* ActivityView.m in Sources */,
 				B5445760174FA7AA004F224A /* ActivityElement.m in Sources */,
-				B5790BE4179033AD00F9D02B /* AddNewActivityElement.m in Sources */,
+				B5790BE4179033AD00F9D02B /* AddOrDeleteActivityElement.m in Sources */,
 				B5790BE7179033F700F9D02B /* ChooseActivityElement.m in Sources */,
 				B5790BEA1790496E00F9D02B /* SettingsElement.m in Sources */,
 			);
@@ -398,10 +403,13 @@
 		89C857D11726DB7000C02BB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tagtivity/Source/Tagtivity-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Tagtivity/Supporting Files/Tagtivity-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -409,10 +417,13 @@
 		89C857D21726DB7000C02BB6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tagtivity/Source/Tagtivity-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Tagtivity/Supporting Files/Tagtivity-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

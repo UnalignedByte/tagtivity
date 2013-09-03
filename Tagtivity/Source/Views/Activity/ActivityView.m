@@ -13,7 +13,7 @@
 #import "ActivityElement.h"
 #import "ChooseActivityElement.h"
 #import "SettingsElement.h"
-#import "AddNewActivityElement.h"
+#import "AddOrDeleteActivityElement.h"
 
 #import "Utils.h"
 
@@ -24,7 +24,7 @@
 @property (nonatomic, strong) ChooseActivityElement *chooseActivityElement;
 @property (nonatomic, strong) NSMutableArray *activityElements;
 @property (nonatomic, strong) SettingsElement *settingsElement;
-@property (nonatomic, strong) AddNewActivityElement *addNewActivityElement;
+@property (nonatomic, strong) AddOrDeleteActivityElement *addOrDeleteActivityElement;
 
 @property (nonatomic, assign) BOOL isShowingCurrentActivity;
 @property (nonatomic, assign) BOOL isShowingChooseActivity;
@@ -84,7 +84,7 @@
 - (void)drawSettingsInContext:(CGContextRef)ctx_
 {
     [self.settingsElement drawInContext:ctx_];
-    [self.addNewActivityElement drawInContext:ctx_];
+    [self.addOrDeleteActivityElement drawInContext:ctx_];
 }
 
 
@@ -127,11 +127,11 @@
 }
 
 
-- (void)showSettings:(SettingsElement *)settingsElement_ addNewActivityElement:(AddNewActivityElement *)addNewActivityElement_
+- (void)showSettings:(SettingsElement *)settingsElement_ addOrDeleteActivityElement:(AddOrDeleteActivityElement *)addOrDeleteActivityElement_
             finished:(void (^)())block_;
 {
     self.settingsElement = settingsElement_;
-    self.addNewActivityElement = addNewActivityElement_;
+    self.addOrDeleteActivityElement = addOrDeleteActivityElement_;
     
     self.isShowingCurrentActivity = NO;
     self.isShowingChooseActivity = NO;
