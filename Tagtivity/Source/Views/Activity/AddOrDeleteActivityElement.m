@@ -82,10 +82,4 @@
     return NO;
 }
 
-
-- (void)cancel
-{
-    
-}
-
 @end

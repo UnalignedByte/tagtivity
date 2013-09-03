@@ -20,6 +20,8 @@
 		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
 		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
+		B56EF91C17D68A240000AA81 /* ActivitySettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */; };
+		B56EF91E17D68A850000AA81 /* ActivitySettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */; };
 		B5790BE4179033AD00F9D02B /* AddOrDeleteActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE3179033AD00F9D02B /* AddOrDeleteActivityElement.m */; };
 		B5790BE7179033F700F9D02B /* ChooseActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE6179033F700F9D02B /* ChooseActivityElement.m */; };
 		B5790BEA1790496E00F9D02B /* SettingsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE91790496E00F9D02B /* SettingsElement.m */; };
@@ -51,6 +53,9 @@
 		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
 		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
 		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
+		B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivitySettingsView.h; path = Source/Views/Activity/ActivitySettingsView.h; sourceTree = "<group>"; };
+		B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivitySettingsView.m; path = Source/Views/Activity/ActivitySettingsView.m; sourceTree = "<group>"; };
+		B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivitySettingsView.xib; path = Source/Views/Activity/ActivitySettingsView.xib; sourceTree = "<group>"; };
 		B5790BE2179033AD00F9D02B /* AddOrDeleteActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddOrDeleteActivityElement.h; path = Source/Views/Activity/AddOrDeleteActivityElement.h; sourceTree = "<group>"; };
 		B5790BE3179033AD00F9D02B /* AddOrDeleteActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddOrDeleteActivityElement.m; path = Source/Views/Activity/AddOrDeleteActivityElement.m; sourceTree = "<group>"; };
 		B5790BE5179033F700F9D02B /* ChooseActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseActivityElement.h; path = Source/Views/Activity/ChooseActivityElement.h; sourceTree = "<group>"; };
@@ -195,6 +200,9 @@
 				B5790BE91790496E00F9D02B /* SettingsElement.m */,
 				B5790BE2179033AD00F9D02B /* AddOrDeleteActivityElement.h */,
 				B5790BE3179033AD00F9D02B /* AddOrDeleteActivityElement.m */,
+				B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */,
+				B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */,
+				B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */,
 			);
 			name = Activity;
 			sourceTree = "<group>";
@@ -296,6 +304,7 @@
 				89C857C61726DB7000C02BB6 /* Default.png in Resources */,
 				89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */,
 				89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */,
+				B56EF91E17D68A850000AA81 /* ActivitySettingsView.xib in Resources */,
 				896018BC1726DDD900E26BA9 /* Icon.png in Resources */,
 				896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */,
 				B5EA43A01748120000EE4D56 /* ActivityView.xib in Resources */,
@@ -325,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B56EF91C17D68A240000AA81 /* ActivitySettingsView.m in Sources */,
 				89C857C01726DB7000C02BB6 /* main.m in Sources */,
 				89C857C41726DB7000C02BB6 /* AppDelegate.m in Sources */,
 				896018B61726DC9100E26BA9 /* Activities.xcdatamodeld in Sources */,

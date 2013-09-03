@@ -9,6 +9,7 @@
 #import "ActivityVC.h"
 
 #import "ActivityView.h"
+#import "ActivitySettingsView.h"
 #import "ChooseActivityElement.h"
 #import "ActivityElement.h"
 #import "SettingsElement.h"
@@ -36,6 +37,7 @@ typedef enum {
 @interface ActivityVC ()
 
 @property (nonatomic, weak) IBOutlet ActivityView *activityView;
+@property (nonatomic, strong) IBOutlet ActivitySettingsView *activitySettingsView;
 
 @property (nonatomic, assign) ActivityState state;
 
@@ -75,9 +77,11 @@ typedef enum {
     [self setupActivityElements];
     self.settingsElement = [[SettingsElement alloc] init];
     self.addOrDeleteActivityElement = [[AddOrDeleteActivityElement alloc] init];
+    
+    self.activitySettingsView = [[ActivitySettingsView alloc] init];
+    [self.view addSubview:self.activitySettingsView];
 
     Activity *currentActivity = [[ActivityManager sharedInstance] getCurrentActivity];
-
     self.state = ACTIVITY_STATE_ANIMATION;
     [self.activityView showCurrentActivity:currentActivity chooseActivityElement:self.chooseActivityElement finished:^{
         self.state = ACTIVITY_STATE_SHOW_CURRENT;
@@ -245,20 +249,13 @@ typedef enum {
         case ACTIVITY_STATE_SETTINGS:
         {
             if([self shouldStartEditingSelectedActivityElement]) {
-                self.isEditingActivityElement = YES;
-            } if([self shouldDeleteActivityElement:touchLocation]) {
-                [self.activityElements removeObject:self.selectedActivityElement];
-                [[ActivityManager sharedInstance] deleteActivity:[self.selectedActivityElement associatedActivity]];
-                self.selectedActivityElement = nil;
-                self.isMovingActivityElement = NO;
-                [self calculateActivityElementsIgnoringSelected:NO];
-            } else if([self shouldStopMovingActivityElement]) {
-                self.isMovingActivityElement = NO;
-                self.selectedActivityElement = nil;
-                [self calculateActivityElementsIgnoringSelected:NO];
+                [self startEditingSelectedActivityElement];
+            } if([self shouldDeleteSelectedActivityElement:touchLocation]) {
+                [self deleteSelectedActivityElement];
+            } else if([self shouldStopMovingSelectedActivityElement]) {
+                [self stopMovingSelectedActivityElement];
             } else if([self shouldCancelAddingNewActivity]) {
-                [self.addOrDeleteActivityElement cancel];
-                self.isAdding = NO;
+                [self cancelAddingActivityElement];
             }
         }
             break;
@@ -297,7 +294,10 @@ typedef enum {
         [activitiesToReindex addObject:[activityElement associatedActivity]];
     }
     Activity *currentActivity = [[ActivityManager sharedInstance] getCurrentActivity];
-    [activitiesToReindex insertObject:currentActivity atIndex:currentActivity.index.integerValue];
+    if(currentActivity.index.integerValue <= activitiesToReindex.count)
+        [activitiesToReindex insertObject:currentActivity atIndex:currentActivity.index.integerValue];
+    else
+        [activitiesToReindex addObject:currentActivity];
     
     for(NSInteger i=0; i<activitiesToReindex.count; i++) {
         Activity *activity = activitiesToReindex[i];
@@ -310,21 +310,21 @@ typedef enum {
 }
 
 
-#pragma mark - State Conditions
+#pragma mark - Settings State Conditions
 - (BOOL)shouldStartEditingSelectedActivityElement
 {
     return self.selectedActivityElement != nil && !self.isMovingActivityElement;
 }
 
 
-- (BOOL)shouldDeleteActivityElement:(CGPoint)touchLocation_
+- (BOOL)shouldDeleteSelectedActivityElement:(CGPoint)touchLocation_
 {
     return self.selectedActivityElement != nil &&
     [self.addOrDeleteActivityElement isTouchingDeleteLocation:touchLocation_];
 }
 
 
-- (BOOL)shouldStopMovingActivityElement
+- (BOOL)shouldStopMovingSelectedActivityElement
 {
     return self.selectedActivityElement != nil && self.isMovingActivityElement;
 }
@@ -333,6 +333,39 @@ typedef enum {
 - (BOOL)shouldCancelAddingNewActivity
 {
     return self.isAdding;
+}
+
+
+#pragma mark - Settings State Actions
+- (void)startEditingSelectedActivityElement
+{
+    //self.isEditingActivityElement = YES;
+    [self.activitySettingsView configureWithActivity:[self.selectedActivityElement associatedActivity]];
+    [self.activitySettingsView show];
+}
+
+
+- (void)deleteSelectedActivityElement
+{
+    [self.activityElements removeObject:self.selectedActivityElement];
+    [[ActivityManager sharedInstance] deleteActivity:[self.selectedActivityElement associatedActivity]];
+    self.selectedActivityElement = nil;
+    self.isMovingActivityElement = NO;
+    [self calculateActivityElementsIgnoringSelected:NO];
+}
+
+
+- (void)stopMovingSelectedActivityElement
+{
+    self.isMovingActivityElement = NO;
+    self.selectedActivityElement = nil;
+    [self calculateActivityElementsIgnoringSelected:NO];
+}
+
+
+- (void)cancelAddingActivityElement
+{
+    self.isAdding = NO;
 }
 
 

@@ -21,6 +21,5 @@
 - (BOOL)isTouching:(CGPoint)touchLocation_;
 - (BOOL)isTouchingAddLocation:(CGPoint)touchLocation_;
 - (BOOL)isTouchingDeleteLocation:(CGPoint)touchLocation_;
-- (void)cancel;
 
 @end
