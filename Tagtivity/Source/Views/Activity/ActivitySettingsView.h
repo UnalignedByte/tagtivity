@@ -22,4 +22,7 @@
 - (void)show;
 - (void)hide;
 
+//Events
+- (void)addOnHideEventHandler:(void (^)())eventHandlerBlock_;
+
 @end

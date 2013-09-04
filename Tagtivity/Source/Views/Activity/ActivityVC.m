@@ -80,6 +80,8 @@ typedef enum {
     
     self.activitySettingsView = [[ActivitySettingsView alloc] init];
     [self.view addSubview:self.activitySettingsView];
+    
+    [self setupEventHandlers];
 
     Activity *currentActivity = [[ActivityManager sharedInstance] getCurrentActivity];
     self.state = ACTIVITY_STATE_ANIMATION;
@@ -101,6 +103,15 @@ typedef enum {
     }
     
     [self calculateAnglesForActivityElements:self.activityElements shouldAnimate:NO ignoringActivityElement:nil];
+}
+
+
+- (void)setupEventHandlers
+{
+    __weak typeof(self) weakSelf = self;
+    [self.activitySettingsView addOnHideEventHandler:^{
+        [weakSelf settingViewClosed];
+    }];
 }
 
 
@@ -339,7 +350,7 @@ typedef enum {
 #pragma mark - Settings State Actions
 - (void)startEditingSelectedActivityElement
 {
-    //self.isEditingActivityElement = YES;
+    self.isEditingActivityElement = YES;
     [self.activitySettingsView configureWithActivity:[self.selectedActivityElement associatedActivity]];
     [self.activitySettingsView show];
 }
@@ -366,6 +377,14 @@ typedef enum {
 - (void)cancelAddingActivityElement
 {
     self.isAdding = NO;
+}
+
+
+#pragma mark - Event Handlers
+- (void)settingViewClosed
+{
+    self.isEditingActivityElement = NO;
+    [self.activityView redraw];
 }
 
 

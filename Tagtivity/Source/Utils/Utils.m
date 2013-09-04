@@ -88,4 +88,12 @@
     return angle;
 }
 
+
++ (void)executeBlocksInArray:(NSArray *)array_
+{
+    for(void (^block)() in array_) {
+        block();
+    }
+}
+
 @end

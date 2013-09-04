@@ -20,5 +20,6 @@
 + (CGFloat)distanceBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_;
 + (CGSize)viewSize;
 + (CGFloat)angleOfPoint:(CGPoint)point_;
++ (void)executeBlocksInArray:(NSArray *)array_;
 
 @end

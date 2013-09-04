@@ -23,6 +23,9 @@
 
 @property (nonatomic, strong) Activity *activity;
 
+//Events
+@property (nonatomic, strong) NSMutableArray *onHideEventHandlers;
+
 @end
 
 
@@ -33,10 +36,39 @@
 {
     NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"ActivitySettingsView" owner:nil options:nil];
     ActivitySettingsView *view = nibObjects[0];
-    view.userInteractionEnabled = NO;
-    view.alpha = 0.0;
     
     return view;
+}
+
+
+- (id)initWithFrame:(CGRect)frame_
+{
+    if((self = [super initWithFrame:frame_]) == nil)
+        return nil;
+    
+    [self setup];
+    
+    return self;
+}
+
+
+- (id)initWithCoder:(NSCoder *)coder_
+{
+    if((self = [super initWithCoder:coder_]) == nil)
+        return nil;
+    
+    [self setup];
+    
+    return self;
+}
+
+
+- (void)setup
+{
+    self.userInteractionEnabled = NO;
+    self.alpha = 0.0;
+
+    self.onHideEventHandlers = [NSMutableArray array];
 }
 
 
@@ -94,12 +126,21 @@
 
 - (void)hide
 {
+    [Utils executeBlocksInArray:self.onHideEventHandlers];
+    
     self.userInteractionEnabled = NO;
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
         self.alpha = 0.0;
     [UIView commitAnimations];
+}
+
+
+#pragma mark - Events
+- (void)addOnHideEventHandler:(void (^)())eventHandlerBlock_
+{
+    [self.onHideEventHandlers addObject:eventHandlerBlock_];
 }
 
 @end
