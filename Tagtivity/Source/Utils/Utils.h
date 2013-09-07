@@ -21,5 +21,6 @@
 + (CGSize)viewSize;
 + (CGFloat)angleOfPoint:(CGPoint)point_;
 + (void)executeBlocksInArray:(NSArray *)array_;
++ (void)animateValueFrom:(CGFloat)startValue_ to:(CGFloat)endValue_ duration:(CGFloat)duration_ block:(void (^)(double value))block_;
 
 @end

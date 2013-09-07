@@ -316,7 +316,7 @@ typedef enum {
     }
     
     //Recalculate angles    
-    [self calculateAnglesForActivityElements:activityElementsSortedByAngle shouldAnimate:NO
+    [self calculateAnglesForActivityElements:activityElementsSortedByAngle shouldAnimate:YES
                      ignoringActivityElement:isIgnoringSelected_ ? self.selectedActivityElement : nil];
 }
 
@@ -426,7 +426,8 @@ typedef enum {
     if(shouldAnimate_) {
         NSMutableArray *activityElementsToAnimate = [NSMutableArray array];
         for(ActivityElement *activityElement in activityElements_) {
-            if(ignoredActivityElement_ == nil || ![ignoredActivityElement_ isEqual:activityElement])
+            if((ignoredActivityElement_ == nil || ![ignoredActivityElement_ isEqual:activityElement]) &&
+               activityElement.newAngle != activityElement.angle)
                 [activityElementsToAnimate addObject:activityElement];
         }
         

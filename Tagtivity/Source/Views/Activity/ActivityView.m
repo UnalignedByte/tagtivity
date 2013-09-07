@@ -36,7 +36,43 @@
 
 @implementation ActivityView
 
+#pragma mark - Initialization
+- (id)initWithFrame:(CGRect)frame_
+{
+    if((self = [super initWithFrame:frame_]) == nil)
+        return nil;
+    
+    [self setup];
+    
+    return self;
+}
+
+
+- (id)initWithCoder:(NSCoder *)coder_
+{
+    if((self = [super initWithCoder:coder_]) == nil)
+        return nil;
+    
+    [self setup];
+    
+    return self;
+}
+
+
+- (void)setup
+{
+    CADisplayLink *redrawTimer = [CADisplayLink displayLinkWithTarget:self selector:@selector(redrawTimerFired:)];
+    [redrawTimer addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+}
+
+
 #pragma mark - Drawing
+- (void)redrawTimerFired:(CADisplayLink *)animationDisplayLink_
+{
+    [self setNeedsDisplay];
+}
+
+
 - (void)drawRect:(CGRect)rect_
 {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -146,10 +182,12 @@
 
 - (void)moveActivityElementsToNewAngle:(NSArray *)activityElements_
 {
-    for(ActivityElement *activityElement in activityElements_)
-        activityElement.angle = activityElement.newAngle;
-    
-    [self setNeedsDisplay];
+    for(ActivityElement *activityElement in activityElements_) {
+        
+        [Utils animateValueFrom:activityElement.angle to:activityElement.newAngle duration:0.2 block:^(double value) {
+            activityElement.angle = value;
+        }];
+    }
 }
 
 @end

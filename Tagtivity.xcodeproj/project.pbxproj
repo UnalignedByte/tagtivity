@@ -20,6 +20,7 @@
 		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
 		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
+		B555983B17DAA5510093DB5C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B555983A17DAA5510093DB5C /* QuartzCore.framework */; };
 		B56EF91C17D68A240000AA81 /* ActivitySettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */; };
 		B56EF91E17D68A850000AA81 /* ActivitySettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */; };
 		B5790BE4179033AD00F9D02B /* AddOrDeleteActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE3179033AD00F9D02B /* AddOrDeleteActivityElement.m */; };
@@ -53,6 +54,7 @@
 		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
 		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
 		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
+		B555983A17DAA5510093DB5C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivitySettingsView.h; path = Source/Views/Activity/ActivitySettingsView.h; sourceTree = "<group>"; };
 		B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivitySettingsView.m; path = Source/Views/Activity/ActivitySettingsView.m; sourceTree = "<group>"; };
 		B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivitySettingsView.xib; path = Source/Views/Activity/ActivitySettingsView.xib; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				89C857B21726DB7000C02BB6 /* UIKit.framework in Frameworks */,
 				89C857B61726DB7000C02BB6 /* CoreGraphics.framework in Frameworks */,
 				89C857B81726DB7000C02BB6 /* CoreData.framework in Frameworks */,
+				B555983B17DAA5510093DB5C /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +118,7 @@
 		89C857B01726DB7000C02BB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B555983A17DAA5510093DB5C /* QuartzCore.framework */,
 				89C857B31726DB7000C02BB6 /* Foundation.framework */,
 				89C857B11726DB7000C02BB6 /* UIKit.framework */,
 				89C857B51726DB7000C02BB6 /* CoreGraphics.framework */,

@@ -96,4 +96,73 @@
     }
 }
 
+
+static NSMutableArray *animationsArray;
+
++ (void)animateValueFrom:(CGFloat)startValue_ to:(CGFloat)endValue_ duration:(CGFloat)duration_ block:(void (^)(double))block_
+{
+    static CADisplayLink *animationDisplayLink;
+    static dispatch_once_t once;
+    
+    dispatch_once(&once, ^{
+        animationsArray = [NSMutableArray array];
+        
+        animationDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(animationTimerFired:)];
+        [animationDisplayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    });
+
+    double deltaValuePerSecond = (endValue_ - startValue_)/duration_;
+    NSMutableArray *animationArray = [NSMutableArray arrayWithObjects:@(startValue_), @(startValue_), @(endValue_), @(deltaValuePerSecond), [block_ copy], nil];
+    [animationsArray addObject:animationArray];
+}
+
+
++ (void)animationTimerFired:(CADisplayLink *)animationDisplayLink_
+{
+    NSMutableArray *animationsForRemoval = [NSMutableArray array];
+    
+    static CGFloat lastTime = 0.0;
+    if(lastTime == 0.0) {
+        lastTime = animationDisplayLink_.timestamp;
+        return;
+    }
+    
+    CGFloat duration = animationDisplayLink_.timestamp - lastTime;
+    lastTime = animationDisplayLink_.timestamp;
+    
+    for(NSMutableArray *animationArray in animationsArray) {
+        double currentValue = [animationArray[0] doubleValue];
+        double startValue = [animationArray[1] doubleValue];
+        double endValue = [animationArray[2] doubleValue];
+        double deltaValuePerSecond = [animationArray[3] doubleValue];
+        void (^block)(double) = animationArray[4];
+        
+        currentValue += deltaValuePerSecond * duration;
+        
+        if(deltaValuePerSecond < 0) {
+            if(currentValue > startValue)
+                currentValue = startValue;
+            else if(currentValue < endValue)
+                currentValue = endValue;
+        } else {
+            if(currentValue < startValue)
+                currentValue = startValue;
+            else if(currentValue > endValue)
+                currentValue = endValue;
+        }
+        
+        [animationArray replaceObjectAtIndex:0 withObject:@(currentValue)];
+        
+        if(currentValue == endValue) {
+            [animationsForRemoval addObject:animationArray];
+        }
+        
+        block(currentValue);
+    }
+    
+    for(NSMutableArray *animationForRemoval in animationsForRemoval) {
+        [animationsArray removeObject:animationForRemoval];
+    }
+}
+
 @end
