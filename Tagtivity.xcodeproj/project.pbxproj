@@ -21,6 +21,9 @@
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
 		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
 		B555983B17DAA5510093DB5C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B555983A17DAA5510093DB5C /* QuartzCore.framework */; };
+		B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */ = {isa = PBXBuildFile; fileRef = B555983E17DB5E4B0093DB5C /* line_count.sh */; };
+		B555984217DB5E5B0093DB5C /* States Diagram.umd in Resources */ = {isa = PBXBuildFile; fileRef = B555984017DB5E5B0093DB5C /* States Diagram.umd */; };
+		B555984317DB5E5B0093DB5C /* To Do.txt in Resources */ = {isa = PBXBuildFile; fileRef = B555984117DB5E5B0093DB5C /* To Do.txt */; };
 		B56EF91C17D68A240000AA81 /* ActivitySettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */; };
 		B56EF91E17D68A850000AA81 /* ActivitySettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */; };
 		B5790BE4179033AD00F9D02B /* AddOrDeleteActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE3179033AD00F9D02B /* AddOrDeleteActivityElement.m */; };
@@ -55,6 +58,9 @@
 		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
 		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
 		B555983A17DAA5510093DB5C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B555983E17DB5E4B0093DB5C /* line_count.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = line_count.sh; sourceTree = "<group>"; };
+		B555984017DB5E5B0093DB5C /* States Diagram.umd */ = {isa = PBXFileReference; lastKnownFileType = file; name = "States Diagram.umd"; path = "Docs/States Diagram.umd"; sourceTree = "<group>"; };
+		B555984117DB5E5B0093DB5C /* To Do.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "To Do.txt"; path = "Docs/To Do.txt"; sourceTree = "<group>"; };
 		B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivitySettingsView.h; path = Source/Views/Activity/ActivitySettingsView.h; sourceTree = "<group>"; };
 		B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivitySettingsView.m; path = Source/Views/Activity/ActivitySettingsView.m; sourceTree = "<group>"; };
 		B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivitySettingsView.xib; path = Source/Views/Activity/ActivitySettingsView.xib; sourceTree = "<group>"; };
@@ -102,6 +108,8 @@
 				89C857D31726DBC800C02BB6 /* Graphics */,
 				89C857D41726DBD000C02BB6 /* Resources */,
 				89C857BA1726DB7000C02BB6 /* Supporting Files */,
+				B555983D17DB5E320093DB5C /* Docs */,
+				B555983C17DB5E280093DB5C /* Scripts */,
 				89C857B01726DB7000C02BB6 /* Frameworks */,
 				89C857AF1726DB7000C02BB6 /* Products */,
 			);
@@ -211,6 +219,23 @@
 			name = Activity;
 			sourceTree = "<group>";
 		};
+		B555983C17DB5E280093DB5C /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				B555983E17DB5E4B0093DB5C /* line_count.sh */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
+		B555983D17DB5E320093DB5C /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				B555984017DB5E5B0093DB5C /* States Diagram.umd */,
+				B555984117DB5E5B0093DB5C /* To Do.txt */,
+			);
+			name = Docs;
+			sourceTree = "<group>";
+		};
 		B5E04732172D2C63008D74C1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,9 +333,12 @@
 				89C857C61726DB7000C02BB6 /* Default.png in Resources */,
 				89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */,
 				89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */,
+				B555984317DB5E5B0093DB5C /* To Do.txt in Resources */,
 				B56EF91E17D68A850000AA81 /* ActivitySettingsView.xib in Resources */,
+				B555984217DB5E5B0093DB5C /* States Diagram.umd in Resources */,
 				896018BC1726DDD900E26BA9 /* Icon.png in Resources */,
 				896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */,
+				B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */,
 				B5EA43A01748120000EE4D56 /* ActivityView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

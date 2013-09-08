@@ -58,19 +58,23 @@
 }
 
 
-+ (CGFloat)angleOfPoint:(CGPoint)point_
++ (CGPoint)viewCenter
 {
     CGSize viewSize = [Utils viewSize];
-    CGPoint viewCenter = CGPointMake(viewSize.width/2.0, viewSize.height/2.0);
-    
-    CGFloat hypotenuseDistance = [Utils distanceBetweenPointA:viewCenter pointB:point_];
-    CGFloat verticalDistance = abs(point_.y - viewCenter.y);
+    return CGPointMake(viewSize.width/2.0, viewSize.height/2.0);
+}
+
+
++ (CGFloat)angleBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_
+{
+    CGFloat hypotenuseDistance = [Utils distanceBetweenPointA:pointA_ pointB:pointB_];
+    CGFloat verticalDistance = abs(pointB_.y - pointA_.y);
     CGFloat sinus = verticalDistance/hypotenuseDistance;
     
     CGFloat angle = DEG(asin(sinus));
     
-    BOOL isUpperHalf = point_.y < viewCenter.y;
-    BOOL isRightHalf = point_.x > viewCenter.x;
+    BOOL isUpperHalf = pointB_.y < pointA_.y;
+    BOOL isRightHalf = pointB_.x > pointA_.x;
     
     if(isUpperHalf && isRightHalf)
         angle = 90.0 - angle;

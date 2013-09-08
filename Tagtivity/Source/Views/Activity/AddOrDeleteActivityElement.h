@@ -17,6 +17,11 @@
 //Drawing
 - (void)drawInContext:(CGContextRef)ctx_;
 
+//Control
+- (void)startAddingWithCurrentLoation:(CGPoint)touchLocation_;
+- (void)stopAddingWithCurrentLocation:(CGPoint)touchLocation_ isCanceled:(BOOL)isCanceled_;
+- (void)setCurrentTouchingLocation:(CGPoint)touchLocation_;
+
 //Input
 - (BOOL)isTouching:(CGPoint)touchLocation_;
 - (BOOL)isTouchingAddLocation:(CGPoint)touchLocation_;

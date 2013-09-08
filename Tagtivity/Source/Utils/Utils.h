@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-#define RAD(deg) M_PI*deg/180.0
-#define DEG(rad) rad*180.0/M_PI
+#define RAD(deg) (M_PI*(deg)/180.0)
+#define DEG(rad) ((rad)*180.0/M_PI)
 
 
 @interface Utils : NSObject
@@ -19,7 +19,8 @@
 + (void)createDirectoryIfNecessary:(NSURL *)url_;
 + (CGFloat)distanceBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_;
 + (CGSize)viewSize;
-+ (CGFloat)angleOfPoint:(CGPoint)point_;
++ (CGPoint)viewCenter;
++ (CGFloat)angleBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_;
 + (void)executeBlocksInArray:(NSArray *)array_;
 + (void)animateValueFrom:(CGFloat)startValue_ to:(CGFloat)endValue_ duration:(CGFloat)duration_ block:(void (^)(double value))block_;
 

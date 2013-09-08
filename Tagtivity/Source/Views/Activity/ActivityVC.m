@@ -153,9 +153,8 @@ typedef enum {
                                               finished:^{
                     self.state = ACTIVITY_STATE_SHOW_CURRENT;
                 }];
-            } else if([self.addOrDeleteActivityElement isTouching:touchLocation] && !self.isEditingActivityElement &&
-                      !self.isMovingActivityElement) {
-                self.isAdding = YES;
+            } else if([self shouldStartAddingNewActivityElement:touchLocation]) {
+                [self startAddingNewActivityElement:touchLocation];
             } else {
                 //start dragging an element
                 for(ActivityElement *activityElement in self.activityElements) {
@@ -195,19 +194,12 @@ typedef enum {
         {
             if(self.selectedActivityElement != nil && !self.isEditingActivityElement) {
                 self.isMovingActivityElement = YES;
-                [self moveSelectedActivityToAngle:[Utils angleOfPoint:touchLocation]];
+                [self moveSelectedActivityToAngle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation]];
                 [self calculateActivityElementsIgnoringSelected:YES];
-            } else if(self.isAdding) {
-                if([self.addOrDeleteActivityElement isTouchingAddLocation:touchLocation]) {
-                    Activity *activity = [[ActivityManager sharedInstance] createNewActivityWithName:@"New"];
-                    ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:activity angle:[Utils angleOfPoint:touchLocation]];
-                    self.selectedActivityElement = activityElement;
-                    self.isAdding = NO;
-                    self.isMovingActivityElement = YES;
-                    self.isEditingActivityElement = NO;
-                    [self.activityElements addObject:activityElement];
-                    [self calculateActivityElementsIgnoringSelected:YES];
-                }
+            } else if([self shouldAddNewActivityElement:touchLocation]) {
+                [self addNewActivityElement:touchLocation];
+            } else if([self shouldUpdateCurrentAddingLocation:touchLocation]) {
+                [self updateCurrentAddingLocation:touchLocation];
             }
         }
             break;
@@ -266,7 +258,7 @@ typedef enum {
             } else if([self shouldStopMovingSelectedActivityElement]) {
                 [self stopMovingSelectedActivityElement];
             } else if([self shouldCancelAddingNewActivity]) {
-                [self cancelAddingActivityElement];
+                [self cancelAddingActivityElement:touchLocation];
             }
         }
             break;
@@ -322,6 +314,25 @@ typedef enum {
 
 
 #pragma mark - Settings State Conditions
+- (BOOL)shouldStartAddingNewActivityElement:(CGPoint)touchLocation_
+{
+    return [self.addOrDeleteActivityElement isTouching:touchLocation_] && !self.isEditingActivityElement &&
+           !self.isMovingActivityElement;
+}
+
+
+- (BOOL)shouldAddNewActivityElement:(CGPoint)touchLocation_
+{
+    return self.isAdding && [self.addOrDeleteActivityElement isTouchingAddLocation:touchLocation_];
+}
+
+
+- (BOOL)shouldUpdateCurrentAddingLocation:(CGPoint)touchLocation_
+{
+    return self.isAdding && ![self.addOrDeleteActivityElement isTouchingAddLocation:touchLocation_];
+}
+
+
 - (BOOL)shouldStartEditingSelectedActivityElement
 {
     return self.selectedActivityElement != nil && !self.isMovingActivityElement;
@@ -348,6 +359,34 @@ typedef enum {
 
 
 #pragma mark - Settings State Actions
+- (void)startAddingNewActivityElement:(CGPoint)touchLocation_
+{
+    self.isAdding = YES;
+    [self.addOrDeleteActivityElement startAddingWithCurrentLoation:touchLocation_];
+}
+
+
+- (void)addNewActivityElement:(CGPoint)touchLocation_
+{
+    self.isAdding = NO;
+    [self.addOrDeleteActivityElement stopAddingWithCurrentLocation:touchLocation_ isCanceled:NO];
+    
+    Activity *activity = [[ActivityManager sharedInstance] createNewActivityWithName:@"New"];
+    ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:activity angle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation_]];
+    self.selectedActivityElement = activityElement;
+    self.isMovingActivityElement = YES;
+    self.isEditingActivityElement = NO;
+    [self.activityElements addObject:activityElement];
+    [self calculateActivityElementsIgnoringSelected:YES];
+}
+
+
+- (void)updateCurrentAddingLocation:(CGPoint)touchLocation_
+{
+    [self.addOrDeleteActivityElement setCurrentTouchingLocation:touchLocation_];
+}
+
+
 - (void)startEditingSelectedActivityElement
 {
     self.isEditingActivityElement = YES;
@@ -374,9 +413,10 @@ typedef enum {
 }
 
 
-- (void)cancelAddingActivityElement
+- (void)cancelAddingActivityElement:(CGPoint)touchLocation_
 {
     self.isAdding = NO;
+    [self.addOrDeleteActivityElement stopAddingWithCurrentLocation:touchLocation_ isCanceled:YES];
 }
 
 
