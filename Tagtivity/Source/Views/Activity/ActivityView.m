@@ -184,7 +184,7 @@
 {
     for(ActivityElement *activityElement in activityElements_) {
         
-        [Utils animateValueFrom:activityElement.angle to:activityElement.newAngle duration:0.2 block:^(double value) {
+        [Utils animateValueFrom:activityElement.angle to:activityElement.newAngle duration:0.5 block:^(double value) {
             activityElement.angle = value;
         }];
     }

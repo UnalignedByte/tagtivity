@@ -158,11 +158,11 @@
     self.currentTouchLocation = touchLocation_;
 
     if(isCanceled_) {
-        [Utils animateValueFrom:self.currentTouchLocation.x to:self.circleCenter.x duration:0.2 block:^(double value) {
+        [Utils animateValueFrom:self.currentTouchLocation.x to:self.circleCenter.x duration:0.5 block:^(double value) {
             self.currentTouchLocation = CGPointMake(value, self.currentTouchLocation.y);
         }];
         
-        [Utils animateValueFrom:self.currentTouchLocation.y to:self.circleCenter.y duration:0.2 block:^(double value) {
+        [Utils animateValueFrom:self.currentTouchLocation.y to:self.circleCenter.y duration:0.5 block:^(double value) {
             self.currentTouchLocation = CGPointMake(self.currentTouchLocation.x, value);
             if(value == self.circleCenter.y)
                 self.isAdding = NO;

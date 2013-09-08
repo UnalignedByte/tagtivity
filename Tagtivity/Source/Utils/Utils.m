@@ -115,8 +115,7 @@ static NSMutableArray *animationsArray;
         [animationDisplayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     });
 
-    double deltaValuePerSecond = (endValue_ - startValue_)/duration_;
-    NSMutableArray *animationArray = [NSMutableArray arrayWithObjects:@(startValue_), @(startValue_), @(endValue_), @(deltaValuePerSecond), [block_ copy], nil];
+    NSMutableArray *animationArray = [NSMutableArray arrayWithObjects:@(startValue_), @(endValue_), @(duration_), @(0.0), [block_ copy], nil];
     [animationsArray addObject:animationArray];
 }
 
@@ -131,31 +130,37 @@ static NSMutableArray *animationsArray;
         return;
     }
     
-    CGFloat duration = animationDisplayLink_.timestamp - lastTime;
+    CGFloat timeInterval = animationDisplayLink_.timestamp - lastTime;
     lastTime = animationDisplayLink_.timestamp;
     
     for(NSMutableArray *animationArray in animationsArray) {
-        double currentValue = [animationArray[0] doubleValue];
-        double startValue = [animationArray[1] doubleValue];
-        double endValue = [animationArray[2] doubleValue];
-        double deltaValuePerSecond = [animationArray[3] doubleValue];
+        double startValue = [animationArray[0] doubleValue];
+        double endValue = [animationArray[1] doubleValue];
+        double duration = [animationArray[2] doubleValue];
+        double timeElapsed = [animationArray[3] doubleValue];
         void (^block)(double) = animationArray[4];
         
-        currentValue += deltaValuePerSecond * duration;
+        timeElapsed += timeInterval;
+        [animationArray replaceObjectAtIndex:3 withObject:@(timeElapsed)];
         
-        if(deltaValuePerSecond < 0) {
-            if(currentValue > startValue)
-                currentValue = startValue;
-            else if(currentValue < endValue)
-                currentValue = endValue;
+        double currentValue = 0.0;
+        double deltaValue = endValue-startValue;
+        
+        //Linear
+        //currentValue = startValue + deltaValue*timeElapsed/duration;
+        
+        //Quadratic
+        double time = timeElapsed / (duration / 2.0);
+        if(time < 1.0) {
+            currentValue = deltaValue/2.0*time*time + startValue;
         } else {
-            if(currentValue < startValue)
-                currentValue = startValue;
-            else if(currentValue > endValue)
-                currentValue = endValue;
+            time--;
+            currentValue = -deltaValue/2.0 * (time*(time-2.0) - 1.0) + startValue;
         }
         
-        [animationArray replaceObjectAtIndex:0 withObject:@(currentValue)];
+        
+        if(timeElapsed >= duration)
+            currentValue = endValue;
         
         if(currentValue == endValue) {
             [animationsForRemoval addObject:animationArray];
