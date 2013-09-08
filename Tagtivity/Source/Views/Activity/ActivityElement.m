@@ -81,6 +81,12 @@
 }
 
 
+- (CGPoint)getLocation
+{
+    return self.circleCenter;
+}
+
+
 - (BOOL)isEqual:(id)object_
 {
     if([object_ class] != [ActivityElement class])

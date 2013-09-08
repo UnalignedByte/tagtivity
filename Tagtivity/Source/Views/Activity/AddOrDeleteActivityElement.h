@@ -20,6 +20,7 @@
 //Control
 - (void)startAddingWithCurrentLoation:(CGPoint)touchLocation_;
 - (void)stopAddingWithCurrentLocation:(CGPoint)touchLocation_ isCanceled:(BOOL)isCanceled_;
+- (void)finishAddingWithCurrentLocation:(CGPoint)touchLocation_ block:(void (^)())block_;
 - (void)setCurrentTouchingLocation:(CGPoint)touchLocation_;
 
 //Input

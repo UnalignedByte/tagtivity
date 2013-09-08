@@ -15,15 +15,24 @@
 #define BIG_CIRCLE_DIAMETER 70.0
 #define SMALL_CIRCLE_DIAMETER 40.0
 
+typedef enum {
+    ADD_DELETE_STATE_DEFAULT,
+    ADD_DELETE_STATE_ADDING,
+    ADD_DELETE_STATE_FINISH_ADDING,
+    ADD_DELETE_STATE_DELETING
+} AddDeleteState;
+
 
 @interface AddOrDeleteActivityElement ()
 
-@property (nonatomic, assign) CGPoint circleCenter;
+@property (nonatomic, assign) AddDeleteState state;
 
-@property (nonatomic, assign) CGFloat smallCircleDiameter;
+@property (nonatomic, assign) CGPoint bigCircleCenter;
+@property (nonatomic, assign) CGFloat bigCircleDiameter;
+@property (nonatomic, assign) CGPoint smallCircleCenter;
+@property (nonatomic, assign) CGFloat smallCircleDiamter;
+
 @property (nonatomic, assign) CGPoint currentTouchLocation;
-@property (nonatomic, assign) BOOL isAdding;
-@property (nonatomic, assign) BOOL isDeleting;
 
 @end
 
@@ -36,9 +45,7 @@
     if((self = [super init]) == nil)
         return nil;
 
-    CGSize screenSize = [Utils viewSize];
-    self.circleCenter = CGPointMake(screenSize.width - BIG_CIRCLE_DIAMETER/2.0,
-                                    screenSize.height - BIG_CIRCLE_DIAMETER/2.0);
+    self.state = ADD_DELETE_STATE_DEFAULT;
 
     return self;
 }
@@ -47,100 +54,133 @@
 #pragma mark - Drawing
 - (void)drawInContext:(CGContextRef)ctx_
 {
-    if(self.isAdding) {
-        //Calculate multipliers
-        CGFloat distance = [Utils distanceBetweenPointA:self.circleCenter pointB:self.currentTouchLocation];
-        
-        CGFloat smallCircleMultiplier = 1.0 - distance/400.0;
-        if(smallCircleMultiplier < 0.4)
-            smallCircleMultiplier = 0.4;
-        else if(smallCircleMultiplier > 1.0)
-            smallCircleMultiplier = 1.0;
-        
-        CGFloat bigCircleMultiplier = 1.0 - distance/1000.0;
-        if(bigCircleMultiplier < 0.8)
-            bigCircleMultiplier = 0.8;
-        else if(bigCircleMultiplier > 1.0)
-            bigCircleMultiplier = 1.0;
-        
-        CGFloat angleMultiplier = distance/50.0;
-        if(angleMultiplier > 4.0)
-            angleMultiplier = 4.0;
-        else if(angleMultiplier < 1.0)
-            angleMultiplier = 1.0;
-        
-        CGFloat curveMultiplier = 1.0 + (distance/400);
-        if(curveMultiplier > 4.0)
-            curveMultiplier = 4.0;
-        else if(curveMultiplier < 1.0)
-            curveMultiplier = 1.0;
-        
-        //Calculate sizes
-        CGFloat bigCircleRadius = (BIG_CIRCLE_DIAMETER/2.0)*bigCircleMultiplier;
-        CGFloat smallCircleRadius = (SMALL_CIRCLE_DIAMETER/2.0)*smallCircleMultiplier;
-        CGFloat stretchPointAngle = 15.0*angleMultiplier;
-        
-        CGRect bigCircleRect = CGRectMake(self.circleCenter.x - bigCircleRadius,
-                                          self.circleCenter.y - bigCircleRadius,
-                                          bigCircleRadius*2.0, bigCircleRadius*2.0);
-        CGRect smallCircleRect = CGRectMake(self.currentTouchLocation.x - smallCircleRadius,
-                                            self.currentTouchLocation.y - smallCircleRadius,
-                                            smallCircleRadius*2.0, smallCircleRadius*2.0);
-        
-        CGFloat angle = [Utils angleBetweenPointA:self.circleCenter pointB:self.currentTouchLocation];
-        
-        CGFloat rightArcBigX = self.circleCenter.x + sin(RAD(angle+stretchPointAngle))*bigCircleRadius;
-        CGFloat rightArcBigY = self.circleCenter.y - cos(RAD(angle+stretchPointAngle))*bigCircleRadius;
-        
-        CGFloat rightArcSmallX = self.currentTouchLocation.x + sin(RAD(angle+90.0))*smallCircleRadius;
-        CGFloat rightArcSmallY = self.currentTouchLocation.y - cos(RAD(angle+90.0))*smallCircleRadius;
-        
-        CGFloat leftArcBigX = self.circleCenter.x + sin(RAD(angle-stretchPointAngle))*bigCircleRadius;
-        CGFloat leftArcBigY = self.circleCenter.y - cos(RAD(angle-stretchPointAngle))*bigCircleRadius;
-        
-        CGFloat leftArcSmallX = self.currentTouchLocation.x + sin(RAD(angle-90.0))*smallCircleRadius;
-        CGFloat leftArcSmallY = self.currentTouchLocation.y - cos(RAD(angle-90.0))*smallCircleRadius;
+    switch(self.state) {
+        case ADD_DELETE_STATE_DEFAULT:
+        {
+            CGSize screenSize = [Utils viewSize];
+            self.bigCircleCenter = CGPointMake(screenSize.width - BIG_CIRCLE_DIAMETER/2.0,
+                                               screenSize.height - BIG_CIRCLE_DIAMETER/2.0);
+            
+            CGRect circleRect = CGRectMake(self.bigCircleCenter.x - BIG_CIRCLE_DIAMETER/2.0,
+                                           self.bigCircleCenter.y - BIG_CIRCLE_DIAMETER/2.0,
+                                           BIG_CIRCLE_DIAMETER, BIG_CIRCLE_DIAMETER);
+            
+            CGContextSetFillColorWithColor(ctx_, [UIColor redColor].CGColor);
+            CGContextFillEllipseInRect(ctx_, circleRect);
+        }
+            break;
+        case ADD_DELETE_STATE_ADDING:
+        {
+            //Calculate multipliers
+            CGFloat distance = [Utils distanceBetweenPointA:self.bigCircleCenter pointB:self.smallCircleCenter];
+            
+            CGFloat smallCircleMultiplier = 1.0 - distance/400.0;
+            if(smallCircleMultiplier < 0.4)
+                smallCircleMultiplier = 0.4;
+            else if(smallCircleMultiplier > 1.0)
+                smallCircleMultiplier = 1.0;
+            
+            CGFloat bigCircleMultiplier = 1.0 - distance/1000.0;
+            if(bigCircleMultiplier < 0.8)
+                bigCircleMultiplier = 0.8;
+            else if(bigCircleMultiplier > 1.0)
+                bigCircleMultiplier = 1.0;
 
-        //Draw circles
-        CGContextSetStrokeColorWithColor(ctx_, [UIColor greenColor].CGColor);
-        CGContextSetFillColorWithColor(ctx_, [UIColor redColor].CGColor);
-        CGContextSetLineWidth(ctx_, 2.0);
-
-        CGContextFillEllipseInRect(ctx_, bigCircleRect);
-        CGContextFillEllipseInRect(ctx_, smallCircleRect);
-
-        //Add right arc
-        CGContextBeginPath(ctx_);
-        CGContextMoveToPoint(ctx_, rightArcBigX, rightArcBigY);
-        
-        CGContextAddCurveToPoint(ctx_,
-                                 self.circleCenter.x - (self.circleCenter.x-self.currentTouchLocation.x)/(2.0*curveMultiplier),
-                                 self.circleCenter.y - (self.circleCenter.y-self.currentTouchLocation.y)/(2.0*curveMultiplier),
-                                 self.currentTouchLocation.x + (self.circleCenter.x-self.currentTouchLocation.x)/(2.0*curveMultiplier),
-                                 self.currentTouchLocation.y + (self.circleCenter.y-self.currentTouchLocation.y)/(2.0*curveMultiplier),
-                                 rightArcSmallX, rightArcSmallY);
-
-        //Add line joining the arcs
-        CGContextAddLineToPoint(ctx_, leftArcSmallX, leftArcSmallY);
-        
-        //Add left arc
-        CGContextAddCurveToPoint(ctx_,
-                                 self.circleCenter.x - (self.circleCenter.x-self.currentTouchLocation.x)/2.0,
-                                 self.circleCenter.y - (self.circleCenter.y-self.currentTouchLocation.y)/2.0,
-                                 self.circleCenter.x - (self.circleCenter.x-self.currentTouchLocation.x)/(2.0*curveMultiplier),
-                                 self.circleCenter.y - (self.circleCenter.y-self.currentTouchLocation.y)/(2.0*curveMultiplier),
-                                 leftArcBigX, leftArcBigY);
-        
-        CGContextFillPath(ctx_);
-    } else {
-        CGRect circleRect = CGRectMake(self.circleCenter.x - BIG_CIRCLE_DIAMETER/2.0,
-                                       self.circleCenter.y - BIG_CIRCLE_DIAMETER/2.0,
-                                       BIG_CIRCLE_DIAMETER,
-                                       BIG_CIRCLE_DIAMETER);
-        
-        CGContextSetFillColorWithColor(ctx_, [UIColor redColor].CGColor);
-        CGContextFillEllipseInRect(ctx_, circleRect);
+            //Calculate sizes
+            self.bigCircleDiameter = BIG_CIRCLE_DIAMETER*bigCircleMultiplier;
+            self.smallCircleDiamter = SMALL_CIRCLE_DIAMETER*smallCircleMultiplier;
+            
+            //Set locations
+            CGSize screenSize = [Utils viewSize];
+            self.bigCircleCenter = CGPointMake(screenSize.width - BIG_CIRCLE_DIAMETER/2.0,
+                                               screenSize.height - BIG_CIRCLE_DIAMETER/2.0);
+            
+            [self drawAddingStretchInContext:ctx_];
+        }
+            break;
+        case ADD_DELETE_STATE_FINISH_ADDING:
+        {
+            [self drawAddingStretchInContext:ctx_];
+        }
+            break;
+        case ADD_DELETE_STATE_DELETING:
+        {
+        }
+            break;
     }
+}
+
+
+- (void)drawAddingStretchInContext:(CGContextRef)ctx_
+{
+    //Calculate multipliers
+    CGFloat distance = [Utils distanceBetweenPointA:self.bigCircleCenter pointB:self.smallCircleCenter];
+    
+    CGFloat angleMultiplier = distance/50.0;
+    if(angleMultiplier > 4.0)
+        angleMultiplier = 4.0;
+    else if(angleMultiplier < 1.0)
+        angleMultiplier = 1.0;
+    
+    CGFloat curveMultiplier = 1.0 + (distance/400);
+    if(curveMultiplier > 4.0)
+        curveMultiplier = 4.0;
+    else if(curveMultiplier < 1.0)
+        curveMultiplier = 1.0;
+    
+    //Calculate values
+    CGFloat stretchPointAngle = 15.0*angleMultiplier;
+    
+    CGRect bigCircleRect = CGRectMake(self.bigCircleCenter.x - self.bigCircleDiameter/2.0,
+                                      self.bigCircleCenter.y - self.bigCircleDiameter/2.0,
+                                      self.bigCircleDiameter, self.bigCircleDiameter);
+    CGRect smallCircleRect = CGRectMake(self.smallCircleCenter.x - self.smallCircleDiamter/2.0,
+                                        self.smallCircleCenter.y - self.smallCircleDiamter/2.0,
+                                        self.smallCircleDiamter, self.smallCircleDiamter);
+    
+    CGFloat angle = [Utils angleBetweenPointA:self.bigCircleCenter pointB:self.smallCircleCenter];
+    
+    CGFloat rightArcBigX = self.bigCircleCenter.x + sin(RAD(angle+stretchPointAngle))*self.bigCircleDiameter/2.0;
+    CGFloat rightArcBigY = self.bigCircleCenter.y - cos(RAD(angle+stretchPointAngle))*self.bigCircleDiameter/2.0;
+    
+    CGFloat leftArcBigX = self.bigCircleCenter.x + sin(RAD(angle-stretchPointAngle))*self.bigCircleDiameter/2.0;
+    CGFloat leftArcBigY = self.bigCircleCenter.y - cos(RAD(angle-stretchPointAngle))*self.bigCircleDiameter/2.0;
+    
+    CGFloat rightArcSmallX = self.smallCircleCenter.x + sin(RAD(angle+90.0))*self.smallCircleDiamter/2.0;
+    CGFloat rightArcSmallY = self.smallCircleCenter.y - cos(RAD(angle+90.0))*self.smallCircleDiamter/2.0;
+    
+    CGFloat leftArcSmallX = self.smallCircleCenter.x + sin(RAD(angle-90.0))*self.smallCircleDiamter/2.0;
+    CGFloat leftArcSmallY = self.smallCircleCenter.y - cos(RAD(angle-90.0))*self.smallCircleDiamter/2.0;
+    
+    //Draw circles
+    CGContextSetFillColorWithColor(ctx_, [UIColor redColor].CGColor);
+    
+    CGContextFillEllipseInRect(ctx_, bigCircleRect);
+    CGContextFillEllipseInRect(ctx_, smallCircleRect);
+    
+    //Add right arc
+    CGContextBeginPath(ctx_);
+    CGContextMoveToPoint(ctx_, rightArcBigX, rightArcBigY);
+    
+    CGContextAddCurveToPoint(ctx_,
+                             self.bigCircleCenter.x - (self.bigCircleCenter.x-self.smallCircleCenter.x)/(2.0*curveMultiplier),
+                             self.bigCircleCenter.y - (self.bigCircleCenter.y-self.smallCircleCenter.y)/(2.0*curveMultiplier),
+                             self.smallCircleCenter.x + (self.bigCircleCenter.x-self.smallCircleCenter.x)/(2.0*curveMultiplier),
+                             self.smallCircleCenter.y + (self.bigCircleCenter.y-self.smallCircleCenter.y)/(2.0*curveMultiplier),
+                             rightArcSmallX, rightArcSmallY);
+    
+    //Add line joining the arcs
+    CGContextAddLineToPoint(ctx_, leftArcSmallX, leftArcSmallY);
+    
+    //Add left arc
+    CGContextAddCurveToPoint(ctx_,
+                             self.bigCircleCenter.x - (self.bigCircleCenter.x-self.smallCircleCenter.x)/2.0,
+                             self.bigCircleCenter.y - (self.bigCircleCenter.y-self.smallCircleCenter.y)/2.0,
+                             self.bigCircleCenter.x - (self.bigCircleCenter.x-self.smallCircleCenter.x)/(2.0*curveMultiplier),
+                             self.bigCircleCenter.y - (self.bigCircleCenter.y-self.smallCircleCenter.y)/(2.0*curveMultiplier),
+                             leftArcBigX, leftArcBigY);
+    
+    CGContextFillPath(ctx_);
 }
 
 
@@ -148,8 +188,9 @@
 - (void)startAddingWithCurrentLoation:(CGPoint)touchLocation_
 {
     self.currentTouchLocation = touchLocation_;
+    self.smallCircleCenter = touchLocation_;
     
-    self.isAdding = YES;
+    self.state = ADD_DELETE_STATE_ADDING;
 }
 
 
@@ -158,31 +199,94 @@
     self.currentTouchLocation = touchLocation_;
 
     if(isCanceled_) {
-        [Utils animateValueFrom:self.currentTouchLocation.x to:self.circleCenter.x duration:0.5 block:^(double value) {
-            self.currentTouchLocation = CGPointMake(value, self.currentTouchLocation.y);
+        [Utils animateValueFrom:self.currentTouchLocation.x to:self.bigCircleCenter.x duration:0.5 block:^(double value) {
+            self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
         }];
         
-        [Utils animateValueFrom:self.currentTouchLocation.y to:self.circleCenter.y duration:0.5 block:^(double value) {
-            self.currentTouchLocation = CGPointMake(self.currentTouchLocation.x, value);
-            if(value == self.circleCenter.y)
-                self.isAdding = NO;
+        [Utils animateValueFrom:self.currentTouchLocation.y to:self.bigCircleCenter.y duration:0.5 block:^(double value) {
+            self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
+            if(value == self.bigCircleCenter.y)
+                self.state = ADD_DELETE_STATE_DEFAULT;
         }];
     } else {
-        self.isAdding = NO;
+        self.state = ADD_DELETE_STATE_FINISH_ADDING;
+        
+        [Utils animateValueFrom:self.smallCircleCenter.x to:touchLocation_.x duration:0.5 block:^(double value) {
+            self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
+        }];
+        
+        [Utils animateValueFrom:self.smallCircleCenter.y to:touchLocation_.y duration:0.5 block:^(double value) {
+            self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
+        }];
+        
+        [Utils animateValueFrom:self.bigCircleCenter.x to:touchLocation_.x duration:0.5 block:^(double value) {
+            self.bigCircleCenter = CGPointMake(value, self.bigCircleCenter.y);
+        }];
+        
+        [Utils animateValueFrom:self.bigCircleCenter.y to:touchLocation_.y duration:0.5 block:^(double value) {
+            self.bigCircleCenter = CGPointMake(self.bigCircleCenter.x, value);
+        }];
+        
+        [Utils animateValueFrom:self.bigCircleDiameter to:1.0 duration:0.5 block:^(double value) {
+            self.bigCircleDiameter = value;
+        }];
+        
+        [Utils animateValueFrom:self.smallCircleDiamter to:80.0 duration:0.5 block:^(double value) {
+            self.smallCircleDiamter = value;
+            if(value == 80.0)
+                self.state = ADD_DELETE_STATE_DEFAULT;
+        }];
     }
+}
+
+
+- (void)finishAddingWithCurrentLocation:(CGPoint)touchLocation_ block:(void (^)())block_
+{
+    self.state = ADD_DELETE_STATE_FINISH_ADDING;
+    
+    [Utils animateValueFrom:self.smallCircleCenter.x to:touchLocation_.x duration:0.5 block:^(double value) {
+        self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
+    }];
+    
+    [Utils animateValueFrom:self.smallCircleCenter.y to:touchLocation_.y duration:0.5 block:^(double value) {
+        self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
+    }];
+    
+    [Utils animateValueFrom:self.bigCircleCenter.x to:touchLocation_.x duration:0.5 block:^(double value) {
+        self.bigCircleCenter = CGPointMake(value, self.bigCircleCenter.y);
+    }];
+    
+    [Utils animateValueFrom:self.bigCircleCenter.y to:touchLocation_.y duration:0.5 block:^(double value) {
+        self.bigCircleCenter = CGPointMake(self.bigCircleCenter.x, value);
+    }];
+    
+    [Utils animateValueFrom:self.bigCircleDiameter to:1.0 duration:0.5 block:^(double value) {
+        self.bigCircleDiameter = value;
+    }];
+    
+    [Utils animateValueFrom:self.smallCircleDiamter to:80.0 duration:0.5 block:^(double value) {
+        self.smallCircleDiamter = value;
+        if(value == 80.0) {
+            self.state = ADD_DELETE_STATE_DEFAULT;
+            block_();
+        }
+    }];
 }
 
 
 - (void)setCurrentTouchingLocation:(CGPoint)touchLocation_
 {
     self.currentTouchLocation = touchLocation_;
+    
+    if(self.state == ADD_DELETE_STATE_ADDING)
+        self.smallCircleCenter = touchLocation_;
 }
 
 
 #pragma mark - Input
 - (BOOL)isTouching:(CGPoint)touchLocation_
 {
-    CGFloat distance = [Utils distanceBetweenPointA:touchLocation_ pointB:self.circleCenter];
+    CGFloat distance = [Utils distanceBetweenPointA:touchLocation_ pointB:self.bigCircleCenter];
     if(distance <= BIG_CIRCLE_DIAMETER/2.0)
         return YES;
     
@@ -201,7 +305,7 @@
 
 - (BOOL)isTouchingDeleteLocation:(CGPoint)touchLocation_
 {
-    CGFloat distance = [Utils distanceBetweenPointA:touchLocation_ pointB:self.circleCenter];
+    CGFloat distance = [Utils distanceBetweenPointA:touchLocation_ pointB:self.bigCircleCenter];
     if(distance <= BIG_CIRCLE_DIAMETER/2.0)
         return YES;
     

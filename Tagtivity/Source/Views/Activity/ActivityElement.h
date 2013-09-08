@@ -28,6 +28,7 @@
 
 //Meta
 - (Activity *)associatedActivity;
+- (CGPoint)getLocation;
 - (BOOL)isEqual:(id)object_;
 - (NSComparisonResult)compareByIndex:(ActivityElement *)otherElement_;
 - (NSComparisonResult)compareByAngle:(ActivityElement *)otherElement_;
