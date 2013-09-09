@@ -19,8 +19,8 @@
 
 //Control
 - (void)startAddingWithCurrentLoation:(CGPoint)touchLocation_;
-- (void)stopAddingWithCurrentLocation:(CGPoint)touchLocation_ isCanceled:(BOOL)isCanceled_;
-- (void)finishAddingWithCurrentLocation:(CGPoint)touchLocation_ block:(void (^)())block_;
+- (void)cancelAddingWithCurrentLocation:(CGPoint)touchLocation_;
+- (void)finishAddingWithAddLocation:(CGPoint)addLocation_ activityElementDiameter:(CGFloat)activityElementDiameter_  completed:(void (^)())completedBlock_;
 - (void)setCurrentTouchingLocation:(CGPoint)touchLocation_;
 
 //Input

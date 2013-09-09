@@ -373,7 +373,7 @@ typedef enum {
     Activity *activity = [[ActivityManager sharedInstance] createNewActivityWithName:@"New"];
     ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:activity angle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation_]];
     
-    [self.addOrDeleteActivityElement finishAddingWithCurrentLocation:[activityElement getLocation] block:^{
+    [self.addOrDeleteActivityElement finishAddingWithAddLocation:[activityElement getLocation] activityElementDiameter:80.0 completed:^{
         self.selectedActivityElement = nil;
         self.isMovingActivityElement = NO;
         self.isEditingActivityElement = NO;
@@ -418,7 +418,7 @@ typedef enum {
 - (void)cancelAddingActivityElement:(CGPoint)touchLocation_
 {
     self.isAdding = NO;
-    [self.addOrDeleteActivityElement stopAddingWithCurrentLocation:touchLocation_ isCanceled:YES];
+    [self.addOrDeleteActivityElement cancelAddingWithCurrentLocation:touchLocation_];
 }
 
 

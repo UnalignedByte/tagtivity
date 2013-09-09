@@ -15,6 +15,12 @@
 #define BIG_CIRCLE_DIAMETER 70.0
 #define SMALL_CIRCLE_DIAMETER 40.0
 
+#define FINISH_ADDING_ANIMATION_DURATION 0.5
+
+#define MODERN_GREEN ([UIColor colorWithRed:0.0 green:230.0/255.0 blue:70.0/255.0  alpha:1.0])
+#define MODERN_GRAY ([UIColor colorWithRed:210.0/255.0 green:210.0/255.0 blue:210.0/255.0 alpha:1.0])
+#define MODERN_BLUE ([UIColor colorWithRed:0.0 green:185.0/255.0 blue:240.0/255.0 alpha:1.0])
+
 typedef enum {
     ADD_DELETE_STATE_DEFAULT,
     ADD_DELETE_STATE_ADDING,
@@ -153,7 +159,7 @@ typedef enum {
     CGFloat leftArcSmallY = self.smallCircleCenter.y - cos(RAD(angle-90.0))*self.smallCircleDiamter/2.0;
     
     //Draw circles
-    CGContextSetFillColorWithColor(ctx_, [UIColor redColor].CGColor);
+    CGContextSetFillColorWithColor(ctx_, MODERN_GREEN.CGColor);
     
     CGContextFillEllipseInRect(ctx_, bigCircleRect);
     CGContextFillEllipseInRect(ctx_, smallCircleRect);
@@ -194,69 +200,37 @@ typedef enum {
 }
 
 
-- (void)stopAddingWithCurrentLocation:(CGPoint)touchLocation_ isCanceled:(BOOL)isCanceled_
+- (void)cancelAddingWithCurrentLocation:(CGPoint)touchLocation_
 {
-    self.currentTouchLocation = touchLocation_;
-
-    if(isCanceled_) {
-        [Utils animateValueFrom:self.currentTouchLocation.x to:self.bigCircleCenter.x duration:0.5 block:^(double value) {
-            self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
-        }];
-        
-        [Utils animateValueFrom:self.currentTouchLocation.y to:self.bigCircleCenter.y duration:0.5 block:^(double value) {
-            self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
-            if(value == self.bigCircleCenter.y)
-                self.state = ADD_DELETE_STATE_DEFAULT;
-        }];
-    } else {
-        self.state = ADD_DELETE_STATE_FINISH_ADDING;
-        
-        [Utils animateValueFrom:self.smallCircleCenter.x to:touchLocation_.x duration:0.5 block:^(double value) {
-            self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
-        }];
-        
-        [Utils animateValueFrom:self.smallCircleCenter.y to:touchLocation_.y duration:0.5 block:^(double value) {
-            self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
-        }];
-        
-        [Utils animateValueFrom:self.bigCircleCenter.x to:touchLocation_.x duration:0.5 block:^(double value) {
-            self.bigCircleCenter = CGPointMake(value, self.bigCircleCenter.y);
-        }];
-        
-        [Utils animateValueFrom:self.bigCircleCenter.y to:touchLocation_.y duration:0.5 block:^(double value) {
-            self.bigCircleCenter = CGPointMake(self.bigCircleCenter.x, value);
-        }];
-        
-        [Utils animateValueFrom:self.bigCircleDiameter to:1.0 duration:0.5 block:^(double value) {
-            self.bigCircleDiameter = value;
-        }];
-        
-        [Utils animateValueFrom:self.smallCircleDiamter to:80.0 duration:0.5 block:^(double value) {
-            self.smallCircleDiamter = value;
-            if(value == 80.0)
-                self.state = ADD_DELETE_STATE_DEFAULT;
-        }];
-    }
-}
-
-
-- (void)finishAddingWithCurrentLocation:(CGPoint)touchLocation_ block:(void (^)())block_
-{
-    self.state = ADD_DELETE_STATE_FINISH_ADDING;
-    
-    [Utils animateValueFrom:self.smallCircleCenter.x to:touchLocation_.x duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:touchLocation_.x to:self.bigCircleCenter.x duration:FINISH_ADDING_ANIMATION_DURATION block:^(double value) {
         self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
     }];
     
-    [Utils animateValueFrom:self.smallCircleCenter.y to:touchLocation_.y duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:touchLocation_.y to:self.bigCircleCenter.y duration:FINISH_ADDING_ANIMATION_DURATION block:^(double value) {
+        self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
+        if(value == self.bigCircleCenter.y)
+            self.state = ADD_DELETE_STATE_DEFAULT;
+    }];
+}
+
+
+- (void)finishAddingWithAddLocation:(CGPoint)addLocation_ activityElementDiameter:(CGFloat)activityElementDiameter_  completed:(void (^)())completedBlock_
+{
+    self.state = ADD_DELETE_STATE_FINISH_ADDING;
+    
+    [Utils animateValueFrom:self.smallCircleCenter.x to:addLocation_.x duration:0.5 block:^(double value) {
+        self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
+    }];
+    
+    [Utils animateValueFrom:self.smallCircleCenter.y to:addLocation_.y duration:0.5 block:^(double value) {
         self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
     }];
     
-    [Utils animateValueFrom:self.bigCircleCenter.x to:touchLocation_.x duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.bigCircleCenter.x to:addLocation_.x duration:0.5 block:^(double value) {
         self.bigCircleCenter = CGPointMake(value, self.bigCircleCenter.y);
     }];
     
-    [Utils animateValueFrom:self.bigCircleCenter.y to:touchLocation_.y duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.bigCircleCenter.y to:addLocation_.y duration:0.5 block:^(double value) {
         self.bigCircleCenter = CGPointMake(self.bigCircleCenter.x, value);
     }];
     
@@ -264,11 +238,11 @@ typedef enum {
         self.bigCircleDiameter = value;
     }];
     
-    [Utils animateValueFrom:self.smallCircleDiamter to:80.0 duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.smallCircleDiamter to:activityElementDiameter_ duration:0.5 block:^(double value) {
         self.smallCircleDiamter = value;
-        if(value == 80.0) {
+        if(value == activityElementDiameter_) {
             self.state = ADD_DELETE_STATE_DEFAULT;
-            block_();
+            completedBlock_();
         }
     }];
 }
