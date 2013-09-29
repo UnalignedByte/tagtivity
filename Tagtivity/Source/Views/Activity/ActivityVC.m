@@ -13,7 +13,7 @@
 #import "ChooseActivityElement.h"
 #import "ActivityElement.h"
 #import "SettingsElement.h"
-#import "AddOrDeleteActivityElement.h"
+#import "AddActivityElement.h"
 
 #import "ActivityManager.h"
 
@@ -44,7 +44,7 @@ typedef enum {
 @property (nonatomic, strong) ChooseActivityElement *chooseActivityElement;
 @property (nonatomic, strong) NSMutableArray *activityElements;
 @property (nonatomic, strong) SettingsElement *settingsElement;
-@property (nonatomic, strong) AddOrDeleteActivityElement *addOrDeleteActivityElement;
+@property (nonatomic, strong) AddActivityElement *addActivityElement;
 
 //SETTINGS STATE
 @property (nonatomic, strong) NSTimer *settingsTimer;
@@ -76,7 +76,7 @@ typedef enum {
     self.chooseActivityElement = [[ChooseActivityElement alloc] init];
     [self setupActivityElements];
     self.settingsElement = [[SettingsElement alloc] init];
-    self.addOrDeleteActivityElement = [[AddOrDeleteActivityElement alloc] init];
+    self.addActivityElement = [[AddActivityElement alloc] init];
     
     self.activitySettingsView = [[ActivitySettingsView alloc] init];
     [self.view addSubview:self.activitySettingsView];
@@ -192,10 +192,8 @@ typedef enum {
             break;
         case ACTIVITY_STATE_SETTINGS:
         {
-            if(self.selectedActivityElement != nil && !self.isEditingActivityElement) {
-                self.isMovingActivityElement = YES;
-                [self moveSelectedActivityToAngle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation]];
-                [self calculateActivityElementsIgnoringSelected:YES];
+            if([self shouldMoveSelectedActivtyElement]) {
+                [self moveSelectedActivityElement:touchLocation];
             } else if([self shouldAddNewActivityElement:touchLocation]) {
                 [self addNewActivityElement:touchLocation];
             } else if([self shouldUpdateCurrentAddingLocation:touchLocation]) {
@@ -272,7 +270,7 @@ typedef enum {
 - (void)settingsTimerFired:(NSTimer *)timer_
 {
     self.state = ACTIVITY_STATE_ANIMATION;
-    [self.activityView showSettings:self.settingsElement addOrDeleteActivityElement:self.addOrDeleteActivityElement
+    [self.activityView showSettings:self.settingsElement addActivityElement:self.addActivityElement
                            finished:^{
                                self.state = ACTIVITY_STATE_SETTINGS;
                            }];
@@ -316,20 +314,26 @@ typedef enum {
 #pragma mark - Settings State Conditions
 - (BOOL)shouldStartAddingNewActivityElement:(CGPoint)touchLocation_
 {
-    return [self.addOrDeleteActivityElement isTouching:touchLocation_] && !self.isEditingActivityElement &&
+    return [self.addActivityElement isTouching:touchLocation_] && !self.isEditingActivityElement &&
            !self.isMovingActivityElement;
+}
+
+
+- (BOOL)shouldMoveSelectedActivtyElement
+{
+    return self.selectedActivityElement != nil && !self.isEditingActivityElement;
 }
 
 
 - (BOOL)shouldAddNewActivityElement:(CGPoint)touchLocation_
 {
-    return self.isAdding && [self.addOrDeleteActivityElement isTouchingAddLocation:touchLocation_];
+    return self.isAdding && [self.addActivityElement isTouchingAddLocation:touchLocation_];
 }
 
 
 - (BOOL)shouldUpdateCurrentAddingLocation:(CGPoint)touchLocation_
 {
-    return self.isAdding && ![self.addOrDeleteActivityElement isTouchingAddLocation:touchLocation_];
+    return self.isAdding && ![self.addActivityElement isTouchingAddLocation:touchLocation_];
 }
 
 
@@ -341,8 +345,7 @@ typedef enum {
 
 - (BOOL)shouldDeleteSelectedActivityElement:(CGPoint)touchLocation_
 {
-    return self.selectedActivityElement != nil &&
-    [self.addOrDeleteActivityElement isTouchingDeleteLocation:touchLocation_];
+    return NO;
 }
 
 
@@ -362,7 +365,16 @@ typedef enum {
 - (void)startAddingNewActivityElement:(CGPoint)touchLocation_
 {
     self.isAdding = YES;
-    [self.addOrDeleteActivityElement startAddingWithCurrentLoation:touchLocation_];
+    [self.addActivityElement startAddingWithCurrentLoation:touchLocation_];
+}
+
+
+- (void)moveSelectedActivityElement:(CGPoint)touchLocation_
+{
+    self.isMovingActivityElement = YES;
+    
+    [self moveSelectedActivityToAngle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation_]];
+    [self calculateActivityElementsIgnoringSelected:YES];
 }
 
 
@@ -373,7 +385,7 @@ typedef enum {
     Activity *activity = [[ActivityManager sharedInstance] createNewActivityWithName:@"New"];
     ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:activity angle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation_]];
     
-    [self.addOrDeleteActivityElement finishAddingWithAddLocation:[activityElement getLocation] activityElementDiameter:80.0 completed:^{
+    [self.addActivityElement finishAddingWithAddLocation:[activityElement getLocation] activityElementDiameter:80.0 completed:^{
         self.selectedActivityElement = nil;
         self.isMovingActivityElement = NO;
         self.isEditingActivityElement = NO;
@@ -385,7 +397,7 @@ typedef enum {
 
 - (void)updateCurrentAddingLocation:(CGPoint)touchLocation_
 {
-    [self.addOrDeleteActivityElement setCurrentTouchingLocation:touchLocation_];
+    [self.addActivityElement setCurrentTouchingLocation:touchLocation_];
 }
 
 
@@ -418,7 +430,7 @@ typedef enum {
 - (void)cancelAddingActivityElement:(CGPoint)touchLocation_
 {
     self.isAdding = NO;
-    [self.addOrDeleteActivityElement cancelAddingWithCurrentLocation:touchLocation_];
+    [self.addActivityElement cancelAddingWithCurrentLocation:touchLocation_];
 }
 
 

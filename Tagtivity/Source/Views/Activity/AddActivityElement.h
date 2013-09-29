@@ -1,5 +1,5 @@
 //
-//  AddOrDeleteActivityElement.h
+//  AddActivityElement.h
 //  Tagtivity
 //
 //  Created by Rafał Grodziński on 12.07.2013.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface AddOrDeleteActivityElement : NSObject
+@interface AddActivityElement : NSObject
 
 //Initialization
 - (id)init;
@@ -26,6 +26,5 @@
 //Input
 - (BOOL)isTouching:(CGPoint)touchLocation_;
 - (BOOL)isTouchingAddLocation:(CGPoint)touchLocation_;
-- (BOOL)isTouchingDeleteLocation:(CGPoint)touchLocation_;
 
 @end

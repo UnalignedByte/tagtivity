@@ -13,7 +13,7 @@
 @class ActivityElement;
 @class ChooseActivityElement;
 @class SettingsElement;
-@class AddOrDeleteActivityElement;
+@class AddActivityElement;
 
 
 @interface ActivityView : UIView
@@ -26,7 +26,7 @@
 - (void)showCurrentActivity:(Activity *)activity_ chooseActivityElement:(ChooseActivityElement *)chooseActivityElement_
                    finished:(void (^)())block_;
 - (void)showActivityElements:(NSArray *)activityElements_ finished:(void (^)())block_;
-- (void)showSettings:(SettingsElement *)settingsElement_ addOrDeleteActivityElement:(AddOrDeleteActivityElement *)addOrDeleteActivityElement_
+- (void)showSettings:(SettingsElement *)settingsElement_ addActivityElement:(AddActivityElement *)addActivityElement_
             finished:(void (^)())block_;
 - (void)moveActivityElementsToNewAngle:(NSArray *)activityElements_;
 

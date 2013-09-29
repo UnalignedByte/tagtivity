@@ -51,14 +51,18 @@
 #pragma mark - Drawing
 - (void)drawInContext:(CGContextRef)ctx_
 {
+    CGContextSetFillColorWithColor(ctx_, [UIColor grayColor].CGColor);
+    
+    //Draw circle
     CGRect circleRect = CGRectMake(self.circleCenter.x - CIRCLE_DIAMETER/2.0, self.circleCenter.y - CIRCLE_DIAMETER/2.0,
                                    CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-    CGContextSetStrokeColorWithColor(ctx_, [UIColor blueColor].CGColor);
-    CGContextSetLineWidth(ctx_, 1.0);
-    CGContextStrokeEllipseInRect(ctx_, circleRect);
-    
-    CGRect nameRect = CGRectMake(self.circleCenter.x - CIRCLE_DIAMETER/2.0, self.circleCenter.y,
+    CGContextFillEllipseInRect(ctx_, circleRect);
+
+    //Draw Name
+    CGRect nameRect = CGRectMake(self.circleCenter.x - CIRCLE_DIAMETER/2.0,
+                                 self.circleCenter.y,
                                  CIRCLE_DIAMETER, 12.0);
+    
     [self.activity.name drawInRect:nameRect withFont:[UIFont systemFontOfSize:12.0] lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 }
 

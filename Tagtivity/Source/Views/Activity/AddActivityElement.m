@@ -1,12 +1,12 @@
 //
-//  AddOrDeleteActivityElement.m
+//  AddActivityElement.m
 //  Tagtivity
 //
 //  Created by Rafał Grodziński on 12.07.2013.
 //  Copyright (c) 2013 UnalignedByte. All rights reserved.
 //
 
-#import "AddOrDeleteActivityElement.h"
+#import "AddActivityElement.h"
 
 #import "Utils.h"
 
@@ -29,7 +29,7 @@ typedef enum {
 } AddDeleteState;
 
 
-@interface AddOrDeleteActivityElement ()
+@interface AddActivityElement ()
 
 @property (nonatomic, assign) AddDeleteState state;
 
@@ -43,7 +43,7 @@ typedef enum {
 @end
 
 
-@implementation AddOrDeleteActivityElement
+@implementation AddActivityElement
 
 #pragma mark - Initialization
 - (id)init
@@ -71,7 +71,8 @@ typedef enum {
                                            self.bigCircleCenter.y - BIG_CIRCLE_DIAMETER/2.0,
                                            BIG_CIRCLE_DIAMETER, BIG_CIRCLE_DIAMETER);
             
-            CGContextSetFillColorWithColor(ctx_, [UIColor redColor].CGColor);
+            UIColor *alphaGreen = [UIColor colorWithRed:0.0 green:230.0/255.0 blue:70.0/255.0  alpha:0.1];
+            CGContextSetFillColorWithColor(ctx_, alphaGreen.CGColor);
             CGContextFillEllipseInRect(ctx_, circleRect);
         }
             break;
@@ -274,16 +275,6 @@ typedef enum {
     CGPoint viewCenter = CGPointMake(viewSize.width/2.0, viewSize.height/2.0);
     
     return [Utils distanceBetweenPointA:touchLocation_ pointB:viewCenter] < ADD_DISTANCE;
-}
-
-
-- (BOOL)isTouchingDeleteLocation:(CGPoint)touchLocation_
-{
-    CGFloat distance = [Utils distanceBetweenPointA:touchLocation_ pointB:self.bigCircleCenter];
-    if(distance <= BIG_CIRCLE_DIAMETER/2.0)
-        return YES;
-    
-    return NO;
 }
 
 @end
