@@ -14,6 +14,7 @@
 #import "ActivityElement.h"
 #import "SettingsElement.h"
 #import "AddActivityElement.h"
+#import "SliceElement.h"
 
 #import "ActivityManager.h"
 
@@ -24,6 +25,7 @@
 
 #define INITIAL_DISTANCE_DEGREES 45.0
 #define SETTINGS_DELAY 0.5
+#define SLICE_TIME 0.2
 
 
 typedef enum {
@@ -45,13 +47,16 @@ typedef enum {
 @property (nonatomic, strong) NSMutableArray *activityElements;
 @property (nonatomic, strong) SettingsElement *settingsElement;
 @property (nonatomic, strong) AddActivityElement *addActivityElement;
+@property (nonatomic, strong) SliceElement *sliceElement;
 
 //SETTINGS STATE
 @property (nonatomic, strong) NSTimer *settingsTimer;
+@property (nonatomic, strong) NSTimer *slicingTimer;
 @property (nonatomic, strong) ActivityElement *selectedActivityElement;
 @property (nonatomic, assign) BOOL isEditingActivityElement;
 @property (nonatomic, assign) BOOL isMovingActivityElement;
 @property (nonatomic, assign) BOOL isAdding;
+@property (nonatomic, assign) BOOL isSlicing;
 
 @end
 
@@ -77,6 +82,7 @@ typedef enum {
     [self setupActivityElements];
     self.settingsElement = [[SettingsElement alloc] init];
     self.addActivityElement = [[AddActivityElement alloc] init];
+    self.sliceElement = [[SliceElement alloc] init];
     
     self.activitySettingsView = [[ActivitySettingsView alloc] init];
     [self.view addSubview:self.activitySettingsView];
@@ -163,6 +169,9 @@ typedef enum {
                         break;
                     }
                 }
+                
+                //start slicing
+                [self startSlicing:touchLocation];
             }
         }
             break;
@@ -198,6 +207,8 @@ typedef enum {
                 [self addNewActivityElement:touchLocation];
             } else if([self shouldUpdateCurrentAddingLocation:touchLocation]) {
                 [self updateCurrentAddingLocation:touchLocation];
+            } else if ([self shouldUpdateSlicing]) {
+                [self updateCurrentSlicingLocation:touchLocation];
             }
         }
             break;
@@ -251,12 +262,12 @@ typedef enum {
         {
             if([self shouldStartEditingSelectedActivityElement]) {
                 [self startEditingSelectedActivityElement];
-            } if([self shouldDeleteSelectedActivityElement:touchLocation]) {
-                [self deleteSelectedActivityElement];
             } else if([self shouldStopMovingSelectedActivityElement]) {
                 [self stopMovingSelectedActivityElement];
             } else if([self shouldCancelAddingNewActivity]) {
                 [self cancelAddingActivityElement:touchLocation];
+            } else if([self shouldCancelSlicing]) {
+                [self cancelSlicing:touchLocation];
             }
         }
             break;
@@ -270,10 +281,16 @@ typedef enum {
 - (void)settingsTimerFired:(NSTimer *)timer_
 {
     self.state = ACTIVITY_STATE_ANIMATION;
-    [self.activityView showSettings:self.settingsElement addActivityElement:self.addActivityElement
+    [self.activityView showSettings:self.settingsElement addActivityElement:self.addActivityElement sliceElement:self.sliceElement
                            finished:^{
                                self.state = ACTIVITY_STATE_SETTINGS;
                            }];
+}
+
+
+- (void)slicingTimerFired:(NSTimer *)timer_
+{
+    [self cancelSlicing:CGPointZero];
 }
 
 
@@ -343,12 +360,6 @@ typedef enum {
 }
 
 
-- (BOOL)shouldDeleteSelectedActivityElement:(CGPoint)touchLocation_
-{
-    return NO;
-}
-
-
 - (BOOL)shouldStopMovingSelectedActivityElement
 {
     return self.selectedActivityElement != nil && self.isMovingActivityElement;
@@ -358,6 +369,18 @@ typedef enum {
 - (BOOL)shouldCancelAddingNewActivity
 {
     return self.isAdding;
+}
+
+
+- (BOOL)shouldUpdateSlicing
+{
+    return self.isSlicing;
+}
+
+
+- (BOOL)shouldCancelSlicing
+{
+    return YES;
 }
 
 
@@ -409,16 +432,6 @@ typedef enum {
 }
 
 
-- (void)deleteSelectedActivityElement
-{
-    [self.activityElements removeObject:self.selectedActivityElement];
-    [[ActivityManager sharedInstance] deleteActivity:[self.selectedActivityElement associatedActivity]];
-    self.selectedActivityElement = nil;
-    self.isMovingActivityElement = NO;
-    [self calculateActivityElementsIgnoringSelected:NO];
-}
-
-
 - (void)stopMovingSelectedActivityElement
 {
     self.isMovingActivityElement = NO;
@@ -431,6 +444,54 @@ typedef enum {
 {
     self.isAdding = NO;
     [self.addActivityElement cancelAddingWithCurrentLocation:touchLocation_];
+}
+
+
+- (void)startSlicing:(CGPoint)touchLocation_
+{
+    self.isSlicing = YES;
+    [self.sliceElement startSlicingWithLocation:touchLocation_];
+    
+    //We only have certain time to perform slice
+    self.slicingTimer = [NSTimer timerWithTimeInterval:SLICE_TIME
+                                                target:self
+                                              selector:@selector(slicingTimerFired:)
+                                              userInfo:nil
+                                               repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:self.slicingTimer forMode:NSDefaultRunLoopMode];
+}
+
+
+- (void)updateCurrentSlicingLocation:(CGPoint)touchLocation_
+{
+    [self.sliceElement setCurrentTouchLocation:touchLocation_];
+    
+    ActivityElement *activityElementForRemoval = nil;
+    
+    for(ActivityElement *activityElement in self.activityElements) {
+        if([self.sliceElement hasSlicedThroughActivityElement:activityElement]) {
+            [self.slicingTimer invalidate];
+            self.isSlicing = NO;
+            [self.sliceElement endSlicingWithLocation:touchLocation_];
+            activityElementForRemoval = activityElement;
+            break;
+        }
+    }
+    
+    if(activityElementForRemoval != nil) {
+        [self.activityElements removeObject:activityElementForRemoval];
+        [[ActivityManager sharedInstance] deleteActivity:[activityElementForRemoval associatedActivity]];
+        [self calculateActivityElementsIgnoringSelected:NO];
+    }
+}
+
+
+- (void)cancelSlicing:(CGPoint)touchLocation_
+{
+    if(self.slicingTimer.isValid)
+        [self.slicingTimer invalidate];
+    
+    [self.sliceElement cancelSlicingWithLocation:touchLocation_];
 }
 
 

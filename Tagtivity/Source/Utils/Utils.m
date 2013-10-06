@@ -46,6 +46,26 @@
 }
 
 
++ (CGPoint)closestPointBetweenLinePointA:(CGPoint)linePointA_ linePointB:(CGPoint)linePointB_ andPoint:(CGPoint)point_
+{
+    CGFloat lineLength = [Utils distanceBetweenPointA:linePointA_ pointB:linePointB_];
+    
+    if(lineLength == 0.0)
+        return linePointA_;
+    
+    CGFloat u = ((point_.x - linePointA_.x) * (linePointB_.x - linePointA_.x) + (point_.y - linePointA_.y) * (linePointB_.y - linePointA_.y)) / (lineLength*lineLength);
+    if(u < 0.0)
+        return linePointA_;
+    if(u > 1.0)
+        return linePointB_;
+    
+    CGPoint intersectionPoint = CGPointMake(linePointA_.x + u*(linePointB_.x-linePointA_.x),
+                                            linePointA_.y + u*(linePointB_.y-linePointA_.y));
+    
+    return intersectionPoint;
+}
+
+
 + (CGSize)viewSize
 {
     CGFloat viewWidth = [UIScreen mainScreen].bounds.size.width;

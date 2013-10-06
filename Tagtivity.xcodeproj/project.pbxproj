@@ -36,6 +36,7 @@
 		B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EA439D174811B900EE4D56 /* ActivityVC.m */; };
 		B5EA43A01748120000EE4D56 /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5EA439F1748120000EE4D56 /* ActivityView.xib */; };
 		B5EA43A31748121900EE4D56 /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EA43A21748121900EE4D56 /* ActivityView.m */; };
+		B5F38FB317F8D266004CA88F /* SliceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F38FB217F8D266004CA88F /* SliceElement.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +84,8 @@
 		B5EA439F1748120000EE4D56 /* ActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityView.xib; path = Source/Views/Activity/ActivityView.xib; sourceTree = "<group>"; };
 		B5EA43A11748121900EE4D56 /* ActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityView.h; path = Source/Views/Activity/ActivityView.h; sourceTree = "<group>"; };
 		B5EA43A21748121900EE4D56 /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityView.m; path = Source/Views/Activity/ActivityView.m; sourceTree = "<group>"; };
+		B5F38FB117F8D266004CA88F /* SliceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SliceElement.h; path = Source/Views/Activity/SliceElement.h; sourceTree = "<group>"; };
+		B5F38FB217F8D266004CA88F /* SliceElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SliceElement.m; path = Source/Views/Activity/SliceElement.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +218,8 @@
 				B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */,
 				B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */,
 				B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */,
+				B5F38FB117F8D266004CA88F /* SliceElement.h */,
+				B5F38FB217F8D266004CA88F /* SliceElement.m */,
 			);
 			name = Activity;
 			sourceTree = "<group>";
@@ -372,6 +377,7 @@
 				896018B61726DC9100E26BA9 /* Activities.xcdatamodeld in Sources */,
 				B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */,
 				B5E04740172D3115008D74C1 /* Utils.m in Sources */,
+				B5F38FB317F8D266004CA88F /* SliceElement.m in Sources */,
 				B5E04749172DCE07008D74C1 /* Activity.m in Sources */,
 				B5E0474C172DCE08008D74C1 /* ActivityInstance.m in Sources */,
 				B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */,
@@ -450,8 +456,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tagtivity/Source/Tagtivity-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Tagtivity/Supporting Files/Tagtivity-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "659DA354-19C3-43B6-B009-D1A82527DA08";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -464,8 +471,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tagtivity/Source/Tagtivity-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Tagtivity/Supporting Files/Tagtivity-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "659DA354-19C3-43B6-B009-D1A82527DA08";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

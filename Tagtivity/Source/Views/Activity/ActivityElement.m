@@ -91,6 +91,12 @@
 }
 
 
+- (CGFloat)getActiveDiameter
+{
+    return CIRCLE_DIAMETER;
+}
+
+
 - (BOOL)isEqual:(id)object_
 {
     if([object_ class] != [ActivityElement class])

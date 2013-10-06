@@ -14,6 +14,7 @@
 @class ChooseActivityElement;
 @class SettingsElement;
 @class AddActivityElement;
+@class SliceElement;
 
 
 @interface ActivityView : UIView
@@ -27,7 +28,7 @@
                    finished:(void (^)())block_;
 - (void)showActivityElements:(NSArray *)activityElements_ finished:(void (^)())block_;
 - (void)showSettings:(SettingsElement *)settingsElement_ addActivityElement:(AddActivityElement *)addActivityElement_
-            finished:(void (^)())block_;
+        sliceElement:(SliceElement *)sliceElement_ finished:(void (^)())block_;
 - (void)moveActivityElementsToNewAngle:(NSArray *)activityElements_;
 
 @end

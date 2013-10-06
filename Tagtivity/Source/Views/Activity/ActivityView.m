@@ -14,6 +14,7 @@
 #import "ChooseActivityElement.h"
 #import "SettingsElement.h"
 #import "AddActivityElement.h"
+#import "SliceElement.h"
 
 #import "Utils.h"
 
@@ -25,11 +26,13 @@
 @property (nonatomic, strong) NSMutableArray *activityElements;
 @property (nonatomic, strong) SettingsElement *settingsElement;
 @property (nonatomic, strong) AddActivityElement *addActivityElement;
+@property (nonatomic, strong) SliceElement *sliceElement;
 
 @property (nonatomic, assign) BOOL isShowingCurrentActivity;
 @property (nonatomic, assign) BOOL isShowingChooseActivity;
 @property (nonatomic, assign) BOOL isShowingSettings;
 @property (nonatomic, assign) BOOL isShowingActivityElements;
+@property (nonatomic, assign) BOOL isShowingSlicing;
 
 @end
 
@@ -93,6 +96,9 @@
     
     if(self.isShowingSettings)
         [self drawSettingsInContext:ctx];
+    
+    if(self.isShowingSlicing)
+        [self drawSlicingInContext:ctx];
 }
 
 
@@ -121,6 +127,12 @@
 {
     [self.settingsElement drawInContext:ctx_];
     [self.addActivityElement drawInContext:ctx_];
+}
+
+
+- (void)drawSlicingInContext:(CGContextRef)ctx_
+{
+    [self.sliceElement drawInContext:ctx_];
 }
 
 
@@ -164,19 +176,27 @@
 
 
 - (void)showSettings:(SettingsElement *)settingsElement_ addActivityElement:(AddActivityElement *)addActivityElement_
-            finished:(void (^)())block_;
+        sliceElement:(SliceElement *)sliceElement_ finished:(void (^)())block_;
 {
     self.settingsElement = settingsElement_;
     self.addActivityElement = addActivityElement_;
+    self.sliceElement = sliceElement_;
     
     self.isShowingCurrentActivity = NO;
     self.isShowingChooseActivity = NO;
     self.isShowingSettings = YES;
     self.isShowingActivityElements = YES;
+    self.isShowingSlicing = YES;
     
     [self setNeedsDisplay];
     
     block_();
+}
+
+
+- (void)showSlicing:(SliceElement *)sliceElement_
+{
+    self.sliceElement = sliceElement_;
 }
 
 
