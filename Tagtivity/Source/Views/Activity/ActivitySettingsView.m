@@ -73,7 +73,9 @@
     self.userInteractionEnabled = NO;
     self.layer.opacity = 0.0;
 
-    self.desiredSize = self.frame;
+    CGRect desiredSize = self.frame;
+    desiredSize.origin = CGPointMake(self.desiredSize.origin.x, [Utils viewSize].height);
+    self.desiredSize = desiredSize;
 
     self.onHideEventHandlers = [NSMutableArray array];
 }
@@ -96,7 +98,7 @@
 #pragma mark - TextField Delegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField_
 {
-    [self.activityNameField resignFirstResponder];
+    [self doneButtonAction:nil];
     
     return YES;
 }
@@ -119,12 +121,16 @@
 
 - (IBAction)doneButtonAction:(id)sender_
 {
+    //check if it hasn't been changed
+    if([self.activity.name isEqualToString:self.activityNameField.text]) {
+        
     //Check if desired name is already in use
-    if([[ActivityManager sharedInstance] getActivityWithName:self.activityNameField.text] != nil) {
+    }else if([[ActivityManager sharedInstance] getActivityWithName:self.activityNameField.text] != nil) {
         return;
+    } else {
+        self.activity.name = self.activityNameField.text;
     }
     
-    self.activity.name = self.activityNameField.text;
     [self hide];
 }
 
@@ -132,16 +138,17 @@
 #pragma mark - Control
 - (void)show
 {
-    CGRect viewFrame = self.frame;
-    viewFrame.size = [Utils viewSize];
-    self.frame = viewFrame;
-
-    self.userInteractionEnabled = YES;
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.2];
-        self.layer.opacity = BLUR_TARGET_ALPHA;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.layer.opacity = BLUR_TARGET_ALPHA;
+                         
+                         CGRect frame = self.frame;
+                         frame.origin = CGPointMake(self.frame.origin.x, 0.0);
+                         self.frame = frame;
+                     } completion:^(BOOL finished) {
+                         self.userInteractionEnabled = YES;
+                         [self.activityNameField becomeFirstResponder];
+                     }];
 }
 
 
@@ -150,11 +157,17 @@
     [Utils executeBlocksInArray:self.onHideEventHandlers];
     
     self.userInteractionEnabled = NO;
+    [self.activityNameField resignFirstResponder];
     
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.2];
-        self.layer.opacity = 0.0;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.layer.opacity = 0.0;
+         
+                         CGRect frame = self.frame;
+                         frame.origin = CGPointMake(self.frame.origin.x, [Utils viewSize].height);
+                         self.frame = frame;
+                     } completion:^(BOOL finished) {
+                     }];
 }
 
 @end
