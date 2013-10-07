@@ -15,9 +15,11 @@
 #import "Utils.h"
 
 
+#define BLUR_TARGET_ALPHA 0.95
+
+
 @interface ActivitySettingsView ()
 
-@property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (nonatomic, weak) IBOutlet UITextField *activityNameField;
 @property (nonatomic, weak) IBOutlet UICollectionView *activityImagesCollection;
 
@@ -25,6 +27,9 @@
 
 //Events
 @property (nonatomic, strong) NSMutableArray *onHideEventHandlers;
+
+@property (nonatomic, assign) CGRect desiredSize;
+@property (nonatomic, strong) UIToolbar *toolbar;
 
 @end
 
@@ -66,9 +71,18 @@
 - (void)setup
 {
     self.userInteractionEnabled = NO;
-    self.alpha = 0.0;
+    self.layer.opacity = 0.0;
+
+    self.desiredSize = self.frame;
 
     self.onHideEventHandlers = [NSMutableArray array];
+}
+
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.frame = self.desiredSize;
 }
 
 
@@ -82,16 +96,16 @@
 #pragma mark - TextField Delegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField_
 {
-    //Check if desired name is already in use
-    if([[ActivityManager sharedInstance] getActivityWithName:textField_.text] != nil) {
-        self.activityNameField.text = self.activity.name;
-        return NO;
-    }
-    
-    self.activity.name = self.activityNameField.text;
     [self.activityNameField resignFirstResponder];
     
     return YES;
+}
+
+
+#pragma mark - Events
+- (void)addOnHideEventHandler:(void (^)())eventHandlerBlock_
+{
+    [self.onHideEventHandlers addObject:eventHandlerBlock_];
 }
 
 
@@ -103,23 +117,30 @@
 }
 
 
+- (IBAction)doneButtonAction:(id)sender_
+{
+    //Check if desired name is already in use
+    if([[ActivityManager sharedInstance] getActivityWithName:self.activityNameField.text] != nil) {
+        return;
+    }
+    
+    self.activity.name = self.activityNameField.text;
+    [self hide];
+}
+
+
 #pragma mark - Control
 - (void)show
 {
     CGRect viewFrame = self.frame;
     viewFrame.size = [Utils viewSize];
     self.frame = viewFrame;
-    
-    CGRect containerViewFrame = self.containerView.frame;
-    CGFloat containerViewX = (self.frame.size.width - self.containerView.frame.size.width)/2.0;
-    CGFloat containerViewY = (self.frame.size.height - self.containerView.frame.size.height)/2.0;
-    containerViewFrame.size = CGSizeMake(containerViewX, containerViewY);
 
     self.userInteractionEnabled = YES;
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
-        self.alpha = 1.0;
+        self.layer.opacity = BLUR_TARGET_ALPHA;
     [UIView commitAnimations];
 }
 
@@ -132,15 +153,8 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
-        self.alpha = 0.0;
+        self.layer.opacity = 0.0;
     [UIView commitAnimations];
-}
-
-
-#pragma mark - Events
-- (void)addOnHideEventHandler:(void (^)())eventHandlerBlock_
-{
-    [self.onHideEventHandlers addObject:eventHandlerBlock_];
 }
 
 @end

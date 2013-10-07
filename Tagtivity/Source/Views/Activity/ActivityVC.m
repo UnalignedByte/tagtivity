@@ -491,6 +491,7 @@ typedef enum {
     if(self.slicingTimer.isValid)
         [self.slicingTimer invalidate];
     
+    self.isSlicing = NO;
     [self.sliceElement cancelSlicingWithLocation:touchLocation_];
 }
 
@@ -499,6 +500,8 @@ typedef enum {
 - (void)settingViewClosed
 {
     self.isEditingActivityElement = NO;
+    self.selectedActivityElement = nil;
+    
     [self.activityView redraw];
 }
 

@@ -104,7 +104,7 @@
 
 - (void)drawCurrentActivityInContext:(CGContextRef)ctx_
 {
-    CGRect nameRect = CGRectMake(0.0, 0.0, [Utils viewSize].width, 40.0);
+    CGRect nameRect = CGRectMake(0.0, 20.0, [Utils viewSize].width, 40.0);
     [self.currentActivity.name drawInRect:nameRect withFont:[UIFont systemFontOfSize:12.0] lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 }
 

@@ -12,7 +12,7 @@
 @class Activity;
 
 
-@interface ActivitySettingsView : UIView <UITextFieldDelegate>
+@interface ActivitySettingsView : UIToolbar <UITextFieldDelegate>
 
 //Initialization
 - (id)init;

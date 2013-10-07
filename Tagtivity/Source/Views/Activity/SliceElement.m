@@ -29,13 +29,6 @@
 - (void)drawInContext:(CGContextRef)ctx_
 {
     if(self.isSlicing) {
-        CGContextSetLineWidth(ctx_, 3.0);
-        CGContextSetStrokeColorWithColor(ctx_, [UIColor redColor].CGColor);
-        
-        CGContextBeginPath(ctx_);
-        CGContextMoveToPoint(ctx_, self.startLocation.x, self.startLocation.y);
-        CGContextAddLineToPoint(ctx_, self.currentLocation.x, self.currentLocation.y);
-        CGContextStrokePath(ctx_);
     }
 }
 
