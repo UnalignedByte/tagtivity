@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3745"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Activity"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="5b7-kF-Ahl" customClass="ActivitySettingsView">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -39,9 +39,10 @@
                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <collectionView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="QoR-dV-3WX">
-                    <rect key="frame" x="77" y="142" width="223" height="164"/>
+                <collectionView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="QoR-dV-3WX">
+                    <rect key="frame" x="84" y="142" width="216" height="216"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="X60-6N-sqW">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -49,6 +50,10 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                     <cells/>
+                    <connections>
+                        <outlet property="dataSource" destination="5b7-kF-Ahl" id="jLf-cD-EU9"/>
+                        <outlet property="delegate" destination="5b7-kF-Ahl" id="cph-vI-bWt"/>
+                    </connections>
                 </collectionView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SUl-Ea-2W4" userLabel="Cancel Button">
                     <rect key="frame" x="20" y="31" width="50" height="30"/>
@@ -74,8 +79,8 @@
             </subviews>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
-                <outlet property="activityImagesCollection" destination="QoR-dV-3WX" id="ecC-XS-TY3"/>
                 <outlet property="activityNameField" destination="DyP-nU-yp2" id="uHx-m8-C2U"/>
+                <outlet property="colorsCollection" destination="QoR-dV-3WX" id="uCY-Fl-hzJ"/>
             </connections>
         </view>
     </objects>

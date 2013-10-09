@@ -8,11 +8,12 @@
 
 #import "ActivitySettingsView.h"
 
-#import "Activity.h"
+#import "Utils.h"
 
+#import "Activity.h"
 #import "ActivityManager.h"
 
-#import "Utils.h"
+#import "ColorCell.h"
 
 
 #define BLUR_TARGET_ALPHA 0.95
@@ -21,7 +22,7 @@
 @interface ActivitySettingsView ()
 
 @property (nonatomic, weak) IBOutlet UITextField *activityNameField;
-@property (nonatomic, weak) IBOutlet UICollectionView *activityImagesCollection;
+@property (nonatomic, weak) IBOutlet UICollectionView *colorsCollection;
 
 @property (nonatomic, strong) Activity *activity;
 
@@ -29,7 +30,7 @@
 @property (nonatomic, strong) NSMutableArray *onHideEventHandlers;
 
 @property (nonatomic, assign) CGRect desiredSize;
-@property (nonatomic, strong) UIToolbar *toolbar;
+@property (nonatomic, assign) BOOL isRegistered;
 
 @end
 
@@ -78,6 +79,8 @@
     self.desiredSize = desiredSize;
 
     self.onHideEventHandlers = [NSMutableArray array];
+    
+    self.isRegistered = NO;
 }
 
 
@@ -101,6 +104,52 @@
     [self doneButtonAction:nil];
     
     return YES;
+}
+
+
+#pragma mark - UICollectionView Delegate
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView_
+{
+    return 1;
+}
+
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView_ numberOfItemsInSection:(NSInteger)section_
+{
+    return [[ActivityManager sharedInstance] getAllColors].count;
+}
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView_ layout:(UICollectionViewLayout *)collectionViewLayout_
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath_
+{
+    return [ColorCell size];
+}
+
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView_ cellForItemAtIndexPath:(NSIndexPath *)indexPath_
+{
+    if(!self.isRegistered)
+        [self.colorsCollection registerNib:[UINib nibWithNibName:@"ColorCell" bundle:nil] forCellWithReuseIdentifier:kColorCellIdentifier];
+    
+    ColorCell *cell = [collectionView_ dequeueReusableCellWithReuseIdentifier:kColorCellIdentifier forIndexPath:indexPath_];
+    
+    NSArray *colors = [[ActivityManager sharedInstance] getAllColors];
+    UIColor *color = colors[indexPath_.row];
+    BOOL isSelected = [color isEqual:self.activity.color];
+    [cell configureWithColor:color isSelected:isSelected];
+    
+    return cell;
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView_ didSelectItemAtIndexPath:(NSIndexPath *)indexPath_
+{
+    NSArray *colors = [[ActivityManager sharedInstance] getAllColors];
+    UIColor *color = colors[indexPath_.row];
+    
+    self.activity.color = color;
+    [self.colorsCollection reloadData];
 }
 
 

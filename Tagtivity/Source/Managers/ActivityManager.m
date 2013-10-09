@@ -130,6 +130,7 @@
     activity.imageFilename = DEFAULT_ACTIVITY_IMAGE_FILENAME;
     activity.instances = nil;
     activity.index = @([self getMaxIndex]+1);
+    activity.color = [self getAnyColor];
     
     return activity;
 }
@@ -274,6 +275,39 @@
         return activities[0];
     
     return nil;
+}
+
+
+#pragma mark - Query Colors
+- (NSArray *)getAllColors
+{
+    static NSArray *colors;
+    static dispatch_once_t once;
+
+    dispatch_once(&once, ^{
+        colors = @[[UIColor colorWithRed:1.00 green:0.36 blue:0.33 alpha:1.0],//red
+                   [UIColor colorWithRed:0.13 green:0.90 blue:0.46 alpha:1.0],//green
+                   [UIColor colorWithRed:0.63 green:0.67 blue:0.94 alpha:1.0],//blue
+                   [UIColor colorWithRed:0.97 green:1.00 blue:0.56 alpha:1.0],//yellow
+                   [UIColor colorWithRed:0.81 green:0.57 blue:0.91 alpha:1.0],//purple
+                   [UIColor colorWithRed:1.00 green:0.66 blue:0.80 alpha:1.0],//pink
+                   [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0],//gray
+                   [UIColor colorWithRed:0.42 green:0.92 blue:0.99 alpha:1.0],//aqua
+                   [UIColor colorWithRed:1.00 green:0.71 blue:0.15 alpha:1.0],//orange
+                   [UIColor colorWithRed:0.18 green:0.18 blue:0.18 alpha:1.0],//black
+                   [UIColor colorWithRed:0.53 green:0.42 blue:0.32 alpha:1.0],//brown
+                   [UIColor colorWithRed:0.96 green:0.98 blue:0.84 alpha:1.0]];//vanilla
+    });
+
+    return colors;
+}
+
+
+- (UIColor *)getAnyColor
+{
+    NSArray *colors = [self getAllColors];
+    
+    return colors[arc4random()%colors.count];
 }
 
 

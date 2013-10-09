@@ -51,7 +51,7 @@
 #pragma mark - Drawing
 - (void)drawInContext:(CGContextRef)ctx_
 {
-    CGContextSetFillColorWithColor(ctx_, [UIColor grayColor].CGColor);
+    CGContextSetFillColorWithColor(ctx_, [(UIColor *)self.activity.color CGColor]);
     
     //Draw circle
     CGRect circleRect = CGRectMake(self.circleCenter.x - CIRCLE_DIAMETER/2.0, self.circleCenter.y - CIRCLE_DIAMETER/2.0,

@@ -2,7 +2,7 @@
 //  Activity.h
 //  Tagtivity
 //
-//  Created by Rafał Grodziński on 28.04.2013.
+//  Created by Rafał Grodziński on 08.10.2013.
 //  Copyright (c) 2013 UnalignedByte. All rights reserved.
 //
 
@@ -14,12 +14,12 @@
 @interface Activity : NSManagedObject
 
 @property (nonatomic, retain) NSString * imageFilename;
+@property (nonatomic, retain) NSNumber * index;
 @property (nonatomic, retain) NSNumber * isActive;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * totalDuration;
+@property (nonatomic, retain) id color;
 @property (nonatomic, retain) NSSet *instances;
-@property (nonatomic, retain) NSNumber * index;
-
 @end
 
 @interface Activity (CoreDataGeneratedAccessors)

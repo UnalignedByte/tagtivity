@@ -33,4 +33,8 @@
 - (NSArray *)getInactiveActivities;
 - (Activity *)getActivityWithName:(NSString *)activityName_;
 
+//Query Colors
+- (NSArray *)getAllColors;
+- (UIColor *)getAnyColor;
+
 @end

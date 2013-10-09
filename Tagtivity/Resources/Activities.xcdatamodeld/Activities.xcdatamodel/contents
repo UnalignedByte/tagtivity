@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="13A510d" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3400" systemVersion="13A598" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Activity" representedClassName="Activity" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="imageFilename" attributeType="String" syncable="YES"/>
         <attribute name="index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="isActive" attributeType="Boolean" syncable="YES"/>
@@ -14,7 +15,7 @@
         <relationship name="activity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Activity" inverseName="instances" inverseEntity="Activity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Activity" positionX="160" positionY="192" width="128" height="135"/>
-        <element name="ActivityInstance" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="Activity" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="ActivityInstance" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

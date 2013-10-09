@@ -19,6 +19,11 @@
 		89C857C61726DB7000C02BB6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C51726DB7000C02BB6 /* Default.png */; };
 		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
 		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
+		B52B766F1804A5660074965E /* ColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B52B766E1804A5660074965E /* ColorCell.m */; };
+		B52B76711804A8B90074965E /* ColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52B76701804A8B90074965E /* ColorCell.xib */; };
+		B52B76741804AA920074965E /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = B52B76731804AA920074965E /* Activity.m */; };
+		B52B76771805E4450074965E /* Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B52B76751805E4450074965E /* Selected.png */; };
+		B52B76781805E4450074965E /* Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B52B76761805E4450074965E /* Selected@2x.png */; };
 		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
 		B555983B17DAA5510093DB5C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B555983A17DAA5510093DB5C /* QuartzCore.framework */; };
 		B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */ = {isa = PBXBuildFile; fileRef = B555983E17DB5E4B0093DB5C /* line_count.sh */; };
@@ -31,7 +36,6 @@
 		B5790BEA1790496E00F9D02B /* SettingsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE91790496E00F9D02B /* SettingsElement.m */; };
 		B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04734172D2C8E008D74C1 /* ActivityManager.m */; };
 		B5E04740172D3115008D74C1 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E0473F172D3115008D74C1 /* Utils.m */; };
-		B5E04749172DCE07008D74C1 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E04748172DCE07008D74C1 /* Activity.m */; };
 		B5E0474C172DCE08008D74C1 /* ActivityInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E0474B172DCE08008D74C1 /* ActivityInstance.m */; };
 		B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EA439D174811B900EE4D56 /* ActivityVC.m */; };
 		B5EA43A01748120000EE4D56 /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5EA439F1748120000EE4D56 /* ActivityView.xib */; };
@@ -56,15 +60,22 @@
 		89C857C51726DB7000C02BB6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Tagtivity/Graphics/Defaults/Default.png; sourceTree = "<group>"; };
 		89C857C71726DB7000C02BB6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Tagtivity/Graphics/Defaults/Default@2x.png"; sourceTree = "<group>"; };
 		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
+		B52B766D1804A5660074965E /* ColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorCell.h; path = Source/Views/Settings/ColorCell.h; sourceTree = "<group>"; };
+		B52B766E1804A5660074965E /* ColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorCell.m; path = Source/Views/Settings/ColorCell.m; sourceTree = "<group>"; };
+		B52B76701804A8B90074965E /* ColorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ColorCell.xib; path = Source/Views/Settings/ColorCell.xib; sourceTree = "<group>"; };
+		B52B76721804AA920074965E /* Activity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Activity.h; path = Source/Models/Activity.h; sourceTree = "<group>"; };
+		B52B76731804AA920074965E /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Activity.m; path = Source/Models/Activity.m; sourceTree = "<group>"; };
+		B52B76751805E4450074965E /* Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Selected.png; path = Tagtivity/Graphics/Selected.png; sourceTree = "<group>"; };
+		B52B76761805E4450074965E /* Selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Selected@2x.png"; path = "Tagtivity/Graphics/Selected@2x.png"; sourceTree = "<group>"; };
 		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
 		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
 		B555983A17DAA5510093DB5C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B555983E17DB5E4B0093DB5C /* line_count.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = line_count.sh; sourceTree = "<group>"; };
 		B555984017DB5E5B0093DB5C /* States Diagram.umd */ = {isa = PBXFileReference; lastKnownFileType = file; name = "States Diagram.umd"; path = "Docs/States Diagram.umd"; sourceTree = "<group>"; };
 		B555984117DB5E5B0093DB5C /* To Do.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "To Do.txt"; path = "Docs/To Do.txt"; sourceTree = "<group>"; };
-		B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivitySettingsView.h; path = Source/Views/Activity/ActivitySettingsView.h; sourceTree = "<group>"; };
-		B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivitySettingsView.m; path = Source/Views/Activity/ActivitySettingsView.m; sourceTree = "<group>"; };
-		B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivitySettingsView.xib; path = Source/Views/Activity/ActivitySettingsView.xib; sourceTree = "<group>"; };
+		B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivitySettingsView.h; path = Source/Views/Settings/ActivitySettingsView.h; sourceTree = "<group>"; };
+		B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivitySettingsView.m; path = Source/Views/Settings/ActivitySettingsView.m; sourceTree = "<group>"; };
+		B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivitySettingsView.xib; path = Source/Views/Settings/ActivitySettingsView.xib; sourceTree = "<group>"; };
 		B5790BE2179033AD00F9D02B /* AddActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddActivityElement.h; path = Source/Views/Activity/AddActivityElement.h; sourceTree = "<group>"; };
 		B5790BE3179033AD00F9D02B /* AddActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddActivityElement.m; path = Source/Views/Activity/AddActivityElement.m; sourceTree = "<group>"; };
 		B5790BE5179033F700F9D02B /* ChooseActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseActivityElement.h; path = Source/Views/Activity/ChooseActivityElement.h; sourceTree = "<group>"; };
@@ -75,8 +86,6 @@
 		B5E04734172D2C8E008D74C1 /* ActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityManager.m; path = Source/Managers/ActivityManager.m; sourceTree = "<group>"; };
 		B5E0473E172D3115008D74C1 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils/Utils.h; sourceTree = "<group>"; };
 		B5E0473F172D3115008D74C1 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = Source/Utils/Utils.m; sourceTree = "<group>"; };
-		B5E04747172DCE07008D74C1 /* Activity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Activity.h; path = Source/Models/Activity.h; sourceTree = "<group>"; };
-		B5E04748172DCE07008D74C1 /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Activity.m; path = Source/Models/Activity.m; sourceTree = "<group>"; };
 		B5E0474A172DCE08008D74C1 /* ActivityInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityInstance.h; path = Source/Models/ActivityInstance.h; sourceTree = "<group>"; };
 		B5E0474B172DCE08008D74C1 /* ActivityInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityInstance.m; path = Source/Models/ActivityInstance.m; sourceTree = "<group>"; };
 		B5EA439C174811B900EE4D56 /* ActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityVC.h; path = Source/Views/Activity/ActivityVC.h; sourceTree = "<group>"; };
@@ -168,6 +177,8 @@
 			children = (
 				89C857D61726DBEA00C02BB6 /* Icons */,
 				89C857D51726DBDA00C02BB6 /* Defaults */,
+				B52B76751805E4450074965E /* Selected.png */,
+				B52B76761805E4450074965E /* Selected@2x.png */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -199,6 +210,19 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		B52B76791805E6270074965E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */,
+				B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */,
+				B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */,
+				B52B766D1804A5660074965E /* ColorCell.h */,
+				B52B766E1804A5660074965E /* ColorCell.m */,
+				B52B76701804A8B90074965E /* ColorCell.xib */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		B544575D174FA783004F224A /* Activity */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,9 +239,6 @@
 				B5790BE91790496E00F9D02B /* SettingsElement.m */,
 				B5790BE2179033AD00F9D02B /* AddActivityElement.h */,
 				B5790BE3179033AD00F9D02B /* AddActivityElement.m */,
-				B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */,
-				B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */,
-				B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */,
 				B5F38FB117F8D266004CA88F /* SliceElement.h */,
 				B5F38FB217F8D266004CA88F /* SliceElement.m */,
 			);
@@ -253,8 +274,8 @@
 		B5E04736172D2E72008D74C1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B5E04747172DCE07008D74C1 /* Activity.h */,
-				B5E04748172DCE07008D74C1 /* Activity.m */,
+				B52B76721804AA920074965E /* Activity.h */,
+				B52B76731804AA920074965E /* Activity.m */,
 				B5E0474A172DCE08008D74C1 /* ActivityInstance.h */,
 				B5E0474B172DCE08008D74C1 /* ActivityInstance.m */,
 			);
@@ -274,6 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				B544575D174FA783004F224A /* Activity */,
+				B52B76791805E6270074965E /* Settings */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -335,6 +357,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B52B76771805E4450074965E /* Selected.png in Resources */,
 				89C857C61726DB7000C02BB6 /* Default.png in Resources */,
 				89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */,
 				89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */,
@@ -344,7 +367,9 @@
 				896018BC1726DDD900E26BA9 /* Icon.png in Resources */,
 				896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */,
 				B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */,
+				B52B76711804A8B90074965E /* ColorCell.xib in Resources */,
 				B5EA43A01748120000EE4D56 /* ActivityView.xib in Resources */,
+				B52B76781805E4450074965E /* Selected@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,12 +398,13 @@
 			files = (
 				B56EF91C17D68A240000AA81 /* ActivitySettingsView.m in Sources */,
 				89C857C01726DB7000C02BB6 /* main.m in Sources */,
+				B52B76741804AA920074965E /* Activity.m in Sources */,
 				89C857C41726DB7000C02BB6 /* AppDelegate.m in Sources */,
 				896018B61726DC9100E26BA9 /* Activities.xcdatamodeld in Sources */,
 				B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */,
+				B52B766F1804A5660074965E /* ColorCell.m in Sources */,
 				B5E04740172D3115008D74C1 /* Utils.m in Sources */,
 				B5F38FB317F8D266004CA88F /* SliceElement.m in Sources */,
-				B5E04749172DCE07008D74C1 /* Activity.m in Sources */,
 				B5E0474C172DCE08008D74C1 /* ActivityInstance.m in Sources */,
 				B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */,
 				B5EA43A31748121900EE4D56 /* ActivityView.m in Sources */,

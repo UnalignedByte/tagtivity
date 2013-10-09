@@ -2,7 +2,7 @@
 //  Activity.m
 //  Tagtivity
 //
-//  Created by Rafał Grodziński on 28.04.2013.
+//  Created by Rafał Grodziński on 08.10.2013.
 //  Copyright (c) 2013 UnalignedByte. All rights reserved.
 //
 
@@ -13,10 +13,11 @@
 @implementation Activity
 
 @dynamic imageFilename;
+@dynamic index;
 @dynamic isActive;
 @dynamic name;
 @dynamic totalDuration;
+@dynamic color;
 @dynamic instances;
-@dynamic index;
 
 @end
