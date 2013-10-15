@@ -395,6 +395,7 @@ typedef enum {
 - (void)moveSelectedActivityElement:(CGPoint)touchLocation_
 {
     self.isMovingActivityElement = YES;
+    self.activityView.activityElementAtTop = self.selectedActivityElement;
     
     [self moveSelectedActivityToAngle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation_]];
     [self calculateActivityElementsIgnoringSelected:YES];

@@ -118,8 +118,11 @@
 - (void)drawActivityElementsInContext:(CGContextRef)ctx_
 {
     for(ActivityElement *activityElement in self.activityElements) {
-        [activityElement drawInContext:ctx_];
+        if(activityElement != self.activityElementAtTop)
+            [activityElement drawInContext:ctx_];
     }
+    
+    [self.activityElementAtTop drawInContext:ctx_];
 }
 
 

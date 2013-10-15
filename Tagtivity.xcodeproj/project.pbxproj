@@ -8,23 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		896018B61726DC9100E26BA9 /* Activities.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 896018B41726DC9100E26BA9 /* Activities.xcdatamodeld */; };
-		896018BC1726DDD900E26BA9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 896018BA1726DDD900E26BA9 /* Icon.png */; };
-		896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 896018BB1726DDD900E26BA9 /* Icon@2x.png */; };
 		89C857B21726DB7000C02BB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B11726DB7000C02BB6 /* UIKit.framework */; };
 		89C857B41726DB7000C02BB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B31726DB7000C02BB6 /* Foundation.framework */; };
 		89C857B61726DB7000C02BB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B51726DB7000C02BB6 /* CoreGraphics.framework */; };
 		89C857B81726DB7000C02BB6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C857B71726DB7000C02BB6 /* CoreData.framework */; };
 		89C857C01726DB7000C02BB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C857BF1726DB7000C02BB6 /* main.m */; };
 		89C857C41726DB7000C02BB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C857C31726DB7000C02BB6 /* AppDelegate.m */; };
-		89C857C61726DB7000C02BB6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C51726DB7000C02BB6 /* Default.png */; };
-		89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C71726DB7000C02BB6 /* Default@2x.png */; };
-		89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C857C91726DB7000C02BB6 /* Default-568h@2x.png */; };
 		B52B766F1804A5660074965E /* ColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B52B766E1804A5660074965E /* ColorCell.m */; };
 		B52B76711804A8B90074965E /* ColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52B76701804A8B90074965E /* ColorCell.xib */; };
 		B52B76741804AA920074965E /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = B52B76731804AA920074965E /* Activity.m */; };
-		B52B76771805E4450074965E /* Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B52B76751805E4450074965E /* Selected.png */; };
-		B52B76781805E4450074965E /* Selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B52B76761805E4450074965E /* Selected@2x.png */; };
 		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
+		B54983D81805F24E004EEEFD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B54983D71805F24E004EEEFD /* Images.xcassets */; };
 		B555983B17DAA5510093DB5C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B555983A17DAA5510093DB5C /* QuartzCore.framework */; };
 		B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */ = {isa = PBXBuildFile; fileRef = B555983E17DB5E4B0093DB5C /* line_count.sh */; };
 		B555984217DB5E5B0093DB5C /* States Diagram.umd in Resources */ = {isa = PBXBuildFile; fileRef = B555984017DB5E5B0093DB5C /* States Diagram.umd */; };
@@ -45,8 +39,6 @@
 
 /* Begin PBXFileReference section */
 		896018B51726DC9100E26BA9 /* Activities.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Activities.xcdatamodel; sourceTree = "<group>"; };
-		896018BA1726DDD900E26BA9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Tagtivity/Graphics/Icons/Icon.png; sourceTree = "<group>"; };
-		896018BB1726DDD900E26BA9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Tagtivity/Graphics/Icons/Icon@2x.png"; sourceTree = "<group>"; };
 		89C857AE1726DB7000C02BB6 /* Tagtivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tagtivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89C857B11726DB7000C02BB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		89C857B31726DB7000C02BB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -57,18 +49,14 @@
 		89C857C11726DB7000C02BB6 /* Tagtivity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Tagtivity-Prefix.pch"; path = "Source/Tagtivity-Prefix.pch"; sourceTree = "<group>"; };
 		89C857C21726DB7000C02BB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Source/AppDelegate.h; sourceTree = "<group>"; };
 		89C857C31726DB7000C02BB6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Source/AppDelegate.m; sourceTree = "<group>"; };
-		89C857C51726DB7000C02BB6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Tagtivity/Graphics/Defaults/Default.png; sourceTree = "<group>"; };
-		89C857C71726DB7000C02BB6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Tagtivity/Graphics/Defaults/Default@2x.png"; sourceTree = "<group>"; };
-		89C857C91726DB7000C02BB6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Tagtivity/Graphics/Defaults/Default-568h@2x.png"; sourceTree = "<group>"; };
 		B52B766D1804A5660074965E /* ColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorCell.h; path = Source/Views/Settings/ColorCell.h; sourceTree = "<group>"; };
 		B52B766E1804A5660074965E /* ColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorCell.m; path = Source/Views/Settings/ColorCell.m; sourceTree = "<group>"; };
 		B52B76701804A8B90074965E /* ColorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ColorCell.xib; path = Source/Views/Settings/ColorCell.xib; sourceTree = "<group>"; };
 		B52B76721804AA920074965E /* Activity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Activity.h; path = Source/Models/Activity.h; sourceTree = "<group>"; };
 		B52B76731804AA920074965E /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Activity.m; path = Source/Models/Activity.m; sourceTree = "<group>"; };
-		B52B76751805E4450074965E /* Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Selected.png; path = Tagtivity/Graphics/Selected.png; sourceTree = "<group>"; };
-		B52B76761805E4450074965E /* Selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Selected@2x.png"; path = "Tagtivity/Graphics/Selected@2x.png"; sourceTree = "<group>"; };
 		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
 		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
+		B54983D71805F24E004EEEFD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Tagtivity/Resources/Images.xcassets; sourceTree = "<group>"; };
 		B555983A17DAA5510093DB5C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B555983E17DB5E4B0093DB5C /* line_count.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = line_count.sh; sourceTree = "<group>"; };
 		B555984017DB5E5B0093DB5C /* States Diagram.umd */ = {isa = PBXFileReference; lastKnownFileType = file; name = "States Diagram.umd"; path = "Docs/States Diagram.umd"; sourceTree = "<group>"; };
@@ -117,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				89C857B91726DB7000C02BB6 /* Source */,
-				89C857D31726DBC800C02BB6 /* Graphics */,
 				89C857D41726DBD000C02BB6 /* Resources */,
 				89C857BA1726DB7000C02BB6 /* Supporting Files */,
 				B555983D17DB5E320093DB5C /* Docs */,
@@ -172,42 +159,13 @@
 			path = Tagtivity;
 			sourceTree = "<group>";
 		};
-		89C857D31726DBC800C02BB6 /* Graphics */ = {
-			isa = PBXGroup;
-			children = (
-				89C857D61726DBEA00C02BB6 /* Icons */,
-				89C857D51726DBDA00C02BB6 /* Defaults */,
-				B52B76751805E4450074965E /* Selected.png */,
-				B52B76761805E4450074965E /* Selected@2x.png */,
-			);
-			name = Graphics;
-			sourceTree = "<group>";
-		};
 		89C857D41726DBD000C02BB6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B54983D71805F24E004EEEFD /* Images.xcassets */,
 				896018B41726DC9100E26BA9 /* Activities.xcdatamodeld */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		89C857D51726DBDA00C02BB6 /* Defaults */ = {
-			isa = PBXGroup;
-			children = (
-				89C857C51726DB7000C02BB6 /* Default.png */,
-				89C857C71726DB7000C02BB6 /* Default@2x.png */,
-				89C857C91726DB7000C02BB6 /* Default-568h@2x.png */,
-			);
-			name = Defaults;
-			sourceTree = "<group>";
-		};
-		89C857D61726DBEA00C02BB6 /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				896018BA1726DDD900E26BA9 /* Icon.png */,
-				896018BB1726DDD900E26BA9 /* Icon@2x.png */,
-			);
-			name = Icons;
 			sourceTree = "<group>";
 		};
 		B52B76791805E6270074965E /* Settings */ = {
@@ -357,19 +315,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B52B76771805E4450074965E /* Selected.png in Resources */,
-				89C857C61726DB7000C02BB6 /* Default.png in Resources */,
-				89C857C81726DB7000C02BB6 /* Default@2x.png in Resources */,
-				89C857CA1726DB7000C02BB6 /* Default-568h@2x.png in Resources */,
 				B555984317DB5E5B0093DB5C /* To Do.txt in Resources */,
 				B56EF91E17D68A850000AA81 /* ActivitySettingsView.xib in Resources */,
+				B54983D81805F24E004EEEFD /* Images.xcassets in Resources */,
 				B555984217DB5E5B0093DB5C /* States Diagram.umd in Resources */,
-				896018BC1726DDD900E26BA9 /* Icon.png in Resources */,
-				896018BD1726DDD900E26BA9 /* Icon@2x.png in Resources */,
 				B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */,
 				B52B76711804A8B90074965E /* ColorCell.xib in Resources */,
 				B5EA43A01748120000EE4D56 /* ActivityView.xib in Resources */,
-				B52B76781805E4450074965E /* Selected@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +429,8 @@
 		89C857D11726DB7000C02BB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -492,6 +446,8 @@
 		89C857D21726DB7000C02BB6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

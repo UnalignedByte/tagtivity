@@ -21,6 +21,8 @@
 
 @property (nonatomic, assign) CGPoint chooseNewActivityCircleCenter;
 @property (nonatomic, assign) CGFloat chooseNewActivityCircleDiameter;
+@property (nonatomic, strong) ActivityElement *activityElementAtTop;
+
 
 //Control
 - (void)redraw;
