@@ -88,6 +88,8 @@
 + (CGFloat)angleBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_
 {
     CGFloat hypotenuseDistance = [Utils distanceBetweenPointA:pointA_ pointB:pointB_];
+    if(hypotenuseDistance == 0)
+        return 0.0;
     CGFloat verticalDistance = abs(pointB_.y - pointA_.y);
     CGFloat sinus = verticalDistance/hypotenuseDistance;
     

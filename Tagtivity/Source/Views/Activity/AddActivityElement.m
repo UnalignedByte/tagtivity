@@ -239,7 +239,7 @@ typedef enum {
         self.bigCircleDiameter = value;
     }];
     
-    [Utils animateValueFrom:self.smallCircleDiamter to:activityElementDiameter_ duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
+    [Utils animateValueFrom:self.smallCircleDiamter to:activityElementDiameter_ duration:0.6 curve:AnimationCurveElasticOut block:^(double value) {
         self.smallCircleDiamter = value;
         if(value == activityElementDiameter_) {
             self.state = ADD_DELETE_STATE_DEFAULT;

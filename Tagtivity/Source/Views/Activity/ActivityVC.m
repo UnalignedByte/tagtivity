@@ -243,7 +243,7 @@ typedef enum {
 
             for(ActivityElement *activityElement in self.activityElements) {
                 if([activityElement isTouching:touchLocation]) {
-                    [[ActivityManager sharedInstance] startActivity:[activityElement associatedActivity]];
+                    [[ActivityManager sharedInstance] startActivity:activityElement.activity];
                     break;
                 }
             }
@@ -309,7 +309,7 @@ typedef enum {
     
     NSMutableArray *activitiesToReindex = [NSMutableArray array];
     for(ActivityElement *activityElement in activityElementsSortedByAngle) {
-        [activitiesToReindex addObject:[activityElement associatedActivity]];
+        [activitiesToReindex addObject:activityElement.activity];
     }
     Activity *currentActivity = [[ActivityManager sharedInstance] getCurrentActivity];
     if(currentActivity.index.integerValue <= activitiesToReindex.count)
@@ -409,12 +409,13 @@ typedef enum {
     Activity *activity = [[ActivityManager sharedInstance] createNewActivityWithName:@"New"];
     ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:activity angle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation_]];
     
-    [self.addActivityElement finishAddingWithAddLocation:[activityElement getLocation] activityElementDiameter:80.0 completed:^{
+    [self.addActivityElement finishAddingWithAddLocation:activityElement.location activityElementDiameter:80.0 completed:^{
+        [activityElement showImmediately];
         self.selectedActivityElement = nil;
         self.isMovingActivityElement = NO;
         self.isEditingActivityElement = NO;
         [self.activityElements addObject:activityElement];
-        [self calculateActivityElementsIgnoringSelected:YES];
+        [self calculateActivityElementsIgnoringSelected:NO];
     }];
 }
 
@@ -428,7 +429,7 @@ typedef enum {
 - (void)startEditingSelectedActivityElement
 {
     self.isEditingActivityElement = YES;
-    [self.activitySettingsView configureWithActivity:[self.selectedActivityElement associatedActivity]];
+    [self.activitySettingsView configureWithActivity:self.selectedActivityElement.activity];
     [self.activitySettingsView show];
 }
 
@@ -481,7 +482,8 @@ typedef enum {
     
     if(activityElementForRemoval != nil) {
         [self.activityElements removeObject:activityElementForRemoval];
-        [[ActivityManager sharedInstance] deleteActivity:[activityElementForRemoval associatedActivity]];
+        [[ActivityManager sharedInstance] deleteActivity:activityElementForRemoval.activity];
+        self.activityView.activityElementAtTop = nil;
         [self calculateActivityElementsIgnoringSelected:NO];
     }
 }

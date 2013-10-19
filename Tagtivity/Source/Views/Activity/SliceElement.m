@@ -67,8 +67,8 @@
 - (BOOL)hasSlicedThroughActivityElement:(ActivityElement *)activityElement_
 {
     CGFloat sliceLength = [Utils distanceBetweenPointA:self.startLocation pointB:self.currentLocation];
-    CGFloat elementDiameter = [activityElement_ getActiveDiameter];
-    CGPoint elementLocation = [activityElement_ getLocation];
+    CGFloat elementDiameter = activityElement_.diameter;
+    CGPoint elementLocation = activityElement_.location;
     
     //Slice should at least the length of element's diameter
     if(sliceLength < elementDiameter)
