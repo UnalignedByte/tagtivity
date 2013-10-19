@@ -23,6 +23,10 @@
 //Drawing
 - (void)drawInContext:(CGContextRef)ctx_;
 
+//Control
+- (void)show;
+- (void)hide;
+
 //Input
 - (BOOL)isTouching:(CGPoint)touchLocation_;
 

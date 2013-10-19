@@ -91,7 +91,7 @@
     if(self.isShowingChooseActivity)
         [self drawChooseActivityInContext:ctx];
     
-    if(self.isShowingActivityElements)
+    //if(self.isShowingActivityElements)
         [self drawActivityElementsInContext:ctx];
     
     if(self.isShowingSettings)
@@ -157,6 +157,9 @@
     self.isShowingSettings = NO;
     self.isShowingActivityElements = NO;
     
+    for(ActivityElement *activityElement in self.activityElements)
+        [activityElement hide];
+    
     [self setNeedsDisplay];
     
     block_();
@@ -171,6 +174,9 @@
     self.isShowingChooseActivity = NO;
     self.isShowingSettings = NO;
     self.isShowingActivityElements = YES;
+    
+    for(ActivityElement *activityElement in self.activityElements)
+        [activityElement show];
     
     [self setNeedsDisplay];
     
@@ -207,7 +213,7 @@
 {
     for(ActivityElement *activityElement in activityElements_) {
         
-        [Utils animateValueFrom:activityElement.angle to:activityElement.newAngle duration:0.5 block:^(double value) {
+        [Utils animateValueFrom:activityElement.angle to:activityElement.newAngle duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
             activityElement.angle = value;
         }];
     }

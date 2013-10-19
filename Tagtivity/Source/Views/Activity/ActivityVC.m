@@ -24,7 +24,7 @@
 
 
 #define INITIAL_DISTANCE_DEGREES 45.0
-#define SETTINGS_DELAY 0.5
+#define SETTINGS_DELAY 1.5
 #define SLICE_TIME 0.2
 
 

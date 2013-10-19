@@ -123,7 +123,7 @@
 
 static NSMutableArray *animationsArray;
 
-+ (void)animateValueFrom:(CGFloat)startValue_ to:(CGFloat)endValue_ duration:(CGFloat)duration_ block:(void (^)(double))block_
++ (void)animateValueFrom:(CGFloat)startValue_ to:(CGFloat)endValue_ duration:(CGFloat)duration_ curve:(AnimaitonCurve)animationCurve_ block:(void (^)(double))block_
 {
     static CADisplayLink *animationDisplayLink;
     static dispatch_once_t once;
@@ -135,7 +135,7 @@ static NSMutableArray *animationsArray;
         [animationDisplayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     });
 
-    NSMutableArray *animationArray = [NSMutableArray arrayWithObjects:@(startValue_), @(endValue_), @(duration_), @(0.0), [block_ copy], nil];
+    NSMutableArray *animationArray = [NSMutableArray arrayWithObjects:@(startValue_), @(endValue_), @(duration_), @(0.0), @(animationCurve_), [block_ copy], nil];
     [animationsArray addObject:animationArray];
 }
 
@@ -158,31 +158,44 @@ static NSMutableArray *animationsArray;
         double endValue = [animationArray[1] doubleValue];
         double duration = [animationArray[2] doubleValue];
         double timeElapsed = [animationArray[3] doubleValue];
-        void (^block)(double) = animationArray[4];
+        AnimaitonCurve animationCurve = [animationArray[4] integerValue];;
+        void (^block)(double) = animationArray[5];
         
         timeElapsed += timeInterval;
         [animationArray replaceObjectAtIndex:3 withObject:@(timeElapsed)];
         
-        double currentValue = 0.0;
-        double deltaValue = endValue-startValue;
-        
-        //Linear
-        //currentValue = startValue + deltaValue*timeElapsed/duration;
-        
-        //Quadratic
-        double time = timeElapsed / (duration / 2.0);
-        if(time < 1.0) {
-            currentValue = deltaValue/2.0*time*time + startValue;
-        } else {
-            time--;
-            currentValue = -deltaValue/2.0 * (time*(time-2.0) - 1.0) + startValue;
+        CGFloat deltaValue = endValue-startValue;
+
+        CGFloat multiplier;
+        switch(animationCurve) {
+            case AnimationCurveQuadraticIn:
+                multiplier = [Utils animationTimingFunctionQuadraticIn:timeElapsed duration:duration];
+                break;
+            case AnimationCurveQuadraticOut:
+                multiplier = [Utils animationTimingFunctionQuadraticOut:timeElapsed duration:duration];
+                break;
+            case AnimationCurveQuadraticInOut:
+                multiplier = [Utils animationTimingFunctionQuadraticInOut:timeElapsed duration:duration];
+                break;
+            case AnimationCurveElasticIn:
+                multiplier = [Utils animationTimingFunctionElasticIn:timeElapsed duration:duration];
+                break;
+            case AnimationCurveElasticOut:
+                multiplier = [Utils animationTimingFunctionElasticOut:timeElapsed duration:duration];
+                break;
+            case AnimationCurveElasticInOut:
+                multiplier = [Utils animationTimingFunctionElasticInOut:timeElapsed duration:duration];
+                break;
+            case AnimationCurveLinear:
+            default:
+                multiplier = [Utils animationTimingFunctionLinear:timeElapsed duration:duration];
+                break;
         }
         
+       CGFloat currentValue = startValue + deltaValue * multiplier;
         
-        if(timeElapsed >= duration)
+        if(timeElapsed >= duration) {
             currentValue = endValue;
-        
-        if(currentValue == endValue) {
             [animationsForRemoval addObject:animationArray];
         }
         
@@ -192,6 +205,126 @@ static NSMutableArray *animationsArray;
     for(NSMutableArray *animationForRemoval in animationsForRemoval) {
         [animationsArray removeObject:animationForRemoval];
     }
+}
+
+
+#pragma mark - Animation Timing Functions
++ (CGFloat)animationTimingFunctionLinear:(CGFloat)time_ duration:(CGFloat)duration_
+{
+    if(time_ <= 0.0)
+        return 0.0;
+    
+    time_ /= duration_;
+    
+    if(time_ >= 1.0)
+        return 1.0;
+    
+    return time_;
+}
+
+
++ (CGFloat)animationTimingFunctionElasticIn:(CGFloat)time_ duration:(CGFloat)duration_
+{
+    if(time_ <= 0.0)
+        return 0.0;
+    
+    time_ /= duration_;
+    
+    if(time_ >= 1.0)
+        return 1.0;
+    
+    CGFloat period = duration_ * 0.3;
+    CGFloat s = period * 0.25;
+    
+    time_ -= 1.0;
+    
+    return -(pow(2.0, 10.0 * time_) * sin((time_ * duration_ - s) * (2.0 * M_PI) / period));
+}
+
+
++ (CGFloat)animationTimingFunctionQuadraticIn:(CGFloat)time_ duration:(CGFloat)duration_
+{
+    if(time_ <= 0.0)
+        return 0.0;
+    
+    time_ /= duration_;
+    
+    if(time_ >= 1.0)
+        return 1.0;
+    
+    return time_ * time_;
+}
+
+
++ (CGFloat)animationTimingFunctionQuadraticOut:(CGFloat)time_ duration:(CGFloat)duration_
+{
+    if(time_ <= 0.0)
+        return 0.0;
+    
+    time_ /= duration_;
+    
+    if(time_ >= 1.0)
+        return 1.0;
+    
+    return -time_ * (time_ - 2.0);
+}
+
+
++ (CGFloat)animationTimingFunctionQuadraticInOut:(CGFloat)time_ duration:(CGFloat)duration_
+{
+    if(time_ <= 0.0)
+        return 0.0;
+    
+    time_ /= duration_ * 0.5;
+    
+    if(time_ >= 2.0)
+        return 1.0;
+    
+    if(time_ < 1.0)
+        return 0.5 * time_ * time_;
+
+
+    time_ -= 1.0;
+    return -0.5 * (time_ * (time_ - 2.0) - 1.0);
+}
+
+
++ (CGFloat)animationTimingFunctionElasticOut:(CGFloat)time_ duration:(CGFloat)duration_
+{
+    if(time_ <= 0.0)
+        return 0.0;
+    
+    time_ /= duration_;
+    
+    if(time_ >= 1.0)
+        return 1.0;
+    
+    CGFloat period = duration_ * 0.3;
+    CGFloat s = period * 0.25;
+    
+    return pow(2.0, -10.0 * time_) * sin((time_ * duration_ - s) * (2.0 * M_PI) / period ) + 1.0;
+}
+
+
++ (CGFloat)animationTimingFunctionElasticInOut:(CGFloat)time_ duration:(CGFloat)duration_
+{
+    if(time_ <= 0.0)
+        return 0.0;
+    
+    time_ /= duration_ * 0.5;
+    
+    if(time_ >= 2.0)
+        return 1.0;
+    
+    CGFloat period = duration_ * 0.3 * 1.5;
+    CGFloat s = period * 0.25;
+    
+    time_ -= 1.0;
+    
+    if(time_ < 0.0)
+        return -0.5 * (pow(2.0, 10.0 * time_) * sin((time_ * duration_ - s) * (2.0 * M_PI) / period));
+
+    return pow(2.0, -10.0 * time_) * sin((time_ * duration_ - s) * (2.0 * M_PI) / period) * 0.5 + 1.0;
 }
 
 @end

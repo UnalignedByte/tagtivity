@@ -12,6 +12,16 @@
 #define RAD(deg) (M_PI*(deg)/180.0)
 #define DEG(rad) ((rad)*180.0/M_PI)
 
+typedef enum {
+    AnimationCurveLinear,
+    AnimationCurveQuadraticIn,
+    AnimationCurveQuadraticOut,
+    AnimationCurveQuadraticInOut,
+    AnimationCurveElasticIn,
+    AnimationCurveElasticOut,
+    AnimationCurveElasticInOut
+} AnimaitonCurve;
+
 
 @interface Utils : NSObject
 
@@ -23,6 +33,6 @@
 + (CGPoint)viewCenter;
 + (CGFloat)angleBetweenPointA:(CGPoint)pointA_ pointB:(CGPoint)pointB_;
 + (void)executeBlocksInArray:(NSArray *)array_;
-+ (void)animateValueFrom:(CGFloat)startValue_ to:(CGFloat)endValue_ duration:(CGFloat)duration_ block:(void (^)(double value))block_;
++ (void)animateValueFrom:(CGFloat)startValue_ to:(CGFloat)endValue_ duration:(CGFloat)duration_ curve:(AnimaitonCurve)animationCurve_ block:(void (^)(double value))block_;
 
 @end

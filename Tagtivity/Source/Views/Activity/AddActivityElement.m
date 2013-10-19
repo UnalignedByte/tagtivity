@@ -203,11 +203,11 @@ typedef enum {
 
 - (void)cancelAddingWithCurrentLocation:(CGPoint)touchLocation_
 {
-    [Utils animateValueFrom:touchLocation_.x to:self.bigCircleCenter.x duration:FINISH_ADDING_ANIMATION_DURATION block:^(double value) {
+    [Utils animateValueFrom:touchLocation_.x to:self.bigCircleCenter.x duration:FINISH_ADDING_ANIMATION_DURATION curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
     }];
     
-    [Utils animateValueFrom:touchLocation_.y to:self.bigCircleCenter.y duration:FINISH_ADDING_ANIMATION_DURATION block:^(double value) {
+    [Utils animateValueFrom:touchLocation_.y to:self.bigCircleCenter.y duration:FINISH_ADDING_ANIMATION_DURATION curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
         if(value == self.bigCircleCenter.y)
             self.state = ADD_DELETE_STATE_DEFAULT;
@@ -219,27 +219,27 @@ typedef enum {
 {
     self.state = ADD_DELETE_STATE_FINISH_ADDING;
     
-    [Utils animateValueFrom:self.smallCircleCenter.x to:addLocation_.x duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.smallCircleCenter.x to:addLocation_.x duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
     }];
     
-    [Utils animateValueFrom:self.smallCircleCenter.y to:addLocation_.y duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.smallCircleCenter.y to:addLocation_.y duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
     }];
     
-    [Utils animateValueFrom:self.bigCircleCenter.x to:addLocation_.x duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.bigCircleCenter.x to:addLocation_.x duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.bigCircleCenter = CGPointMake(value, self.bigCircleCenter.y);
     }];
     
-    [Utils animateValueFrom:self.bigCircleCenter.y to:addLocation_.y duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.bigCircleCenter.y to:addLocation_.y duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.bigCircleCenter = CGPointMake(self.bigCircleCenter.x, value);
     }];
     
-    [Utils animateValueFrom:self.bigCircleDiameter to:1.0 duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.bigCircleDiameter to:1.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.bigCircleDiameter = value;
     }];
     
-    [Utils animateValueFrom:self.smallCircleDiamter to:activityElementDiameter_ duration:0.5 block:^(double value) {
+    [Utils animateValueFrom:self.smallCircleDiamter to:activityElementDiameter_ duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.smallCircleDiamter = value;
         if(value == activityElementDiameter_) {
             self.state = ADD_DELETE_STATE_DEFAULT;
