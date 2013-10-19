@@ -15,11 +15,7 @@
 #define BIG_CIRCLE_DIAMETER 70.0
 #define SMALL_CIRCLE_DIAMETER 40.0
 
-#define FINISH_ADDING_ANIMATION_DURATION 0.5
-
-#define MODERN_GREEN ([UIColor colorWithRed:0.0 green:230.0/255.0 blue:70.0/255.0  alpha:1.0])
-#define MODERN_GRAY ([UIColor colorWithRed:210.0/255.0 green:210.0/255.0 blue:210.0/255.0 alpha:1.0])
-#define MODERN_BLUE ([UIColor colorWithRed:0.0 green:185.0/255.0 blue:240.0/255.0 alpha:1.0])
+#define FINISH_ADDING_ANIMATION_DURATION 0.3
 
 typedef enum {
     ADD_DELETE_STATE_DEFAULT,
@@ -39,6 +35,14 @@ typedef enum {
 @property (nonatomic, assign) CGFloat smallCircleDiamter;
 
 @property (nonatomic, assign) CGPoint currentTouchLocation;
+
+@property (nonatomic, assign) BOOL isVisible;
+@property (nonatomic, assign) CGFloat drawRed;
+@property (nonatomic, assign) CGFloat drawGreen;
+@property (nonatomic, assign) CGFloat drawBlue;
+@property (nonatomic, assign) CGFloat drawAlpha;
+@property (nonatomic, assign) CGFloat drawDiameter;
+@property (nonatomic, assign) CGPoint drawBigCircleLocation;
 
 @end
 
@@ -60,19 +64,22 @@ typedef enum {
 #pragma mark - Drawing
 - (void)drawInContext:(CGContextRef)ctx_
 {
+    if(!self.isVisible)
+        return;
+
     switch(self.state) {
         case ADD_DELETE_STATE_DEFAULT:
         {
             CGSize screenSize = [Utils viewSize];
             self.bigCircleCenter = CGPointMake(screenSize.width - BIG_CIRCLE_DIAMETER/2.0,
                                                screenSize.height - BIG_CIRCLE_DIAMETER/2.0);
-            
-            CGRect circleRect = CGRectMake(self.bigCircleCenter.x - BIG_CIRCLE_DIAMETER/2.0,
-                                           self.bigCircleCenter.y - BIG_CIRCLE_DIAMETER/2.0,
-                                           BIG_CIRCLE_DIAMETER, BIG_CIRCLE_DIAMETER);
-            
-            UIColor *alphaGreen = [UIColor colorWithRed:0.0 green:230.0/255.0 blue:70.0/255.0  alpha:0.1];
-            CGContextSetFillColorWithColor(ctx_, alphaGreen.CGColor);
+
+            CGRect circleRect = CGRectMake(self.bigCircleCenter.x - self.drawDiameter/2.0,
+                                           self.bigCircleCenter.y - self.drawDiameter/2.0,
+                                           self.drawDiameter, self.drawDiameter);
+
+            UIColor *color = [UIColor colorWithRed:self.drawRed green:self.drawGreen blue:self.drawBlue alpha:self.drawAlpha];
+            CGContextSetFillColorWithColor(ctx_, color.CGColor);
             CGContextFillEllipseInRect(ctx_, circleRect);
         }
             break;
@@ -160,7 +167,9 @@ typedef enum {
     CGFloat leftArcSmallY = self.smallCircleCenter.y - cos(RAD(angle-90.0))*self.smallCircleDiamter/2.0;
     
     //Draw circles
-    CGContextSetFillColorWithColor(ctx_, MODERN_GREEN.CGColor);
+    //CGContextSetFillColorWithColor(ctx_, [UIColor greenColor].CGColor);
+    UIColor *color = [UIColor colorWithRed:self.drawRed green:self.drawGreen blue:self.drawBlue alpha:self.drawAlpha];
+    CGContextSetFillColorWithColor(ctx_, color.CGColor);
     
     CGContextFillEllipseInRect(ctx_, bigCircleRect);
     CGContextFillEllipseInRect(ctx_, smallCircleRect);
@@ -192,10 +201,59 @@ typedef enum {
 
 
 #pragma mark - Control
-- (void)startAddingWithCurrentLoation:(CGPoint)touchLocation_
+- (void)show
+{
+    self.drawRed = 0.0;
+    self.drawGreen = 0.0;
+    self.drawBlue = 0.0;
+    self.drawAlpha = 0.0;
+    
+    self.isVisible = YES;
+    [Utils animateValueFrom:0.0 to:1.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawAlpha = value*0.1;
+        self.drawDiameter = BIG_CIRCLE_DIAMETER*value;
+    }];
+}
+
+
+- (void)hide
+{
+    self.drawRed = 0.0;
+    self.drawGreen = 0.0;
+    self.drawBlue = 0.0;
+    self.drawAlpha = 0.1;
+    
+    [Utils animateValueFrom:1.0 to:0.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawAlpha = value*0.1;
+        self.drawDiameter = BIG_CIRCLE_DIAMETER*value;
+        if(value == 0.0)
+            self.isVisible = NO;
+    }];
+}
+
+
+- (void)startAddingWithCurrentLoation:(CGPoint)touchLocation_ color:(UIColor *)color_
 {
     self.currentTouchLocation = touchLocation_;
     self.smallCircleCenter = touchLocation_;
+    
+    const CGFloat *colorComponents = CGColorGetComponents(color_.CGColor);
+
+    [Utils animateValueFrom:self.drawRed to:colorComponents[0] duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawRed = value;
+    }];
+    
+    [Utils animateValueFrom:self.drawGreen to:colorComponents[1] duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawGreen = value;
+    }];
+    
+    [Utils animateValueFrom:self.drawBlue to:colorComponents[2] duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawBlue = value;
+    }];
+
+    [Utils animateValueFrom:self.drawAlpha to:colorComponents[3] duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawAlpha = value;
+    }];
     
     self.state = ADD_DELETE_STATE_ADDING;
 }
@@ -203,14 +261,30 @@ typedef enum {
 
 - (void)cancelAddingWithCurrentLocation:(CGPoint)touchLocation_
 {
-    [Utils animateValueFrom:touchLocation_.x to:self.bigCircleCenter.x duration:FINISH_ADDING_ANIMATION_DURATION curve:AnimationCurveQuadraticInOut block:^(double value) {
+    [Utils animateValueFrom:touchLocation_.x to:self.bigCircleCenter.x duration:FINISH_ADDING_ANIMATION_DURATION curve:AnimationCurveQuadraticIn block:^(double value) {
         self.smallCircleCenter = CGPointMake(value, self.smallCircleCenter.y);
     }];
     
-    [Utils animateValueFrom:touchLocation_.y to:self.bigCircleCenter.y duration:FINISH_ADDING_ANIMATION_DURATION curve:AnimationCurveQuadraticInOut block:^(double value) {
+    [Utils animateValueFrom:touchLocation_.y to:self.bigCircleCenter.y duration:FINISH_ADDING_ANIMATION_DURATION curve:AnimationCurveQuadraticIn block:^(double value) {
         self.smallCircleCenter = CGPointMake(self.smallCircleCenter.x, value);
         if(value == self.bigCircleCenter.y)
             self.state = ADD_DELETE_STATE_DEFAULT;
+    }];
+    
+    [Utils animateValueFrom:self.drawRed to:0.0 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawRed = value;
+    }];
+    
+    [Utils animateValueFrom:self.drawGreen to:0.0 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawGreen = value;
+    }];
+    
+    [Utils animateValueFrom:self.drawBlue to:0.0 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawBlue = value;
+    }];
+    
+    [Utils animateValueFrom:self.drawAlpha to:0.1 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawAlpha = value;
     }];
 }
 
@@ -238,11 +312,19 @@ typedef enum {
     [Utils animateValueFrom:self.bigCircleDiameter to:1.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.bigCircleDiameter = value;
     }];
-    
+
     [Utils animateValueFrom:self.smallCircleDiamter to:activityElementDiameter_ duration:0.6 curve:AnimationCurveElasticOut block:^(double value) {
         self.smallCircleDiamter = value;
         if(value == activityElementDiameter_) {
             self.state = ADD_DELETE_STATE_DEFAULT;
+            self.drawRed = 0.0;
+            self.drawGreen = 0.0;
+            self.drawBlue = 0.0;
+            self.drawAlpha = 0.0;
+            [Utils animateValueFrom:0.0 to:1.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
+                self.drawAlpha = value*0.1;
+                self.drawDiameter = BIG_CIRCLE_DIAMETER*value;
+            }];
             completedBlock_();
         }
     }];

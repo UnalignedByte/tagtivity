@@ -18,7 +18,9 @@
 - (void)drawInContext:(CGContextRef)ctx_;
 
 //Control
-- (void)startAddingWithCurrentLoation:(CGPoint)touchLocation_;
+- (void)show;
+- (void)hide;
+- (void)startAddingWithCurrentLoation:(CGPoint)touchLocation_ color:(UIColor *)color_;
 - (void)cancelAddingWithCurrentLocation:(CGPoint)touchLocation_;
 - (void)finishAddingWithAddLocation:(CGPoint)addLocation_ activityElementDiameter:(CGFloat)activityElementDiameter_  completed:(void (^)())completedBlock_;
 - (void)setCurrentTouchingLocation:(CGPoint)touchLocation_;

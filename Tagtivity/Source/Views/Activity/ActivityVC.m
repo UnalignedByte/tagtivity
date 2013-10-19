@@ -24,7 +24,7 @@
 
 
 #define INITIAL_DISTANCE_DEGREES 45.0
-#define SETTINGS_DELAY 1.5
+#define SETTINGS_DELAY 1.0
 #define SLICE_TIME 0.2
 
 
@@ -57,6 +57,8 @@ typedef enum {
 @property (nonatomic, assign) BOOL isMovingActivityElement;
 @property (nonatomic, assign) BOOL isAdding;
 @property (nonatomic, assign) BOOL isSlicing;
+
+@property (nonatomic, strong) UIColor *addingColor;
 
 @end
 
@@ -154,6 +156,7 @@ typedef enum {
             if([self.chooseActivityElement isTouching:touchLocation] && !self.isEditingActivityElement && !self.isMovingActivityElement
                && !self.isAdding) {
                 self.state = ACTIVITY_STATE_ANIMATION;
+                [self.addActivityElement hide];
                 [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] getCurrentActivity]
                                  chooseActivityElement:self.chooseActivityElement
                                               finished:^{
@@ -281,6 +284,7 @@ typedef enum {
 - (void)settingsTimerFired:(NSTimer *)timer_
 {
     self.state = ACTIVITY_STATE_ANIMATION;
+    [self.addActivityElement show];
     [self.activityView showSettings:self.settingsElement addActivityElement:self.addActivityElement sliceElement:self.sliceElement
                            finished:^{
                                self.state = ACTIVITY_STATE_SETTINGS;
@@ -388,7 +392,8 @@ typedef enum {
 - (void)startAddingNewActivityElement:(CGPoint)touchLocation_
 {
     self.isAdding = YES;
-    [self.addActivityElement startAddingWithCurrentLoation:touchLocation_];
+    self.addingColor = [[ActivityManager sharedInstance] getAnyColor];
+    [self.addActivityElement startAddingWithCurrentLoation:touchLocation_ color:self.addingColor];
 }
 
 
@@ -408,6 +413,7 @@ typedef enum {
     
     Activity *activity = [[ActivityManager sharedInstance] createNewActivityWithName:@"New"];
     ActivityElement *activityElement = [[ActivityElement alloc] initWithActivity:activity angle:[Utils angleBetweenPointA:[Utils viewCenter] pointB:touchLocation_]];
+    activity.color = self.addingColor;
     
     [self.addActivityElement finishAddingWithAddLocation:activityElement.location activityElementDiameter:80.0 completed:^{
         [activityElement showImmediately];

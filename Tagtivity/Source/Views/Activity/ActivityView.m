@@ -97,6 +97,8 @@
     if(self.isShowingSettings)
         [self drawSettingsInContext:ctx];
     
+    [self.addActivityElement drawInContext:ctx];
+    
     if(self.isShowingSlicing)
         [self drawSlicingInContext:ctx];
 }
@@ -129,7 +131,6 @@
 - (void)drawSettingsInContext:(CGContextRef)ctx_
 {
     [self.settingsElement drawInContext:ctx_];
-    [self.addActivityElement drawInContext:ctx_];
 }
 
 
