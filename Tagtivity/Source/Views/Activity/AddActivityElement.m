@@ -14,6 +14,7 @@
 #define ADD_DISTANCE 100.0
 #define BIG_CIRCLE_DIAMETER 70.0
 #define SMALL_CIRCLE_DIAMETER 40.0
+#define BIG_CIRCLE_PADDING 20.0
 
 #define FINISH_ADDING_ANIMATION_DURATION 0.3
 
@@ -71,8 +72,8 @@ typedef enum {
         case ADD_DELETE_STATE_DEFAULT:
         {
             CGSize screenSize = [Utils viewSize];
-            self.bigCircleCenter = CGPointMake(screenSize.width - BIG_CIRCLE_DIAMETER/2.0,
-                                               screenSize.height - BIG_CIRCLE_DIAMETER/2.0);
+            self.bigCircleCenter = CGPointMake(screenSize.width - BIG_CIRCLE_DIAMETER/2.0 - BIG_CIRCLE_PADDING,
+                                               screenSize.height - BIG_CIRCLE_DIAMETER/2.0 - BIG_CIRCLE_PADDING);
 
             CGRect circleRect = CGRectMake(self.bigCircleCenter.x - self.drawDiameter/2.0,
                                            self.bigCircleCenter.y - self.drawDiameter/2.0,
@@ -106,8 +107,8 @@ typedef enum {
             
             //Set locations
             CGSize screenSize = [Utils viewSize];
-            self.bigCircleCenter = CGPointMake(screenSize.width - BIG_CIRCLE_DIAMETER/2.0,
-                                               screenSize.height - BIG_CIRCLE_DIAMETER/2.0);
+            self.bigCircleCenter = CGPointMake(screenSize.width - BIG_CIRCLE_DIAMETER/2.0 - BIG_CIRCLE_PADDING,
+                                               screenSize.height - BIG_CIRCLE_DIAMETER/2.0 - BIG_CIRCLE_PADDING);
             
             [self drawAddingStretchInContext:ctx_];
         }
@@ -167,7 +168,6 @@ typedef enum {
     CGFloat leftArcSmallY = self.smallCircleCenter.y - cos(RAD(angle-90.0))*self.smallCircleDiamter/2.0;
     
     //Draw circles
-    //CGContextSetFillColorWithColor(ctx_, [UIColor greenColor].CGColor);
     UIColor *color = [UIColor colorWithRed:self.drawRed green:self.drawGreen blue:self.drawBlue alpha:self.drawAlpha];
     CGContextSetFillColorWithColor(ctx_, color.CGColor);
     
@@ -203,14 +203,14 @@ typedef enum {
 #pragma mark - Control
 - (void)show
 {
-    self.drawRed = 0.0;
-    self.drawGreen = 0.0;
-    self.drawBlue = 0.0;
+    self.drawRed = 0.9;
+    self.drawGreen = 0.9;
+    self.drawBlue = 0.9;
     self.drawAlpha = 0.0;
     
     self.isVisible = YES;
-    [Utils animateValueFrom:0.0 to:1.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
-        self.drawAlpha = value*0.1;
+    [Utils animateValueFrom:self.drawAlpha to:1.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawAlpha = value;
         self.drawDiameter = BIG_CIRCLE_DIAMETER*value;
     }];
 }
@@ -218,13 +218,8 @@ typedef enum {
 
 - (void)hide
 {
-    self.drawRed = 0.0;
-    self.drawGreen = 0.0;
-    self.drawBlue = 0.0;
-    self.drawAlpha = 0.1;
-    
-    [Utils animateValueFrom:1.0 to:0.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
-        self.drawAlpha = value*0.1;
+    [Utils animateValueFrom:self.drawAlpha to:0.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
+        self.drawAlpha = value;
         self.drawDiameter = BIG_CIRCLE_DIAMETER*value;
         if(value == 0.0)
             self.isVisible = NO;
@@ -251,10 +246,6 @@ typedef enum {
         self.drawBlue = value;
     }];
 
-    [Utils animateValueFrom:self.drawAlpha to:colorComponents[3] duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
-        self.drawAlpha = value;
-    }];
-    
     self.state = ADD_DELETE_STATE_ADDING;
 }
 
@@ -271,20 +262,16 @@ typedef enum {
             self.state = ADD_DELETE_STATE_DEFAULT;
     }];
     
-    [Utils animateValueFrom:self.drawRed to:0.0 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+    [Utils animateValueFrom:self.drawRed to:0.9 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.drawRed = value;
     }];
     
-    [Utils animateValueFrom:self.drawGreen to:0.0 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+    [Utils animateValueFrom:self.drawGreen to:0.9 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.drawGreen = value;
     }];
     
-    [Utils animateValueFrom:self.drawBlue to:0.0 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
+    [Utils animateValueFrom:self.drawBlue to:0.9 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
         self.drawBlue = value;
-    }];
-    
-    [Utils animateValueFrom:self.drawAlpha to:0.1 duration:0.2 curve:AnimationCurveQuadraticInOut block:^(double value) {
-        self.drawAlpha = value;
     }];
 }
 
@@ -317,14 +304,7 @@ typedef enum {
         self.smallCircleDiamter = value;
         if(value == activityElementDiameter_) {
             self.state = ADD_DELETE_STATE_DEFAULT;
-            self.drawRed = 0.0;
-            self.drawGreen = 0.0;
-            self.drawBlue = 0.0;
-            self.drawAlpha = 0.0;
-            [Utils animateValueFrom:0.0 to:1.0 duration:0.5 curve:AnimationCurveQuadraticInOut block:^(double value) {
-                self.drawAlpha = value*0.1;
-                self.drawDiameter = BIG_CIRCLE_DIAMETER*value;
-            }];
+            [self show];
             completedBlock_();
         }
     }];

@@ -71,8 +71,8 @@
     CGFloat viewWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat viewHeight = [UIScreen mainScreen].bounds.size.height;
     
-    if(![UIApplication sharedApplication].isStatusBarHidden)
-        viewHeight -= [UIApplication sharedApplication].statusBarFrame.size.height;
+    //if(![UIApplication sharedApplication].isStatusBarHidden)
+    //    viewHeight -= [UIApplication sharedApplication].statusBarFrame.size.height;
 
     return CGSizeMake(viewWidth, viewHeight);
 }
