@@ -88,11 +88,11 @@
     if(self.isShowingCurrentActivity)
         [self drawCurrentActivityInContext:ctx];
     
-    if(self.isShowingChooseActivity)
-        [self drawChooseActivityInContext:ctx];
+    //if(self.isShowingChooseActivity)
+    [self drawChooseActivityInContext:ctx];
     
     //if(self.isShowingActivityElements)
-        [self drawActivityElementsInContext:ctx];
+    [self drawActivityElementsInContext:ctx];
     
     if(self.isShowingSettings)
         [self drawSettingsInContext:ctx];
@@ -154,7 +154,8 @@
     self.chooseActivityElement = chooseActivityElement_;
     
     self.isShowingCurrentActivity = YES;
-    self.isShowingChooseActivity = YES;
+    //self.isShowingChooseActivity = YES;
+    [self.chooseActivityElement show];
     self.isShowingSettings = NO;
     self.isShowingActivityElements = NO;
     
@@ -172,7 +173,8 @@
     self.activityElements = activityElements_;
     
     self.isShowingCurrentActivity = NO;
-    self.isShowingChooseActivity = NO;
+    //self.isShowingChooseActivity = NO;
+    [self.chooseActivityElement hide];
     self.isShowingSettings = NO;
     self.isShowingActivityElements = YES;
     
@@ -193,7 +195,8 @@
     self.sliceElement = sliceElement_;
     
     self.isShowingCurrentActivity = NO;
-    self.isShowingChooseActivity = NO;
+    //self.isShowingChooseActivity = NO;
+    [self.chooseActivityElement hide];
     self.isShowingSettings = YES;
     self.isShowingActivityElements = YES;
     self.isShowingSlicing = YES;
