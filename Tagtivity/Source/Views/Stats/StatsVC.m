@@ -83,6 +83,8 @@
 
 - (void)hide
 {
+    [self popToRootViewControllerAnimated:YES];
+    
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     [UIView setAnimationDuration:0.2];

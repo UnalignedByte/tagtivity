@@ -8,6 +8,8 @@
 
 #import "StatsListVC.h"
 
+#import "StatsOverviewVC.h"
+
 
 static NSString *kStatsListCellIdent = @"StatsListCellIdent";
 
@@ -29,9 +31,8 @@ static NSString *kStatsListCellIdent = @"StatsListCellIdent";
     if(self == nil)
         return nil;
     
-    self.listEntries = @[@[@"Statistics", [NSNull null]],
-                         @[@"Details A", [NSNull null]],
-                         @[@"Details B", [NSNull null]]];
+    StatsOverviewVC *statsOverviewVC = [[StatsOverviewVC alloc] init];
+    self.listEntries = @[@[statsOverviewVC.title, statsOverviewVC]];
     
     return self;
 }
@@ -58,6 +59,12 @@ static NSString *kStatsListCellIdent = @"StatsListCellIdent";
 }
 
 
+- (CGFloat)tableView:(UITableView *)tableView_ heightForRowAtIndexPath:(NSIndexPath *)indexPath_
+{
+    return 60.0;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath_
 {
     UITableViewCell *cell;
@@ -71,13 +78,12 @@ static NSString *kStatsListCellIdent = @"StatsListCellIdent";
     return cell;
 }
 
-
-- (void)tableView:(UITableView *)tableView_ didDeselectRowAtIndexPath:(NSIndexPath *)indexPath_
+-(void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath_
 {
     [tableView_ deselectRowAtIndexPath:indexPath_ animated:YES];
 
     UIViewController *statsDetailsVc = self.listEntries[indexPath_.row][1];
-    //[self.navigationController pushViewController:statsDetailsVc animated:YES];
+    [self.navigationController pushViewController:statsDetailsVc animated:YES];
 }
 
 @end

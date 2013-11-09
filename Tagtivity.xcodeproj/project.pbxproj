@@ -21,6 +21,9 @@
 		B52B76741804AA920074965E /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = B52B76731804AA920074965E /* Activity.m */; };
 		B5445760174FA7AA004F224A /* ActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B544575F174FA7AA004F224A /* ActivityElement.m */; };
 		B54983D81805F24E004EEEFD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B54983D71805F24E004EEEFD /* Images.xcassets */; };
+		B554D3CB182EA225009D266E /* StatsOverviewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B554D3CA182EA225009D266E /* StatsOverviewVC.m */; };
+		B554D3CF182EA6AE009D266E /* StatsOverviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B554D3CE182EA6AE009D266E /* StatsOverviewCell.m */; };
+		B554D3D1182EA735009D266E /* StatsOverviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B554D3D0182EA735009D266E /* StatsOverviewCell.xib */; };
 		B555983B17DAA5510093DB5C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B555983A17DAA5510093DB5C /* QuartzCore.framework */; };
 		B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */ = {isa = PBXBuildFile; fileRef = B555983E17DB5E4B0093DB5C /* line_count.sh */; };
 		B555984217DB5E5B0093DB5C /* States Diagram.umd in Resources */ = {isa = PBXBuildFile; fileRef = B555984017DB5E5B0093DB5C /* States Diagram.umd */; };
@@ -64,6 +67,11 @@
 		B544575E174FA7AA004F224A /* ActivityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityElement.h; path = Source/Views/Activity/ActivityElement.h; sourceTree = "<group>"; };
 		B544575F174FA7AA004F224A /* ActivityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityElement.m; path = Source/Views/Activity/ActivityElement.m; sourceTree = "<group>"; };
 		B54983D71805F24E004EEEFD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Tagtivity/Resources/Images.xcassets; sourceTree = "<group>"; };
+		B554D3C9182EA225009D266E /* StatsOverviewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatsOverviewVC.h; path = Source/Views/Stats/StatsOverviewVC.h; sourceTree = "<group>"; };
+		B554D3CA182EA225009D266E /* StatsOverviewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatsOverviewVC.m; path = Source/Views/Stats/StatsOverviewVC.m; sourceTree = "<group>"; };
+		B554D3CD182EA6AE009D266E /* StatsOverviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatsOverviewCell.h; path = Source/Views/Stats/Cells/StatsOverviewCell.h; sourceTree = "<group>"; };
+		B554D3CE182EA6AE009D266E /* StatsOverviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatsOverviewCell.m; path = Source/Views/Stats/Cells/StatsOverviewCell.m; sourceTree = "<group>"; };
+		B554D3D0182EA735009D266E /* StatsOverviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StatsOverviewCell.xib; path = Source/Views/Stats/Cells/StatsOverviewCell.xib; sourceTree = "<group>"; };
 		B555983A17DAA5510093DB5C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B555983E17DB5E4B0093DB5C /* line_count.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = line_count.sh; sourceTree = "<group>"; };
 		B555984017DB5E5B0093DB5C /* States Diagram.umd */ = {isa = PBXFileReference; lastKnownFileType = file; name = "States Diagram.umd"; path = "Docs/States Diagram.umd"; sourceTree = "<group>"; };
@@ -265,6 +273,9 @@
 				B5C596D5182E600C0099BC00 /* StatsListVC.h */,
 				B5C596D6182E600C0099BC00 /* StatsListVC.m */,
 				B51F412918187A3600E70B47 /* StatsListView.xib */,
+				B554D3C9182EA225009D266E /* StatsOverviewVC.h */,
+				B554D3CA182EA225009D266E /* StatsOverviewVC.m */,
+				B554D3CC182EA661009D266E /* Cells */,
 			);
 			name = Stats;
 			sourceTree = "<group>";
@@ -302,6 +313,16 @@
 				B5F38FB217F8D266004CA88F /* SliceElement.m */,
 			);
 			name = Activity;
+			sourceTree = "<group>";
+		};
+		B554D3CC182EA661009D266E /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B554D3CD182EA6AE009D266E /* StatsOverviewCell.h */,
+				B554D3CE182EA6AE009D266E /* StatsOverviewCell.m */,
+				B554D3D0182EA735009D266E /* StatsOverviewCell.xib */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		B555983C17DB5E280093DB5C /* Scripts */ = {
@@ -516,6 +537,7 @@
 				B555984317DB5E5B0093DB5C /* To Do.txt in Resources */,
 				B56EF91E17D68A850000AA81 /* ActivitySettingsView.xib in Resources */,
 				B54983D81805F24E004EEEFD /* Images.xcassets in Resources */,
+				B554D3D1182EA735009D266E /* StatsOverviewCell.xib in Resources */,
 				B555984217DB5E5B0093DB5C /* States Diagram.umd in Resources */,
 				B51F412B18187A3600E70B47 /* StatsListView.xib in Resources */,
 				B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */,
@@ -551,11 +573,13 @@
 				89C857C01726DB7000C02BB6 /* main.m in Sources */,
 				B51F412A18187A3600E70B47 /* StatsVC.m in Sources */,
 				B52B76741804AA920074965E /* Activity.m in Sources */,
+				B554D3CF182EA6AE009D266E /* StatsOverviewCell.m in Sources */,
 				89C857C41726DB7000C02BB6 /* AppDelegate.m in Sources */,
 				896018B61726DC9100E26BA9 /* Activities.xcdatamodeld in Sources */,
 				B5E04735172D2C8E008D74C1 /* ActivityManager.m in Sources */,
 				B52B766F1804A5660074965E /* ColorCell.m in Sources */,
 				B5E04740172D3115008D74C1 /* Utils.m in Sources */,
+				B554D3CB182EA225009D266E /* StatsOverviewVC.m in Sources */,
 				B5F38FB317F8D266004CA88F /* SliceElement.m in Sources */,
 				B5E0474C172DCE08008D74C1 /* ActivityInstance.m in Sources */,
 				B5EA439E174811B900EE4D56 /* ActivityVC.m in Sources */,

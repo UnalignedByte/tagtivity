@@ -1,5 +1,5 @@
 //
-//  StatsListVC.h
+//  StatsOverviewVC.h
 //  Tagtivity
 //
 //  Created by Rafał Grodziński on 09.11.2013.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface StatsListVC : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface StatsOverviewVC : UITableViewController
 
 //Initialization
 - (id)init;
