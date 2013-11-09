@@ -15,7 +15,21 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="EfD-GS-Nbb" appends="YES" id="SUH-oe-qUy"/>
+            </connections>
         </view>
+        <swipeGestureRecognizer cancelsTouchesInView="NO" direction="left" id="EfD-GS-Nbb">
+            <connections>
+                <action selector="leftSwpieAction:" destination="-1" id="ofe-ZN-vOp"/>
+            </connections>
+        </swipeGestureRecognizer>
+        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="9hZ-fP-3ya">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </scrollView>
     </objects>
 </document>

@@ -15,6 +15,7 @@
 #import "SettingsElement.h"
 #import "AddActivityElement.h"
 #import "SliceElement.h"
+#import "StatsVC.h"
 
 #import "ActivityManager.h"
 
@@ -60,6 +61,9 @@ typedef enum {
 
 @property (nonatomic, strong) UIColor *addingColor;
 
+//Stats View
+@property (nonatomic, strong) StatsVC *statsVc;
+
 @end
 
 
@@ -96,6 +100,12 @@ typedef enum {
     [self.activityView showCurrentActivity:currentActivity chooseActivityElement:self.chooseActivityElement finished:^{
         self.state = ACTIVITY_STATE_SHOW_CURRENT;
     }];
+    
+    self.statsVc = [[StatsVC alloc] init];
+    [self.statsVc willMoveToParentViewController:self];
+    [self.view addSubview:self.statsVc.view];
+    [self addChildViewController:self.statsVc];
+    [self.statsVc didMoveToParentViewController:self];
 }
 
 
@@ -512,6 +522,14 @@ typedef enum {
     self.selectedActivityElement = nil;
     
     [self.activityView redraw];
+}
+
+
+#pragma mark - Gesture Recognizer Delegate
+- (IBAction)leftSwpieAction:(id)sender_
+{
+    if(self.selectedActivityElement == nil)
+        [self.statsVc show];
 }
 
 
