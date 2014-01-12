@@ -8,11 +8,14 @@
 
 #import "ActivityElement.h"
 
+#import <CoreText/CoreText.h>
 #import "Activity.h"
 #import "Utils.h"
 
 
 #define CIRCLE_DIAMETER 80.0
+static CGFloat textDiameter = 70.0;
+static CGFloat fontSize = 16.0;
 
 
 @interface ActivityElement () {
@@ -26,6 +29,8 @@
 @property (nonatomic, assign) CGFloat drawDistance;
 @property (nonatomic, assign) CGFloat drawDiameter;
 @property (nonatomic, assign) CGFloat drawAlpha;
+@property (nonatomic, assign) CGFloat drawTextDiameter;
+@property (nonatomic, assign) CGFloat drawFontSize;
 
 @end
 
@@ -78,13 +83,62 @@
     CGContextFillEllipseInRect(ctx_, circleRect);
 
     //Draw Name
-    /*CGContextSetFillColorWithColor(ctx_, [UIColor blackColor].CGColor);
-    CGRect nameRect = CGRectMake(self.drawLocation.x - CIRCLE_DIAMETER/2.0,
-                                 self.drawLocation.y,
-                                 self.drawDiameter, 12.0);
+    [self drawCircuralTextInContext:ctx_ text:self.activity.name
+                           fontSize:self.drawFontSize
+                             center:CGPointMake(self.drawLocation.x, self.drawLocation.y)
+                           diameter:self.drawDiameter*0.6];
+}
+
+
+- (void)drawCircuralTextInContext:(CGContextRef)ctx_ text:(NSString *)text_
+                       fontSize:(CGFloat)fontSize_
+                         center:(CGPoint)center_
+                       diameter:(CGFloat)diameter_
+{
+    CGContextSaveGState(ctx_);
+    CGContextTranslateCTM(ctx_, 0.0, [Utils viewSize].height);
+    CGContextScaleCTM(ctx_, 1.0, -1.0);
     
-    [self.activity.name drawInRect:nameRect withFont:[UIFont systemFontOfSize:12.0] lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
-     */
+    NSDictionary *attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor],
+                                 NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:fontSize_]};
+    
+    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text_ attributes:attributes];
+    CTLineRef textLine = CTLineCreateWithAttributedString((CFAttributedStringRef)attributedText);
+    CGRect textRect = CTLineGetImageBounds(textLine, ctx_);
+    
+    CGFloat textTotalAngle = ((textRect.size.width)/(M_PI*diameter_))*360.0;
+    CGFloat textStartAngle = -textTotalAngle*0.5;
+    
+    //draw each character at given angle
+    for(NSInteger i=0; i<text_.length; i++) {
+        //generate string so far
+        NSString *textSoFar = [text_ substringToIndex:i+1];
+        NSAttributedString *attributedTextSoFar = [[NSAttributedString alloc] initWithString:textSoFar attributes:attributes];
+        CTLineRef textLineSoFar = CTLineCreateWithAttributedString((CFAttributedStringRef)attributedTextSoFar);
+        //generate letter
+        NSString *letter = [text_ substringWithRange:NSMakeRange(i, 1)];
+        NSAttributedString *attributedLetter = [[NSAttributedString alloc] initWithString:letter attributes:attributes];
+        CTLineRef letterLine = CTLineCreateWithAttributedString((CFAttributedStringRef)attributedLetter);
+        //calculate letter's angle
+        CGRect textRectSoFar = CTLineGetImageBounds(textLineSoFar, ctx_);
+        CGRect letterRect = CTLineGetImageBounds(letterLine, ctx_);
+        CGFloat letterAngle = textStartAngle + ((textRectSoFar.size.width-letterRect.size.width*0.5)/textRect.size.width)*textTotalAngle;
+        
+        CGContextSaveGState(ctx_);
+
+        //position & rotate letter
+        CGContextSetTextPosition(ctx_, -letterRect.size.width*0.5, 0.0);
+        CGFloat x = center_.x + sin(RAD(letterAngle))*diameter_*0.5;
+        CGFloat y = center_.y - cos(RAD(letterAngle))*diameter_*0.5;
+        CGContextTranslateCTM(ctx_, x, [Utils viewSize].height - y);
+        CGContextRotateCTM(ctx_, RAD(-letterAngle));
+        //draw letter
+        CTLineDraw(letterLine, ctx_);
+        
+        CGContextRestoreGState(ctx_);
+    }
+    
+    CGContextRestoreGState(ctx_);
 }
 
 
@@ -110,6 +164,9 @@
         self.drawAlpha = value;
         self.drawDistance = (([Utils viewSize].width - self.drawDiameter)/2.0)*value;
         self.drawLocation = [self getLocationFromAngle:_angle distance:self.drawDistance];
+        
+        self.drawTextDiameter = textDiameter*value;
+        self.drawFontSize = fontSize*value;
     }];
 }
 

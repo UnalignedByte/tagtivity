@@ -28,6 +28,7 @@
 		B555983F17DB5E4B0093DB5C /* line_count.sh in Resources */ = {isa = PBXBuildFile; fileRef = B555983E17DB5E4B0093DB5C /* line_count.sh */; };
 		B555984217DB5E5B0093DB5C /* States Diagram.umd in Resources */ = {isa = PBXBuildFile; fileRef = B555984017DB5E5B0093DB5C /* States Diagram.umd */; };
 		B555984317DB5E5B0093DB5C /* To Do.txt in Resources */ = {isa = PBXBuildFile; fileRef = B555984117DB5E5B0093DB5C /* To Do.txt */; };
+		B55A7D47188326C4005710AB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55A7D46188326C4005710AB /* CoreText.framework */; };
 		B56EF91C17D68A240000AA81 /* ActivitySettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */; };
 		B56EF91E17D68A850000AA81 /* ActivitySettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */; };
 		B5790BE4179033AD00F9D02B /* AddActivityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B5790BE3179033AD00F9D02B /* AddActivityElement.m */; };
@@ -76,6 +77,7 @@
 		B555983E17DB5E4B0093DB5C /* line_count.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = line_count.sh; sourceTree = "<group>"; };
 		B555984017DB5E5B0093DB5C /* States Diagram.umd */ = {isa = PBXFileReference; lastKnownFileType = file; name = "States Diagram.umd"; path = "Docs/States Diagram.umd"; sourceTree = "<group>"; };
 		B555984117DB5E5B0093DB5C /* To Do.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "To Do.txt"; path = "Docs/To Do.txt"; sourceTree = "<group>"; };
+		B55A7D46188326C4005710AB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		B56EF91A17D68A240000AA81 /* ActivitySettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivitySettingsView.h; path = Source/Views/Settings/ActivitySettingsView.h; sourceTree = "<group>"; };
 		B56EF91B17D68A240000AA81 /* ActivitySettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivitySettingsView.m; path = Source/Views/Settings/ActivitySettingsView.m; sourceTree = "<group>"; };
 		B56EF91D17D68A850000AA81 /* ActivitySettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivitySettingsView.xib; path = Source/Views/Settings/ActivitySettingsView.xib; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B55A7D47188326C4005710AB /* CoreText.framework in Frameworks */,
 				89C857B41726DB7000C02BB6 /* Foundation.framework in Frameworks */,
 				89C857B21726DB7000C02BB6 /* UIKit.framework in Frameworks */,
 				89C857B61726DB7000C02BB6 /* CoreGraphics.framework in Frameworks */,
@@ -222,6 +225,7 @@
 		89C857B01726DB7000C02BB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B55A7D46188326C4005710AB /* CoreText.framework */,
 				B555983A17DAA5510093DB5C /* QuartzCore.framework */,
 				89C857B31726DB7000C02BB6 /* Foundation.framework */,
 				89C857B11726DB7000C02BB6 /* UIKit.framework */,
