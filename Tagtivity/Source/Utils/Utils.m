@@ -124,6 +124,7 @@
 
 
 static NSMutableArray *animationsArray;
+static NSLock *animationsArrayLock;
 
 + (void)animateValueFrom:(CGFloat)startValue_ to:(CGFloat)endValue_ duration:(CGFloat)duration_ curve:(AnimaitonCurve)animationCurve_ block:(void (^)(double))block_
 {
@@ -132,23 +133,32 @@ static NSMutableArray *animationsArray;
     
     dispatch_once(&once, ^{
         animationsArray = [NSMutableArray array];
+        animationsArrayLock = [[NSLock alloc] init];
         
         animationDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(animationTimerFired:)];
         [animationDisplayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     });
 
+    [animationsArrayLock lock];
+    
     NSMutableArray *animationArray = [NSMutableArray arrayWithObjects:@(startValue_), @(endValue_), @(duration_), @(0.0), @(animationCurve_), [block_ copy], nil];
     [animationsArray addObject:animationArray];
+
+    [animationsArrayLock unlock];
 }
 
 
 + (void)animationTimerFired:(CADisplayLink *)animationDisplayLink_
 {
-    NSMutableArray *animationsForRemoval = [NSMutableArray array];
+    if(![animationsArrayLock tryLock])
+        return;
     
+    NSMutableArray *animationsForRemoval = [NSMutableArray array];
+
     static CGFloat lastTime = 0.0;
     if(lastTime == 0.0) {
         lastTime = animationDisplayLink_.timestamp;
+        [animationsArrayLock unlock];
         return;
     }
     
@@ -200,13 +210,17 @@ static NSMutableArray *animationsArray;
             currentValue = endValue;
             [animationsForRemoval addObject:animationArray];
         }
-        
-        block(currentValue);
+
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            block(currentValue);
+        });
     }
     
     for(NSMutableArray *animationForRemoval in animationsForRemoval) {
         [animationsArray removeObject:animationForRemoval];
     }
+    
+    [animationsArrayLock unlock];
 }
 
 

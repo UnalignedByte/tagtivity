@@ -56,7 +56,9 @@
                                 (id)[UIColor colorWithRed:0.95 green:0.50 blue:0.50 alpha:0.1].CGColor,
                                 (id)[UIColor colorWithRed:0.95 green:0.50 blue:0.50 alpha:0.1].CGColor,
                                 (id)[UIColor colorWithRed:0.95 green:0.50 blue:0.50 alpha:0.0].CGColor];*/
-    CGGradientRef pulseGradient = CGGradientCreateWithColors(CGColorSpaceCreateDeviceRGB(), (__bridge CFArrayRef)gradientColors, gradientLocations);
+    CGColorSpaceRef rgbSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGGradientRef pulseGradient = CGGradientCreateWithColors(rgbSpaceRef, (__bridge CFArrayRef)gradientColors, gradientLocations);
+    CGColorSpaceRelease(rgbSpaceRef);
     
     //CGContextSetStrokeColorWithColor(ctx_, [UIColor redColor].CGColor);
     //CGContextSetLineWidth(ctx_, 4.0);

@@ -119,7 +119,7 @@ static CGFloat fontSize = 16.0;
         //generate letter
         NSString *letter = [text_ substringWithRange:NSMakeRange(i, 1)];
         NSAttributedString *attributedLetter = [[NSAttributedString alloc] initWithString:letter attributes:attributes];
-        CTLineRef letterLine = CTLineCreateWithAttributedString((CFAttributedStringRef)attributedLetter);
+        CTLineRef letterLine = CTLineCreateWithAttributedString((__bridge CFAttributedStringRef)attributedLetter);
         //calculate letter's angle
         CGRect textRectSoFar = CTLineGetImageBounds(textLineSoFar, ctx_);
         CFRelease(textLineSoFar);
