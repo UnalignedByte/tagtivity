@@ -67,6 +67,7 @@
                                 _circleCenter, 0.0,
                                 _circleCenter, self.drawDiameter,
                                 0);
+    CFRelease(pulseGradient);
 }
 
 

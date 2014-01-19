@@ -84,9 +84,9 @@ static CGFloat fontSize = 16.0;
 
     //Draw Name
     [self drawCircuralTextInContext:ctx_ text:self.activity.name
-                           fontSize:self.drawFontSize
+                           fontSize:fontSize
                              center:CGPointMake(self.drawLocation.x, self.drawLocation.y)
-                           diameter:self.drawDiameter*0.6];
+                           diameter:_diameter*0.6];
 }
 
 
@@ -96,8 +96,8 @@ static CGFloat fontSize = 16.0;
                        diameter:(CGFloat)diameter_
 {
     CGContextSaveGState(ctx_);
-    CGContextTranslateCTM(ctx_, 0.0, [Utils viewSize].height);
-    CGContextScaleCTM(ctx_, 1.0, -1.0);
+    //this makes core text use standard iOS coordinate system & prevents weird upside-down issues
+    CGContextSetTextMatrix(ctx_, CGAffineTransformMakeScale(1.0, -1.0));
     
     NSDictionary *attributes = @{NSForegroundColorAttributeName : [UIColor whiteColor],
                                  NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:fontSize_]};
@@ -105,6 +105,7 @@ static CGFloat fontSize = 16.0;
     NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text_ attributes:attributes];
     CTLineRef textLine = CTLineCreateWithAttributedString((CFAttributedStringRef)attributedText);
     CGRect textRect = CTLineGetImageBounds(textLine, ctx_);
+    CFRelease(textLine);
     
     CGFloat textTotalAngle = ((textRect.size.width)/(M_PI*diameter_))*360.0;
     CGFloat textStartAngle = -textTotalAngle*0.5;
@@ -121,6 +122,7 @@ static CGFloat fontSize = 16.0;
         CTLineRef letterLine = CTLineCreateWithAttributedString((CFAttributedStringRef)attributedLetter);
         //calculate letter's angle
         CGRect textRectSoFar = CTLineGetImageBounds(textLineSoFar, ctx_);
+        CFRelease(textLineSoFar);
         CGRect letterRect = CTLineGetImageBounds(letterLine, ctx_);
         CGFloat letterAngle = textStartAngle + ((textRectSoFar.size.width-letterRect.size.width*0.5)/textRect.size.width)*textTotalAngle;
         
@@ -130,10 +132,11 @@ static CGFloat fontSize = 16.0;
         CGContextSetTextPosition(ctx_, -letterRect.size.width*0.5, 0.0);
         CGFloat x = center_.x + sin(RAD(letterAngle))*diameter_*0.5;
         CGFloat y = center_.y - cos(RAD(letterAngle))*diameter_*0.5;
-        CGContextTranslateCTM(ctx_, x, [Utils viewSize].height - y);
-        CGContextRotateCTM(ctx_, RAD(-letterAngle));
+        CGContextTranslateCTM(ctx_, x, y);
+        CGContextRotateCTM(ctx_, RAD(letterAngle));
         //draw letter
         CTLineDraw(letterLine, ctx_);
+        CFRelease(letterLine);
         
         CGContextRestoreGState(ctx_);
     }

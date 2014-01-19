@@ -79,12 +79,7 @@
 - (void)drawRect:(CGRect)rect_
 {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    
-    //we change the default coordinates to the same as in OS X (from left and from bottom)
-    //because by default on iOS Y is flipped and it causes issues
-    //CGContextScaleCTM(ctx, 1.0, -1.0);
-    //CGContextTranslateCTM(ctx, 0.0, -self.frame.size.height);
-    
+
     if(self.isShowingCurrentActivity)
         [self drawCurrentActivityInContext:ctx];
     
