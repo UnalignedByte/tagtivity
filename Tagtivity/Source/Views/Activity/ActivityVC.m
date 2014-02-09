@@ -59,6 +59,8 @@ typedef enum {
 @property (nonatomic, assign) BOOL isAdding;
 @property (nonatomic, assign) BOOL isSlicing;
 
+@property (nonatomic, assign) BOOL isTouching;
+
 @property (nonatomic, strong) UIColor *addingColor;
 
 //Stats View
@@ -137,6 +139,7 @@ typedef enum {
 - (void)touchesBegan:(NSSet *)touches_ withEvent:(UIEvent *)event_
 {
     CGPoint touchLocation = [[touches_ anyObject] locationInView:self.view];
+    self.isTouching = YES;
     
     switch(self.state) {
         case ACTIVITY_STATE_SHOW_CURRENT:
@@ -146,13 +149,18 @@ typedef enum {
                 [self.activityView showActivityElements:self.activityElements finished:^{
                     self.state = ACTIVITY_STATE_CHOOSE_NEW;
                     
-                    //If we keep finger on circle for SETTINGS_DELAY amount of time, we enter settings mode
-                    self.settingsTimer = [NSTimer timerWithTimeInterval:SETTINGS_DELAY
-                                                                 target:self
-                                                               selector:@selector(settingsTimerFired:)
-                                                               userInfo:nil
-                                                                repeats:NO];
-                    [[NSRunLoop mainRunLoop] addTimer:self.settingsTimer forMode:NSDefaultRunLoopMode];
+                    //if in meantime we're not touch screen anymore, do stuff
+                    if(!self.isTouching) {
+                        [self touchesEnded:touches_ withEvent:event_];
+                    } else {
+                        //If we keep finger on circle for SETTINGS_DELAY amount of time, we enter settings mode
+                        self.settingsTimer = [NSTimer timerWithTimeInterval:SETTINGS_DELAY
+                                                                     target:self
+                                                                   selector:@selector(settingsTimerFired:)
+                                                                   userInfo:nil
+                                                                    repeats:NO];
+                        [[NSRunLoop mainRunLoop] addTimer:self.settingsTimer forMode:NSDefaultRunLoopMode];
+                    }
                 }];
             }
         }
@@ -241,6 +249,7 @@ typedef enum {
 - (void)touchesEnded:(NSSet *)touches_ withEvent:(UIEvent *)event_
 {
     CGPoint touchLocation = [[touches_ anyObject] locationInView:self.view];
+    self.isTouching = NO;
 
     switch(self.state) {
         case ACTIVITY_STATE_SHOW_CURRENT:
