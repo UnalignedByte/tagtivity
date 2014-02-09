@@ -182,9 +182,11 @@
 }
 
 
-- (void)showSettings:(SettingsElement *)settingsElement_ addActivityElement:(AddActivityElement *)addActivityElement_
+- (void)showSettings:(SettingsElement *)settingsElement_ activityElements:(NSMutableArray *)activityElements_ addActivityElement:(AddActivityElement *)addActivityElement_
         sliceElement:(SliceElement *)sliceElement_ finished:(void (^)())block_;
 {
+    self.activityElements = activityElements_;
+    
     self.settingsElement = settingsElement_;
     self.addActivityElement = addActivityElement_;
     self.sliceElement = sliceElement_;
@@ -195,6 +197,9 @@
     self.isShowingSettings = YES;
     self.isShowingActivityElements = YES;
     self.isShowingSlicing = YES;
+    
+    for(ActivityElement *activityElement in self.activityElements)
+        [activityElement show];
     
     [self setNeedsDisplay];
     

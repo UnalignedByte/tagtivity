@@ -170,6 +170,7 @@ typedef enum {
                 [self.activityView showCurrentActivity:[[ActivityManager sharedInstance] getCurrentActivity]
                                  chooseActivityElement:self.chooseActivityElement
                                               finished:^{
+                   [self setupActivityElements];
                     self.state = ACTIVITY_STATE_SHOW_CURRENT;
                 }];
             } else if([self shouldStartAddingNewActivityElement:touchLocation]) {
@@ -294,8 +295,14 @@ typedef enum {
 - (void)settingsTimerFired:(NSTimer *)timer_
 {
     self.state = ACTIVITY_STATE_ANIMATION;
+    
+    //We need to add to currently shown activity element the active one as well
+    ActivityElement *activeActivityElement = [[ActivityElement alloc] initWithActivity:[[ActivityManager sharedInstance] getCurrentActivity] angle:0.00];
+    [self.activityElements addObject:activeActivityElement];
+    [self calculateActivityElementsIgnoringSelected:NO];
+
     [self.addActivityElement show];
-    [self.activityView showSettings:self.settingsElement addActivityElement:self.addActivityElement sliceElement:self.sliceElement
+    [self.activityView showSettings:self.settingsElement activityElements:self.activityElements addActivityElement:self.addActivityElement sliceElement:self.sliceElement
                            finished:^{
                                self.state = ACTIVITY_STATE_SETTINGS;
                            }];
